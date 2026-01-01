@@ -20,6 +20,13 @@ data "archive_file" "sync_contributions" {
   output_path = "${path.module}/dist/sync_contributions.zip"
 }
 
+# Archive for PutContent
+data "archive_file" "put_content" {
+  type        = "zip"
+  source_file = "${path.module}/../backend/handlers/put_content.js"
+  output_path = "${path.module}/dist/put_content.zip"
+}
+
 # IAM Role for Lambdas (Shared Base)
 resource "aws_iam_role" "lambda_role" {
   name = "portfolio_lambda_role"
@@ -27,8 +34,8 @@ resource "aws_iam_role" "lambda_role" {
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
     Statement = [{
-      Action = "sts:AssumeRole"
-      Effect = "Allow"
+      Action    = "sts:AssumeRole"
+      Effect    = "Allow"
       Principal = { Service = "lambda.amazonaws.com" }
     }]
   })
@@ -125,6 +132,20 @@ resource "aws_lambda_function" "sync_contributions" {
   source_code_hash = data.archive_file.sync_contributions.output_base64sha256
   runtime          = "nodejs18.x"
   timeout          = 60
+  environment {
+    variables = {
+      TABLE_NAME = aws_dynamodb_table.portfolio_content.name
+    }
+  }
+}
+
+resource "aws_lambda_function" "put_content" {
+  filename         = data.archive_file.put_content.output_path
+  function_name    = "portfolio-put-content"
+  role             = aws_iam_role.lambda_role.arn
+  handler          = "put_content.handler"
+  source_code_hash = data.archive_file.put_content.output_base64sha256
+  runtime          = "nodejs18.x"
   environment {
     variables = {
       TABLE_NAME = aws_dynamodb_table.portfolio_content.name

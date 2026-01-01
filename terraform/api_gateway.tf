@@ -3,7 +3,7 @@ resource "aws_apigatewayv2_api" "http_api" {
   protocol_type = "HTTP"
   cors_configuration {
     allow_origins = ["*"] # Lock down to CloudFront domain later
-    allow_methods = ["GET", "POST", "OPTIONS"]
+    allow_methods = ["GET", "POST", "PUT", "OPTIONS"]
     allow_headers = ["content-type"]
   }
 }
@@ -54,6 +54,28 @@ resource "aws_lambda_permission" "api_enhance_content" {
   statement_id  = "AllowExecutionFromAPIGatewayEnhance"
   action        = "lambda:InvokeFunction"
   function_name = aws_lambda_function.enhance_content.function_name
+  principal     = "apigateway.amazonaws.com"
+  source_arn    = "${aws_apigatewayv2_api.http_api.execution_arn}/*/*"
+}
+
+# PUT /content -> put_content lambda
+
+resource "aws_apigatewayv2_integration" "put_content" {
+  api_id           = aws_apigatewayv2_api.http_api.id
+  integration_type = "AWS_PROXY"
+  integration_uri  = aws_lambda_function.put_content.invoke_arn
+}
+
+resource "aws_apigatewayv2_route" "put_content" {
+  api_id    = aws_apigatewayv2_api.http_api.id
+  route_key = "PUT /content"
+  target    = "integrations/${aws_apigatewayv2_integration.put_content.id}"
+}
+
+resource "aws_lambda_permission" "api_put_content" {
+  statement_id  = "AllowExecutionFromAPIGatewayPut"
+  action        = "lambda:InvokeFunction"
+  function_name = aws_lambda_function.put_content.function_name
   principal     = "apigateway.amazonaws.com"
   source_arn    = "${aws_apigatewayv2_api.http_api.execution_arn}/*/*"
 }
