@@ -1,0 +1,76 @@
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
+
+export interface ProfileContent {
+  name: string;
+  title: string;
+  bio: string;
+  email: string;
+  location?: string;
+  socials: {
+    github?: string;
+    linkedin?: string;
+    twitter?: string;
+  };
+}
+
+export interface ExperienceContent {
+  company: string;
+  role: string;
+  startDate: string;
+  endDate: string;
+  description: string;
+  technologies: string[];
+}
+
+export interface ProjectContent {
+  title: string;
+  description: string;
+  technologies: string[];
+  link?: string;
+}
+
+export interface SkillContent {
+  category: string;
+  items: string[];
+}
+
+export interface ContentItem<T> {
+  PK: string;
+  SK: string;
+  content: T;
+}
+
+export async function fetchContent(section: string): Promise<ContentItem<any>[]> {
+  if (!API_URL) {
+    console.warn("API_URL is not defined");
+    return [];
+  }
+  
+  try {
+    const res = await fetch(`${API_URL}/content?section=${section}`, { next: { revalidate: 60 } }); // Add revalidation
+    if (!res.ok) throw new Error("Failed to fetch content");
+    return res.json();
+  } catch (error) {
+    console.error(`Error fetching ${section}:`, error);
+    return [];
+  }
+}
+
+export async function enhanceContent(jobDescription: string, resumeContent: Record<string, any>) {
+    if (!API_URL) return null;
+
+    try {
+        const res = await fetch(`${API_URL}/enhance`, {
+            method: 'POST',
+            body: JSON.stringify({ jobDescription, resumeContent }),
+            headers: { 'Content-Type': 'application/json' }
+        });
+        if (!res.ok) throw new Error("Failed to enhance content");
+        return res.json();
+    } catch (error) {
+        console.error("Error enhancing content:", error);
+        throw error;
+    }
+}
+
+
