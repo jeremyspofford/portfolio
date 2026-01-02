@@ -34,6 +34,14 @@ export interface SkillContent {
   items: string[];
 }
 
+export interface CertificationContent {
+  name: string;
+  issuer: string;
+  date: string;
+  active: boolean;
+  link?: string;
+}
+
 export interface ContentItem<T> {
   PK: string;
   SK: string;

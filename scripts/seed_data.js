@@ -157,22 +157,33 @@ const data = [
   // --- CERTIFICATIONS ---
   {
       PK: "CERTIFICATION",
-      SK: "GCP_ACE",
+      SK: "GCP_ACE_2025",
       content: {
-          name: "Google Cloud Certified - Associate Cloud Engineer",
+          name: "Associate Cloud Engineer",
           issuer: "Google Cloud",
-          date: "2025-2028",
-          active: true
+          date: "Jan 2025 - Jan 2028",
+          active: true,
+          link: "https://google.com" // Placeholder for verification link
       }
   },
-    {
+  {
       PK: "CERTIFICATION",
-      SK: "AWS_CCP",
+      SK: "AWS_CCP_2020",
       content: {
           name: "AWS Certified Cloud Practitioner",
           issuer: "AWS",
           date: "Expired",
           active: false
+      }
+  },
+  {
+      PK: "CERTIFICATION",
+      SK: "TF_ASSOC_003",
+      content: {
+          name: "HashiCorp Certified: Terraform Associate",
+          issuer: "HashiCorp",
+          date: "2023 - 2025",
+          active: true
       }
   }
 
