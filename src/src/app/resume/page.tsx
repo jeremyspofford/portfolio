@@ -43,7 +43,7 @@ export default function ResumePage() {
 
   return (
     <div className="container max-w-4xl py-12 px-4">
-      <div className="flex justify-between items-center mb-8">
+      <div className="flex justify-between items-center mb-8 print:hidden">
         <h1 className="text-3xl font-bold">Resume Generator</h1>
         <div className="flex gap-4">
           {process.env.NEXT_PUBLIC_SHOW_RESUME_DOWNLOAD === 'true' && (

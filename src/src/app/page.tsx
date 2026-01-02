@@ -1,3 +1,4 @@
+
 import { Hero } from "@/components/Hero";
 import { About } from "@/components/About";
 import { ExperienceTimeline } from "@/components/ExperienceTimeline";
@@ -12,6 +13,7 @@ import { getAllPosts } from "@/lib/blog";
 import { fetchCombinedContributions } from "@/lib/contributions"; // Updated
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
+import { config } from "@/config";
 
 export default async function Home() {
   // Fetch data in parallel
@@ -20,7 +22,7 @@ export default async function Home() {
     fetchContent("EXPERIENCE"),
     fetchContent("SKILL"),
     fetchContent("CERTIFICATION"),
-    fetchCombinedContributions() // Fetch build-time data (Combined)
+    config.features.showContributions ? fetchCombinedContributions() : Promise.resolve(null)
   ]);
 
   const profile = profileData.find((item) => item.SK === "MAIN")?.content;
@@ -32,7 +34,7 @@ export default async function Home() {
       
       <div className="container max-w-4xl mx-auto px-6 md:px-12 space-y-12">
         <About bio={profile?.bio} />
-        {contributionsData && (
+        {config.features.showContributions && contributionsData && (
            <Contributions data={contributionsData.contributions} total={contributionsData.total} />
         )}
       </div>
