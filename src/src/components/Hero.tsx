@@ -1,14 +1,62 @@
-import { Github, Linkedin, Mail, FileText } from 'lucide-react';
+"use client";
+
+import { Github, Linkedin, Mail, FileText, Gitlab } from 'lucide-react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
 import { Typewriter } from "./Typewriter";
 
+import { ContentItem, CertificationContent } from "@/lib/api";
+
 interface HeroProps {
   profile: any;
+  certifications: ContentItem<CertificationContent>[];
 }
 
-export function Hero({ profile }: HeroProps) {
+export function Hero({ profile, certifications }: HeroProps) {
+  const [bootSequenceComplete, setBootSequenceComplete] = useState(false);
+  const [bootLog, setBootLog] = useState<string[]>([]);
+  
+  // Filter active certifications
+  const activeCerts = certifications
+      .map(c => c.content)
+      .filter(c => c.active);
+
+  useEffect(() => {
+    const sequence = [
+      "> INITIALIZING KERNEL...",
+      "> LOADING MODULES...",
+      "> MOUNTING VOLUMES...",
+      "> CONNECTING TO CLOUD...",
+      "> SYSTEM READY."
+    ];
+    
+    let delay = 0;
+    sequence.forEach((line, index) => {
+        delay += Math.floor(Math.random() * 300) + 200;
+        setTimeout(() => {
+            setBootLog(prev => [...prev, line]);
+            if (index === sequence.length - 1) {
+                setTimeout(() => setBootSequenceComplete(true), 500);
+            }
+        }, delay);
+    });
+  }, []);
+
   if (!profile) return null;
+
+  if (!bootSequenceComplete) {
+      return (
+          <section className="w-full h-screen flex items-center justify-center bg-black font-mono text-green-500 p-8 overflow-hidden">
+              <div className="w-full max-w-2xl">
+                  {bootLog.map((line, i) => (
+                      <div key={i} className="mb-2">{line}</div>
+                  ))}
+                  <div className="animate-pulse">_</div>
+              </div>
+          </section>
+      );
+  }
 
   return (
     <section className="w-full py-12 md:py-24 lg:py-32 flex flex-col items-center text-center px-4">
@@ -22,9 +70,27 @@ export function Hero({ profile }: HeroProps) {
                 <span className="mr-2">&gt;</span>
                 <Typewriter words={profile.titles || [profile.title]} />
             </div>
+            
+            {/* Roles Open To */}
+            <div className="text-sm text-gray-400 mt-2 font-mono">
+                <span className="text-primary mr-2">[OPEN_TO]:</span>
+                {profile.titles?.join(" | ")}
+            </div>
+
             <p className="mx-auto max-w-[700px] text-gray-500 md:text-lg dark:text-gray-400 italic">
               {profile.bio}
             </p>
+            
+            {/* Active Certifications Chips */}
+            {activeCerts.length > 0 && (
+                <div className="flex flex-wrap justify-center gap-2 mt-4">
+                    {activeCerts.map((cert) => (
+                        <span key={cert.name} className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400 border border-green-200 dark:border-green-800">
+                            {cert.name}
+                        </span>
+                    ))}
+                </div>
+            )}
           </div>
           <div className="space-x-4">
             <Link
@@ -55,6 +121,11 @@ export function Hero({ profile }: HeroProps) {
              {profile.socials?.linkedin && (
                 <a href={profile.socials.linkedin} target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors">
                     <Linkedin className="h-6 w-6" />
+                </a>
+            )}
+             {profile.socials?.gitlab && (
+                <a href={profile.socials.gitlab} target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors">
+                    <Gitlab className="h-6 w-6" />
                 </a>
             )}
           </div>

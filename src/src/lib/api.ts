@@ -9,6 +9,7 @@ export interface ProfileContent {
   location?: string;
   socials: {
     github?: string;
+    gitlab?: string;
     linkedin?: string;
     twitter?: string;
   };
@@ -21,6 +22,7 @@ export interface ExperienceContent {
   endDate: string;
   description: string;
   technologies: string[];
+  key_deliverables?: ProjectContent[];
 }
 
 export interface ProjectContent {

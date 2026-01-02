@@ -11,6 +11,12 @@ interface ExperienceContent {
   endDate: string;
   description: string;
   technologies: string[];
+  key_deliverables?: {
+      title: string;
+      description: string;
+      technologies: string[];
+      link?: string;
+  }[];
 }
 
 interface ExperienceItem {
@@ -67,6 +73,28 @@ export function ExperienceTimeline({ items }: ExperienceTimelineProps) {
                                     </span>
                                 ))}
                             </div>
+                            
+                            {/* Key Deliverables Section */}
+                            {item.content.key_deliverables && item.content.key_deliverables.length > 0 && (
+                                <div className="mt-6 pt-4 border-t border-zinc-100 dark:border-zinc-800">
+                                    <h4 className="text-sm font-bold uppercase tracking-wider text-zinc-500 mb-4">Key Deliverables</h4>
+                                    <div className="grid gap-4">
+                                        {item.content.key_deliverables.map((project, idx) => (
+                                            <div key={idx} className="bg-zinc-50 dark:bg-zinc-900/50 rounded-lg p-4 border border-zinc-100 dark:border-zinc-800">
+                                                <h5 className="font-bold text-sm mb-1 text-zinc-800 dark:text-zinc-200">{project.title}</h5>
+                                                <p className="text-sm text-zinc-600 dark:text-zinc-400 mb-3">{project.description}</p>
+                                                <div className="flex flex-wrap gap-1.5">
+                                                    {project.technologies.map(tech => (
+                                                        <span key={tech} className="text-[10px] uppercase font-semibold px-2 py-0.5 rounded bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 text-zinc-600 dark:text-zinc-400">
+                                                            {tech}
+                                                        </span>
+                                                    ))}
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            )}
                         </div>
                     </motion.div>
                 ))}

@@ -29,6 +29,7 @@ const data = [
       location: "Windham, ME USA",
       socials: {
         github: "https://github.com/jeremyspofford",
+        gitlab: "https://gitlab.com/jeremyspofford",
         linkedin: "https://linkedin.com/in/jeremyspofford"
       }
     }
@@ -44,7 +45,24 @@ const data = [
           startDate: "2022-11",
           endDate: "Present",
           description: "Leading DevOps initiatives and cloud infrastructure management.",
-          technologies: ["GCP", "Terraform", "GitLab CI", "Kubernetes"]
+          technologies: ["GCP", "Terraform", "GitLab CI", "Kubernetes"],
+          key_deliverables: [
+            {
+                title: "Cloud Cost Optimization Initiative",
+                description: "Led an initiative resulting in a 30% reduction in monthly infrastructure expenses across all environments.",
+                technologies: ["GCP", "Terraform", "Cost Management"]
+            },
+            {
+                title: "Dynamic Preview Environments",
+                description: "Designed and implemented scalable preview environments tied to GitLab merge requests to improve testing efficiency.",
+                technologies: ["GitLab", "Terraform", "GCP"]
+            },
+             {
+                title: "Certificate Management Automation",
+                description: "Implemented automated SSL certificate renewal system with GCP Secret Manager and Pub/Sub.",
+                technologies: ["GCP Secret Manager", "Pub/Sub", "Terraform", "GitLab CI"]
+            }
+          ]
       }
   },
   {
@@ -56,7 +74,19 @@ const data = [
           startDate: "2019-06",
           endDate: "2022-11",
           description: "Developed and maintained software solutions and DevOps pipelines.",
-          technologies: ["AWS", "C#", ".NET", "Terraform"]
+          technologies: ["AWS", "C#", ".NET", "Terraform"],
+          key_deliverables: [
+              {
+                  title: "Terraform Documentation & Examples Automation",
+                  description: "Engineered a system to automatically generate standardized READMEs, usage examples, and tfvars templates for Terraform modules.",
+                  technologies: ["Terraform", "CI/CD", "Python", "terraform-docs"]
+              },
+               {
+                  title: "Infrastructure Orchestration Repos",
+                  description: "Managed and contributed to core infrastructure orchestration repositories for consistent deployments.",
+                  technologies: ["Terraform", "Git", "IaC"]
+              }
+          ]
       }
   },
   {
@@ -72,61 +102,7 @@ const data = [
       }
   },
 
-  // --- PROJECTS ---
-  {
-      PK: "PROJECT",
-      SK: "EMQX_SSL",
-      content: {
-          title: "EMQX SSL Certificate Automation",
-          description: "Developed an automated solution for managing EMQX SSL certificates, improving security and reducing manual intervention for renewals.",
-          technologies: ["EMQX", "SSL", "Automation", "Python"]
-      }
-  },
-  {
-      PK: "PROJECT",
-      SK: "TF_DOCS",
-      content: {
-          title: "Terraform Documentation & Examples Automation",
-          description: "Engineered a system to automatically generate standardized READMEs, usage examples, and tfvars templates for Terraform modules.",
-          technologies: ["Terraform", "CI/CD", "Python", "terraform-docs"]
-      }
-  },
-  {
-      PK: "PROJECT",
-      SK: "PREVIEW_ENVS",
-      content: {
-          title: "Dynamic Preview Environments",
-          description: "Designed and implemented scalable preview environments tied to GitLab merge requests to improve testing efficiency.",
-          technologies: ["GitLab", "Terraform", "GCP"]
-      }
-  },
-  {
-      PK: "PROJECT",
-      SK: "COST_OPT",
-      content: {
-          title: "Cloud Cost Optimization Initiative",
-          description: "Led an initiative resulting in a 30% reduction in monthly infrastructure expenses across all environments.",
-          technologies: ["GCP", "Terraform", "Cost Management"]
-      }
-  },
-    {
-      PK: "PROJECT",
-      SK: "CERT_MGMT",
-      content: {
-          title: "Certificate Management Automation",
-          description: "Implemented automated SSL certificate renewal system with GCP Secret Manager and Pub/Sub.",
-          technologies: ["GCP Secret Manager", "Pub/Sub", "Terraform", "GitLab CI"]
-      }
-  },
-    {
-      PK: "PROJECT",
-      SK: "INFRA_ORCH",
-      content: {
-          title: "Infrastructure Orchestration Repos",
-          description: "Managed and contributed to core infrastructure orchestration repositories for consistent deployments.",
-          technologies: ["Terraform", "Git", "IaC"]
-      }
-  },
+  // --- PROJECTS REMOVED (Merged into Experience) ---
 
   // --- SKILLS ---
   {

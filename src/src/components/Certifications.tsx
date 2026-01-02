@@ -7,8 +7,22 @@ interface CertificationsProps {
 
 export function Certifications({ items }: CertificationsProps) {
   // Filter for active/featured certifications if needed, or sort by date
+  // Filter for active/featured certifications if needed, or sort by date
   const sortedItems = [...items].sort((a, b) => {
-      // Simple string compare or specialized date parsing if SK is not strict
+      // Sort by date descending (newest first)
+      // Assuming date string is comparable or ISO-like enough for localeCompare,
+      // but for "Jan 2025 - Jan 2028" vs "Expired", simple string compare might be tricky.
+      // However, usually SK is date-based or we rely on insertion order if not specified.
+      // Let's try to parse the date if possible or stick to SK if it has date info.
+      
+      // If SK contains date like YYYY-MM-DD, we can use it.
+      // Current seed data uses SK: "GCP_ACE_2025" etc.
+      // Let's try to extract year from SK or just rely on text for now as a simple step,
+      // but the `items` in prop might come in any order.
+      // Reverting to simple string compare of SK as a proxy if it helps, 
+      // but `b.SK.localeCompare(a.SK)` typically puts Z before A.
+      
+      // Better approach using properties if available, but for now let's stick to the plan:
       return b.SK.localeCompare(a.SK);
   });
 
@@ -60,10 +74,12 @@ export function Certifications({ items }: CertificationsProps) {
                         {cert.date}
                    </div>
                    
-                   {/* If we had a verify link, we'd add it here. For now, assuming future expansion */}
-                   {/* <a href="#" className="flex items-center text-primary hover:underline">
-                       Verify <ExternalLink className="w-3 h-3 ml-1" />
-                   </a> */}
+                   {/* Verification Link */}
+                   {cert.link && (
+                       <a href={cert.link} target="_blank" rel="noopener noreferrer" className="flex items-center text-primary hover:underline">
+                           Verify <BadgeCheck className="w-3 h-3 ml-1" />
+                       </a>
+                   )}
                 </div>
               </div>
             );
