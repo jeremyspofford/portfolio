@@ -1,11 +1,15 @@
-import { BadgeCheck, Calendar } from "lucide-react";
+import { BadgeCheck, Calendar, Eye, X } from "lucide-react";
 import { ContentItem, CertificationContent } from "@/lib/api";
+import { useState } from "react";
+import { createPortal } from "react-dom";
 
 interface CertificationsProps {
   items: ContentItem<CertificationContent>[];
 }
 
 export function Certifications({ items }: CertificationsProps) {
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+
   // Filter for active/featured certifications if needed, or sort by date
   // Filter for active/featured certifications if needed, or sort by date
   const sortedItems = [...items].sort((a, b) => {
@@ -75,17 +79,52 @@ export function Certifications({ items }: CertificationsProps) {
                    </div>
                    
                    {/* Verification Link */}
-                   {cert.link && (
-                       <a href={cert.link} target="_blank" rel="noopener noreferrer" className="flex items-center text-primary hover:underline">
-                           Verify <BadgeCheck className="w-3 h-3 ml-1" />
-                       </a>
-                   )}
+                   <div className="flex gap-3">
+                     {cert.link && (
+                         <a href={cert.link} target="_blank" rel="noopener noreferrer" className="flex items-center text-primary hover:underline">
+                             Verify <BadgeCheck className="w-3 h-3 ml-1" />
+                         </a>
+                     )}
+                     {cert.imageUrl && (
+                         <button 
+                            onClick={() => setSelectedImage(cert.imageUrl!)}
+                            className="flex items-center text-indigo-500 hover:underline hover:text-indigo-600"
+                         >
+                             View <Eye className="w-3 h-3 ml-1" />
+                         </button>
+                     )}
+                   </div>
                 </div>
               </div>
             );
           })}
         </div>
+          })}
+        </div>
       </div>
+
+      {/* Image Modal */}
+      {selectedImage && (
+        <div 
+            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-in fade-in duration-200"
+            onClick={() => setSelectedImage(null)}
+        >
+            <div className="relative max-w-4xl w-full max-h-[90vh] flex flex-col items-center">
+                <button 
+                    onClick={() => setSelectedImage(null)}
+                    className="absolute -top-12 right-0 p-2 text-white hover:text-gray-300 transition-colors"
+                >
+                    <X className="w-8 h-8" />
+                </button>
+                <img 
+                    src={selectedImage} 
+                    alt="Certification" 
+                    className="rounded-lg shadow-2xl max-w-full max-h-[85vh] object-contain bg-white"
+                    onClick={(e) => e.stopPropagation()} 
+                />
+            </div>
+        </div>
+      )}
     </section>
   );
 }

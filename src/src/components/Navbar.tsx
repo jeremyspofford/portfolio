@@ -50,19 +50,21 @@ export function Navbar() {
         </button>
       </div>
 
-      {/* Mobile Nav */}
+      {/* Mobile Nav Overlay */}
       {isOpen && (
-        <div className="md:hidden border-t p-4 space-y-4 bg-background">
+        <div className="md:hidden fixed inset-0 top-16 bg-background z-40 animate-in slide-in-from-top-5 fade-in duration-200 p-4 border-t">
+           <div className="flex flex-col space-y-4">
              {NAV_ITEMS.map((item) => (
             <Link
               key={item.href}
               href={item.href}
               onClick={() => setIsOpen(false)}
-              className="block text-sm font-medium transition-colors hover:text-primary"
+              className="px-4 py-3 text-lg font-medium transition-colors hover:bg-muted rounded-md"
             >
               {item.label}
             </Link>
           ))}
+           </div>
         </div>
       )}
     </nav>

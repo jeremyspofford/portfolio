@@ -3,6 +3,11 @@ import { MDXRemote } from 'next-mdx-remote/rsc';
 import Link from 'next/link';
 import { ArrowLeft, Calendar, Tag } from 'lucide-react';
 import { notFound } from 'next/navigation';
+import remarkGfm from 'remark-gfm';
+import rehypeHighlight from 'rehype-highlight';
+import rehypeSlug from 'rehype-slug';
+import rehypeAutolinkHeadings from 'rehype-autolink-headings';
+import 'highlight.js/styles/github-dark.css'; // Add highlight.js styles
 
 export async function generateStaticParams() {
   const posts = getAllPosts();
@@ -18,6 +23,18 @@ export default async function BlogPost(props: { params: Promise<{ slug: string }
   if (!post) {
     notFound();
   }
+
+  const mdxOptions = {
+    mdxOptions: {
+      remarkPlugins: [remarkGfm],
+      // @ts-expect-error - Types are slightly incompatible but valid at runtime
+      rehypePlugins: [
+        rehypeHighlight,
+        rehypeSlug,
+        [rehypeAutolinkHeadings, { behavior: 'wrap' }]
+      ],
+    },
+  };
 
   return (
     <article className="flex flex-col w-full max-w-3xl mx-auto p-6 md:p-12 space-y-8">
@@ -62,7 +79,7 @@ export default async function BlogPost(props: { params: Promise<{ slug: string }
         prose-pre:bg-slate-900 prose-pre:text-slate-100 prose-pre:border prose-pre:border-slate-700 prose-pre:rounded-lg prose-pre:p-4
         prose-ul:my-4 prose-ol:my-4 prose-li:my-2 prose-li:text-slate-700 dark:prose-li:text-slate-300
         prose-blockquote:border-l-indigo-500 prose-blockquote:bg-slate-50 dark:prose-blockquote:bg-slate-800/50 prose-blockquote:py-1 prose-blockquote:px-4">
-        <MDXRemote source={post.content} />
+        <MDXRemote source={post.content} options={mdxOptions} />
       </div>
     </article>
   );

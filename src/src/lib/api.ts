@@ -43,6 +43,7 @@ export interface CertificationContent {
   date: string;
   active: boolean;
   link?: string;
+  imageUrl?: string;
 }
 
 export interface ContentItem<T> {
