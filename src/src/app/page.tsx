@@ -36,7 +36,7 @@ export default async function Home() {
       {latestPosts.length > 0 && (
         <section className="w-full max-w-4xl mx-auto p-6 md:p-12">
           <div className="flex justify-between items-baseline mb-8">
-            <h2 className="text-3xl font-bold text-slate-100">Latest Thoughts</h2>
+            <h2 className="text-3xl font-bold text-white">Latest Thoughts</h2>
             <Link href="/blog" className="text-indigo-400 hover:text-indigo-300 flex items-center gap-1 text-sm font-medium">
               View all <ArrowRight className="w-4 h-4" />
             </Link>

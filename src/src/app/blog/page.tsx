@@ -15,7 +15,7 @@ export default function BlogIndex() {
           <ArrowLeft className="w-4 h-4 mr-2" />
           Back to Portfolio
         </Link>
-        <h1 className="text-4xl md:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 to-cyan-400">
+        <h1 className="text-4xl md:text-5xl font-bold text-white">
           Latest Thoughts
         </h1>
         <p className="text-slate-400 text-lg">

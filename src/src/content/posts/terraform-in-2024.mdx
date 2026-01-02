@@ -1,0 +1,51 @@
+---
+title: "Why I Still Love Terraform in 2024"
+date: "2024-01-01"
+description: "Despite the rise of Pulumi, CDK, and Crossplane, Terraform remains my go-to for infrastructure as code. Here's why."
+tags: ["Terraform", "IaC", "DevOps"]
+---
+
+# The Case for Terraform
+
+Every year, someone declares Terraform dead. And every year, I'm still writing HCL.
+
+## The Competition
+
+-   **Pulumi**: Write infra in real languages. Great for developers, harder for ops teams.
+-   **AWS CDK**: Excellent for AWS-only shops. Falls apart for multi-cloud.
+-   **Crossplane**: Kubernetes-native IaC. Overkill for most use cases.
+
+## Why Terraform Wins
+
+### 1. The Provider Ecosystem
+
+3000+ providers. Need to manage your Cloudflare DNS, PagerDuty alerts, and AWS Lambda in one place? Terraform does it.
+
+### 2. State Management (Done Right)
+
+Yes, state can be tricky. But with S3 backend + native locking (no more DynamoDB!), it's rock solid.
+
+```hcl
+terraform {
+  backend "s3" {
+    bucket       = "my-tf-state"
+    key          = "terraform.tfstate"
+    region       = "us-east-1"
+    use_lockfile = true
+  }
+}
+```
+
+### 3. Plan Before Apply
+
+I can show a product manager exactly what will change _before_ it changes. Try that with a bash script.
+
+### 4. It Just Works
+
+No runtime dependencies. No agent to install. Download the binary, run `terraform init`, done.
+
+## The Bottom Line
+
+Use Pulumi if your team is 100% developers. Use CDK if you're all-in on AWS. Use Crossplane if you're running a platform team.
+
+For everything else? `terraform apply`.
