@@ -19,6 +19,29 @@ resource "aws_cloudfront_origin_access_control" "default" {
   signing_protocol                  = "sigv4"
 }
 
+resource "aws_cloudfront_function" "rewrite_uri" {
+  name    = "portfolio-rewrite-uri"
+  runtime = "cloudfront-js-2.0"
+  publish = true
+  code    = <<-EOF
+    function handler(event) {
+      var request = event.request;
+      var uri = request.uri;
+      
+      // If URI ends with / add index.html
+      if (uri.endsWith('/')) {
+        request.uri += 'index.html';
+      }
+      // If URI doesn't have an extension, assume it's a directory and add /index.html
+      else if (!uri.includes('.')) {
+        request.uri += '/index.html';
+      }
+      
+      return request;
+    }
+  EOF
+}
+
 resource "aws_cloudfront_distribution" "s3_distribution" {
   origin {
     domain_name              = aws_s3_bucket.frontend.bucket_regional_domain_name
@@ -34,6 +57,11 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
     allowed_methods  = ["GET", "HEAD", "OPTIONS"]
     cached_methods   = ["GET", "HEAD"]
     target_origin_id = "S3Origin"
+
+    function_association {
+      event_type   = "viewer-request"
+      function_arn = aws_cloudfront_function.rewrite_uri.arn
+    }
 
     forwarded_values {
       query_string = false
@@ -66,12 +94,12 @@ resource "aws_s3_bucket_policy" "allow_cloudfront" {
   policy = jsonencode({
     Version = "2012-10-17"
     Statement = {
-      Sid = "AllowCloudFrontServicePrincipalReadOnly"
+      Sid    = "AllowCloudFrontServicePrincipalReadOnly"
       Effect = "Allow"
       Principal = {
         Service = "cloudfront.amazonaws.com"
       }
-      Action = "s3:GetObject"
+      Action   = "s3:GetObject"
       Resource = "${aws_s3_bucket.frontend.arn}/*"
       Condition = {
         StringEquals = {
