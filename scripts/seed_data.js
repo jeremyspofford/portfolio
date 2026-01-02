@@ -23,6 +23,7 @@ const data = [
     content: {
       name: "Jeremy Spofford",
       title: "Senior DevOps Engineer",
+      titles: ["Senior DevOps Engineer", "Cloud Infrastructure Architect", "Automation Specialist", "Site Reliability Engineer"],
       bio: "I am a Senior DevOps Engineer with expertise in cloud infrastructure, automation, and CI/CD pipeline optimization. I have extensive hands-on experience with Google Cloud Platform (GCP), Terraform, GitLab CI, and cloud-native tooling, with a proven track record of improving system performance, deployment reliability, and operational security.",
       email: "JeremySpofford@gmail.com",
       location: "Windham, ME USA",

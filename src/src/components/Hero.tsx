@@ -1,6 +1,7 @@
 import { Github, Linkedin, Mail, FileText } from 'lucide-react';
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
+import { Typewriter } from "./Typewriter";
 
 interface HeroProps {
   profile: any;
@@ -17,10 +18,11 @@ export function Hero({ profile }: HeroProps) {
             <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl/none bg-clip-text text-transparent bg-gradient-to-r from-primary to-blue-600">
               {profile.name}
             </h1>
-            <p className="mx-auto max-w-[700px] text-gray-500 md:text-xl dark:text-gray-400">
-              {profile.title}
-            </p>
-             <p className="mx-auto max-w-[700px] text-gray-500 md:text-lg dark:text-gray-400 italic">
+            <div className="h-8 md:h-10 text-xl md:text-2xl lg:text-3xl font-mono text-gray-500 dark:text-gray-400">
+                <span className="mr-2">&gt;</span>
+                <Typewriter words={profile.titles || [profile.title]} />
+            </div>
+            <p className="mx-auto max-w-[700px] text-gray-500 md:text-lg dark:text-gray-400 italic">
               {profile.bio}
             </p>
           </div>

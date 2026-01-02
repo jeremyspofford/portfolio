@@ -3,6 +3,7 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL;
 export interface ProfileContent {
   name: string;
   title: string;
+  titles?: string[];
   bio: string;
   email: string;
   location?: string;
