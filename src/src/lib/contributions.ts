@@ -5,6 +5,11 @@ const GITLAB_TOKEN = process.env.GITLAB_TOKEN;
 const GITHUB_USERNAME = 'jeremyspofford';
 const GITLAB_USERNAME = process.env.GITLAB_USERNAME || 'jeremyspofford'; // Default or env
 
+interface GitLabEvent {
+  created_at: string;
+  action_name: string;
+}
+
 interface ContributionDay {
   contributionCount: number;
   date: string;
@@ -78,45 +83,37 @@ async function fetchGitHubData() {
 }
 
 async function fetchGitLabData() {
-    if (!GITLAB_TOKEN) {
-         // Silently fail if no token, as user might not have set it up yet
-        return null; 
-    }
+    if (!GITLAB_TOKEN) return null;
 
     try {
-        // GitLab API to get user ID first (or assume username if using calendar endpoint?)
-        // The calendar endpoint usually requires a session or simulates one, but API is better.
-        // GitLab's /users/:id/events is a good proxy for contributions.
-        
         // 1. Get User ID
         const userRes = await fetch(`https://gitlab.com/api/v4/users?username=${GITLAB_USERNAME}`, {
              headers: { 'PRIVATE-TOKEN': GITLAB_TOKEN }
         });
+        
         if (!userRes.ok) return null;
         const users = await userRes.json();
         if (!users.length) return null;
         const userId = users[0].id;
 
-        // 2. Fetch Events (this gives us activity)
-        // Note: This can be heavy. A simpler way for a "graph" is difficult with GitLab API 
-        // without processing a lot of events.
-        // For simplicity in this iteration, let's use the /users/:id/events endpoint
-        // and aggregate distinct days.
+        // 2. Fetch Events (simplified for recent activity, can be paginated for full year)
+        // Fetching 100 recent events as a starting point. For full accuracy, we'd need multiple pages.
         const eventsRes = await fetch(`https://gitlab.com/api/v4/users/${userId}/events?after=${getOneYearAgoDate()}&per_page=100`, {
              headers: { 'PRIVATE-TOKEN': GITLAB_TOKEN },
              next: { revalidate: 3600 }
         });
         
-        // Pagination would be needed for full accuracy, but let's start with recently 100 events 
-        // or try to fetch more if possible. GitLab events API is paginated.
-        // To do this properly for a whole year requires many requests.
-        // ALTERNATIVE: Use the GraphQL API for GitLab if available and supports contribution calendar equivalent.
-        // GitLab GraphQL *does* have user(username: "...") { contributions { ... } } ? No, mostly strictly events.
+        if (!eventsRes.ok) return null;
+        const events = await eventsRes.json();
         
-        // Let's stick to a simplified event fetch for now or return 0 if too complex for this step.
-        // For this first pass, we will support GitHub fully and add placeholder/basic GitLab support.
-        
-        return null; // Placeholder until rigorous pagination implementation
+        // Map events to { date: string, count: number }
+        const dailyCounts = new Map<string, number>();
+        events.forEach((event: GitLabEvent) => {
+            const date = event.created_at.split('T')[0];
+            dailyCounts.set(date, (dailyCounts.get(date) || 0) + 1);
+        });
+
+        return dailyCounts;
         
     } catch (e) {
         console.error("Error fetching GitLab data", e);
@@ -133,9 +130,9 @@ function getOneYearAgoDate() {
 
 export const fetchCombinedContributions = unstable_cache(
   async () => {
-    const [githubData] = await Promise.all([
+    const [githubData, gitlabData] = await Promise.all([
         fetchGitHubData(),
-        // fetchGitLabData() // Commented out until fully implemented
+        fetchGitLabData()
     ]);
 
     if (!githubData) return null;
@@ -150,8 +147,14 @@ export const fetchCombinedContributions = unstable_cache(
         });
     });
 
-    // 2. Process GitLab (Future)
-    // ... merge into dailyCounts
+    // 2. Process GitLab
+    let gitlabTotal = 0;
+    if (gitlabData) {
+        gitlabData.forEach((count, date) => {
+             dailyCounts.set(date, (dailyCounts.get(date) || 0) + count);
+             gitlabTotal += count;
+        });
+    }
 
     // 3. Convert back to array required by react-activity-calendar
     const contributions = Array.from(dailyCounts.entries()).map(([date, count]) => {
@@ -165,7 +168,7 @@ export const fetchCombinedContributions = unstable_cache(
     }).sort((a, b) => a.date.localeCompare(b.date));
 
     return {
-        total: githubData.totalContributions, // + gitlabTotal.length
+        total: githubData.totalContributions + gitlabTotal,
         contributions
     };
   },
