@@ -11,6 +11,7 @@ import { ThemeToggle } from '@/components/ThemeToggle';
 const NAV_ITEMS = [
   { label: 'Home', href: '/' },
   { label: 'Resume', href: '/resume' },
+  { label: 'Blog', href: '/blog' },
 ];
 
 export function Navbar() {
