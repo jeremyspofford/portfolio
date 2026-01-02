@@ -53,7 +53,12 @@ jobs:
               run: |
                   API_URL=$(cd ../terraform && terraform output -raw api_endpoint)
                   echo "Building with API URL: $API_URL"
-                  NEXT_PUBLIC_API_URL=$API_URL GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }} GITLAB_TOKEN=${{ secrets.GITLAB_TOKEN }} npm run build
+                  NEXT_PUBLIC_API_URL=$API_URL \
+                  GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }} \
+                  GITLAB_TOKEN=${{ secrets.GITLAB_TOKEN }} \
+                  NEXT_PUBLIC_GA_ID=${{ vars.NEXT_PUBLIC_GA_ID }} \
+                  NEXT_PUBLIC_SITE_URL=https://www.jeremyspofford.com \
+                  npm run build
 
             - name: Sync Frontend to S3
               working-directory: src
