@@ -45,13 +45,25 @@ export default function ResumePage() {
     <div className="container max-w-4xl py-12 px-4">
       <div className="flex justify-between items-center mb-8">
         <h1 className="text-3xl font-bold">Resume Generator</h1>
-        <button
-          className="flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90"
-          onClick={() => window.print()}
-        >
-          <Download className="w-4 h-4" />
-          Print / PDF
-        </button>
+        <div className="flex gap-4">
+          {process.env.NEXT_PUBLIC_SHOW_RESUME_DOWNLOAD === 'true' && (
+            <a
+              href="/resume.pdf"
+              download="JeremySpofford_Resume.pdf"
+              className="flex items-center gap-2 px-4 py-2 bg-secondary text-secondary-foreground rounded-md hover:bg-secondary/90 transition-colors"
+            >
+              <Download className="w-4 h-4" />
+              Download PDF
+            </a>
+          )}
+          <button
+            className="flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90"
+            onClick={() => window.print()}
+          >
+            <Download className="w-4 h-4" />
+            Print / PDF
+          </button>
+        </div>
       </div>
 
       <div className="grid gap-8 md:grid-cols-[1fr_350px]">
