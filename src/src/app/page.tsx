@@ -5,6 +5,7 @@ import { Skills } from "@/components/Skills";
 // import { Projects } from "@/components/Projects"; // Removed in favor of merged timeline
 import { Certifications } from "@/components/Certifications";
 import { Contact } from "@/components/Contact";
+import ChatInterface from "@/components/ChatInterface";
 import { fetchContent } from "@/lib/api";
 
 export default async function Home() {
@@ -27,6 +28,7 @@ export default async function Home() {
       <Certifications items={certificationsData} />
       <ExperienceTimeline items={experienceData} />
       <Contact profile={profile} />
+      <ChatInterface />
     </div>
   );
 }

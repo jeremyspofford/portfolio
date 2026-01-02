@@ -83,5 +83,21 @@ export async function enhanceContent(jobDescription: string, resumeContent: Reco
         throw error;
     }
 }
+export async function chatWithAI(message: string) {
+    if (!API_URL) return null;
+
+    try {
+        const res = await fetch(`${API_URL}/enhance`, {
+            method: 'POST',
+            body: JSON.stringify({ type: 'chat', message }),
+            headers: { 'Content-Type': 'application/json' }
+        });
+        if (!res.ok) throw new Error("Failed to chat with AI");
+        return res.json();
+    } catch (error) {
+        console.error("Error asking AI:", error);
+        throw error;
+    }
+}
 
 
