@@ -1,26 +1,10 @@
-
-# Archive for GetContent
-data "archive_file" "get_content" {
+# Shared Archive for All Lambdas (includes node_modules)
+data "archive_file" "backend_package" {
   type        = "zip"
-  source_file = "${path.module}/../backend/handlers/get_content.js"
-  output_path = "${path.module}/dist/get_content.zip"
+  source_dir  = "${path.module}/../backend"
+  output_path = "${path.module}/dist/backend_package.zip"
+  excludes    = ["package-lock.json", ".git", ".gitignore"] # Optional excludes
 }
-
-# Archive for EnhanceContent
-data "archive_file" "enhance_content" {
-  type        = "zip"
-  source_file = "${path.module}/../backend/handlers/enhance_content.js"
-  output_path = "${path.module}/dist/enhance_content.zip"
-}
-
-# Archive for SyncContributions
-data "archive_file" "sync_contributions" {
-  type        = "zip"
-  source_file = "${path.module}/../backend/handlers/sync_contributions.js"
-  output_path = "${path.module}/dist/sync_contributions.zip"
-}
-
-
 
 # IAM Role for Lambdas (Shared Base)
 resource "aws_iam_role" "lambda_role" {
@@ -91,11 +75,11 @@ resource "aws_iam_role_policy_attachment" "bedrock_attach" {
 # LAMBDA FUNCTIONS
 
 resource "aws_lambda_function" "get_content" {
-  filename         = data.archive_file.get_content.output_path
+  filename         = data.archive_file.backend_package.output_path
   function_name    = "portfolio-get-content"
   role             = aws_iam_role.lambda_role.arn
-  handler          = "get_content.handler"
-  source_code_hash = data.archive_file.get_content.output_base64sha256
+  handler          = "handlers/get_content.handler"
+  source_code_hash = data.archive_file.backend_package.output_base64sha256
   runtime          = "nodejs18.x"
   environment {
     variables = {
@@ -105,11 +89,11 @@ resource "aws_lambda_function" "get_content" {
 }
 
 resource "aws_lambda_function" "enhance_content" {
-  filename         = data.archive_file.enhance_content.output_path
+  filename         = data.archive_file.backend_package.output_path
   function_name    = "portfolio-enhance-content"
   role             = aws_iam_role.lambda_role.arn
-  handler          = "enhance_content.handler"
-  source_code_hash = data.archive_file.enhance_content.output_base64sha256
+  handler          = "handlers/enhance_content.handler"
+  source_code_hash = data.archive_file.backend_package.output_base64sha256
   runtime          = "nodejs18.x"
   timeout          = 30
   environment {
@@ -120,11 +104,11 @@ resource "aws_lambda_function" "enhance_content" {
 }
 
 resource "aws_lambda_function" "sync_contributions" {
-  filename         = data.archive_file.sync_contributions.output_path
+  filename         = data.archive_file.backend_package.output_path
   function_name    = "portfolio-sync-contributions"
   role             = aws_iam_role.lambda_role.arn
-  handler          = "sync_contributions.handler"
-  source_code_hash = data.archive_file.sync_contributions.output_base64sha256
+  handler          = "handlers/sync_contributions.handler"
+  source_code_hash = data.archive_file.backend_package.output_base64sha256
   runtime          = "nodejs18.x"
   timeout          = 60
   environment {
