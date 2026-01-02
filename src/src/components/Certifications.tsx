@@ -1,3 +1,5 @@
+'use client';
+
 import { BadgeCheck, Calendar, Eye, X } from "lucide-react";
 import { ContentItem, CertificationContent } from "@/lib/api";
 import { useState } from "react";
@@ -97,8 +99,6 @@ export function Certifications({ items }: CertificationsProps) {
                 </div>
               </div>
             );
-          })}
-        </div>
           })}
         </div>
       </div>

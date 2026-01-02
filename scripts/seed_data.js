@@ -5,17 +5,6 @@ const client = new DynamoDBClient({ region: "us-east-1" });
 const TABLE_NAME = "portfolio-content";
 
 const data = [
-  // --- CONFIG ---
-  {
-    PK: "CONFIG",
-    SK: "FEATURES",
-    content: {
-      show_contributions: true,
-      show_resume_download: true,
-      enable_ai: true
-    }
-  },
-  
   // --- PROFILE ---
   {
     PK: "PROFILE",
@@ -23,10 +12,10 @@ const data = [
     content: {
       name: "Jeremy Spofford",
       title: "Senior DevOps Engineer",
-      titles: ["Senior DevOps Engineer", "Cloud Infrastructure Architect", "Automation Specialist", "Site Reliability Engineer"],
+      titles: ["Senior DevOps Engineer", "Cloud Infrastructure Architect", "Platform Engineer", "Site Reliability Engineer"],
       bio: "I am a Senior DevOps Engineer with expertise in cloud infrastructure, automation, and CI/CD pipeline optimization. I have extensive hands-on experience with Google Cloud Platform (GCP), Terraform, GitLab CI, and cloud-native tooling, with a proven track record of improving system performance, deployment reliability, and operational security.",
       email: "JeremySpofford@gmail.com",
-      location: "Windham, ME USA",
+      location: "Maine, USA",
       socials: {
         github: "https://github.com/jeremyspofford",
         gitlab: "https://gitlab.com/jeremyspofford",
@@ -102,33 +91,56 @@ const data = [
       }
   },
 
-  // --- PROJECTS REMOVED (Merged into Experience) ---
-
   // --- SKILLS ---
   {
     PK: "SKILL",
     SK: "GCP",
-    content: { category: "GCP", items: ["Compute Engine", "GKE", "Cloud Build", "BigQuery", "Pub/Sub"] }
+    content: { 
+        category: "GCP", 
+        items: ["Compute Engine", "GKE", "Cloud Build", "BigQuery", "Pub/Sub"],
+        icon: "cloud",
+        description: "Expertise in Google Cloud Platform services and architecture."
+    }
   },
   {
     PK: "SKILL",
     SK: "AWS",
-    content: { category: "AWS", items: ["EC2", "Lambda", "S3", "RDS", "DynamoDB"] }
+    content: { 
+        category: "AWS", 
+        items: ["EC2", "Lambda", "S3", "RDS", "DynamoDB"],
+        icon: "cloud",
+        description: "Deep knowledge of AWS core services and serverless computing."
+    }
   },
   {
     PK: "SKILL",
     SK: "IAC",
-    content: { category: "IaC", items: ["Terraform", "OpenTofu", "CloudFormation", "Ansible"] }
+    content: { 
+        category: "IaC", 
+        items: ["Terraform", "OpenTofu", "CloudFormation", "Ansible"],
+        icon: "code",
+        description: "Automatating infrastructure provisioning and configuration management."
+    }
   },
   {
     PK: "SKILL",
     SK: "CICD",
-    content: { category: "CI/CD", items: ["GitLab CI", "GitHub Actions", "Jenkins"] }
+    content: { 
+        category: "CI/CD", 
+        items: ["GitLab CI", "GitHub Actions", "Jenkins"],
+        icon: "terminal",
+        description: "Building robust automated pipelines for build, test, and deployment."
+    }
   },
   {
     PK: "SKILL",
     SK: "LANGUAGES",
-    content: { category: "Scripting/Lang", items: ["Python", "Bash", "TypeScript", "JavaScript", "Go"] }
+    content: { 
+        category: "Scripting/Lang", 
+        items: ["Python", "Bash", "TypeScript", "JavaScript"],
+        icon: "code",
+        description: "Polyglot programming for automation, scripting, and application development."
+    }
   },
 
   // --- CERTIFICATIONS ---
@@ -140,30 +152,10 @@ const data = [
           issuer: "Google Cloud",
           date: "Jan 2025 - Jan 2028",
           active: true,
-          link: "https://google.com" // Placeholder for verification link
+          link: "https://www.credly.com/badges/1031a5b8-a13d-4d24-803c-8282a2cb408e/public_url",
+          imageUrl: "https://images.credly.com/size/680x680/images/6df3b36d-9d41-4560-b6bd-139857d45e5f/gcp-ace.png" // Placeholder or actual URL
       }
   },
-  {
-      PK: "CERTIFICATION",
-      SK: "AWS_CCP_2020",
-      content: {
-          name: "AWS Certified Cloud Practitioner",
-          issuer: "AWS",
-          date: "Expired",
-          active: false
-      }
-  },
-  {
-      PK: "CERTIFICATION",
-      SK: "TF_ASSOC_003",
-      content: {
-          name: "HashiCorp Certified: Terraform Associate",
-          issuer: "HashiCorp",
-          date: "2023 - 2025",
-          active: true
-      }
-  }
-
 ];
 
 const run = async () => {

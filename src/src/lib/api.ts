@@ -35,6 +35,8 @@ export interface ProjectContent {
 export interface SkillContent {
   category: string;
   items: string[];
+  icon?: string;
+  description?: string;
 }
 
 export interface CertificationContent {

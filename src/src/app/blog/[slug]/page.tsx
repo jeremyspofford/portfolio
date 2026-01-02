@@ -27,12 +27,11 @@ export default async function BlogPost(props: { params: Promise<{ slug: string }
   const mdxOptions = {
     mdxOptions: {
       remarkPlugins: [remarkGfm],
-      // @ts-expect-error - Types are slightly incompatible but valid at runtime
       rehypePlugins: [
         rehypeHighlight,
         rehypeSlug,
         [rehypeAutolinkHeadings, { behavior: 'wrap' }]
-      ],
+      ] as any,
     },
   };
 
