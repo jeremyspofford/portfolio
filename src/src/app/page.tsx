@@ -9,7 +9,7 @@ import ChatInterface from "@/components/ChatInterface";
 import { Contributions } from "@/components/Contributions"; // New
 import { fetchContent } from "@/lib/api";
 import { getAllPosts } from "@/lib/blog";
-import { fetchGitHubContributions } from "@/lib/github"; // New
+import { fetchCombinedContributions } from "@/lib/contributions"; // Updated
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 
@@ -19,9 +19,8 @@ export default async function Home() {
     fetchContent("PROFILE"),
     fetchContent("EXPERIENCE"),
     fetchContent("SKILL"),
-    // fetchContent("PROJECT"), // Removed
     fetchContent("CERTIFICATION"),
-    fetchGitHubContributions() // Fetch build-time data
+    fetchCombinedContributions() // Fetch build-time data (Combined)
   ]);
 
   const profile = profileData.find((item) => item.SK === "MAIN")?.content;
