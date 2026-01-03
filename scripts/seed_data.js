@@ -87,7 +87,14 @@ const data = [
           startDate: "2014-10",
           endDate: "2017-08",
           description: "Provided systems support and desktop engineering solutions.",
-          technologies: ["Windows", "Active Directory", "PowerShell"]
+          technologies: ["Windows", "Active Directory", "PowerShell"],
+          key_deliverables: [
+            {
+              title: "Documentation & Reporting",
+              description: "Developed documentation, procedures, and automated reporting systems to facilitate efficient IT-stakeholder communication and improve data accessibility.",
+              technologies: ["PowerShell", "SQL", "Excel", "SharePoint"]
+            }
+          ]
       }
   },
 
@@ -117,7 +124,7 @@ const data = [
     SK: "IAC",
     content: { 
         category: "IaC", 
-        items: ["Terraform", "OpenTofu", "CloudFormation", "Ansible"],
+        items: ["Terraform", "OpenTofu", "Terragrunt", "AWS CDK", "Ansible"],
         icon: "code",
         description: "Automatating infrastructure provisioning and configuration management."
     }
@@ -127,7 +134,7 @@ const data = [
     SK: "CICD",
     content: { 
         category: "CI/CD", 
-        items: ["GitLab CI", "GitHub Actions", "Jenkins"],
+        items: ["GitLab CI", "GitHub Actions"],
         icon: "terminal",
         description: "Building robust automated pipelines for build, test, and deployment."
     }

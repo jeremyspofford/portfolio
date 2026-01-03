@@ -10,6 +10,7 @@ export interface BlogPost {
   date: string;
   description: string;
   tags: string[];
+  image?: string;
   content: string; // Raw content for MDXRemote
 }
 
@@ -34,6 +35,7 @@ export function getAllPosts(): BlogPost[] {
         date: data.date,
         description: data.description,
         tags: data.tags || [],
+        image: data.image,
         content,
       };
     });
@@ -60,6 +62,7 @@ export function getPostBySlug(slug: string): BlogPost | null {
       date: data.date,
       description: data.description,
       tags: data.tags || [],
+      image: data.image,
       content,
     };
   } catch (error) {
