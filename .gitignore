@@ -1,3 +1,10 @@
+# AI
+!ralph.yml
+!PROMPT.md
+!CLAUDE.md
+!GEMINI.md
+
+
 # Dependencies
 **/node_modules/
 .pnp
