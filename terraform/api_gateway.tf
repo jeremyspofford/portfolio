@@ -1,5 +1,5 @@
 resource "aws_apigatewayv2_api" "http_api" {
-  name          = "portfolio-api"
+  name          = "portfolio-api-${var.environment}"
   protocol_type = "HTTP"
   cors_configuration {
     allow_origins = ["*"] # Lock down to CloudFront domain later
@@ -58,7 +58,30 @@ resource "aws_lambda_permission" "api_enhance_content" {
   source_arn    = "${aws_apigatewayv2_api.http_api.execution_arn}/*/*"
 }
 
+# POST /contact -> contact_form lambda (only if contact email is configured)
 
+resource "aws_apigatewayv2_integration" "contact_form" {
+  count            = var.contact_email_from != "" ? 1 : 0
+  api_id           = aws_apigatewayv2_api.http_api.id
+  integration_type = "AWS_PROXY"
+  integration_uri  = aws_lambda_function.contact_form[0].invoke_arn
+}
+
+resource "aws_apigatewayv2_route" "contact_form" {
+  count     = var.contact_email_from != "" ? 1 : 0
+  api_id    = aws_apigatewayv2_api.http_api.id
+  route_key = "POST /contact"
+  target    = "integrations/${aws_apigatewayv2_integration.contact_form[0].id}"
+}
+
+resource "aws_lambda_permission" "api_contact_form" {
+  count         = var.contact_email_from != "" ? 1 : 0
+  statement_id  = "AllowExecutionFromAPIGatewayContact"
+  action        = "lambda:InvokeFunction"
+  function_name = aws_lambda_function.contact_form[0].function_name
+  principal     = "apigateway.amazonaws.com"
+  source_arn    = "${aws_apigatewayv2_api.http_api.execution_arn}/*/*"
+}
 
 output "api_endpoint" {
   value = aws_apigatewayv2_api.http_api.api_endpoint

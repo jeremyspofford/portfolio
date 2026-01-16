@@ -1,22 +1,22 @@
 resource "aws_iam_role" "scheduler_role" {
-  name = "portfolio_scheduler_role"
+  name = "portfolio-scheduler-role-${var.environment}"
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
     Statement = [{
-      Action = "sts:AssumeRole"
-      Effect = "Allow"
+      Action    = "sts:AssumeRole"
+      Effect    = "Allow"
       Principal = { Service = "scheduler.amazonaws.com" }
     }]
   })
 }
 
 resource "aws_iam_policy" "scheduler_policy" {
-  name = "portfolio_scheduler_policy"
+  name = "portfolio-scheduler-policy-${var.environment}"
   policy = jsonencode({
     Version = "2012-10-17"
     Statement = [{
-      Effect = "Allow"
-      Action = "lambda:InvokeFunction"
+      Effect   = "Allow"
+      Action   = "lambda:InvokeFunction"
       Resource = aws_lambda_function.sync_contributions.arn
     }]
   })
@@ -28,7 +28,7 @@ resource "aws_iam_role_policy_attachment" "scheduler_attach" {
 }
 
 resource "aws_scheduler_schedule" "sync_schedule" {
-  name       = "portfolio-sync-contributions-schedule"
+  name       = "portfolio-sync-contributions-${var.environment}"
   group_name = "default"
 
   flexible_time_window {
@@ -36,7 +36,7 @@ resource "aws_scheduler_schedule" "sync_schedule" {
   }
 
   schedule_expression = "rate(12 hours)"
-  
+
   target {
     arn      = aws_lambda_function.sync_contributions.arn
     role_arn = aws_iam_role.scheduler_role.arn

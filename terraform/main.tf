@@ -11,6 +11,7 @@ terraform {
     key          = "terraform.tfstate"
     region       = "us-east-1"
     use_lockfile = true
+    # Workspaces will create: env:/prod/terraform.tfstate, env:/staging/terraform.tfstate
   }
 }
 
@@ -20,7 +21,7 @@ provider "aws" {
     tags = {
       Project     = "Portfolio"
       ManagedBy   = "Terraform"
-      Environment = "Production"
+      Environment = var.environment
     }
   }
 }

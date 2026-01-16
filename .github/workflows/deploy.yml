@@ -1,76 +1,117 @@
 name: Deploy Portfolio
 
 on:
-    push:
-        branches:
-            - main
-    workflow_dispatch:
+  push:
+    branches:
+      - main
+      - staging
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: "Environment to deploy"
+        required: true
+        default: "staging"
+        type: choice
+        options:
+          - staging
+          - prod
 
 permissions:
-    id-token: write # Required for OIDC
-    contents: read
+  id-token: write # Required for OIDC
+  contents: read
 
 jobs:
-    deploy:
-        name: Deploy
-        runs-on: ubuntu-latest
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
 
-        steps:
-            - name: Checkout Code
-              uses: actions/checkout@v4
+    env:
+      # Determine environment based on branch or manual input
+      ENVIRONMENT: ${{ github.event.inputs.environment || (github.ref == 'refs/heads/main' && 'prod' || 'staging') }}
 
-            - name: Setup Node.js
-              uses: actions/setup-node@v4
-              with:
-                  node-version: "20"
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
 
-            - name: Configure AWS Credentials
-              uses: aws-actions/configure-aws-credentials@v4
-              with:
-                  role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
-                  aws-region: us-east-1
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
 
-            - name: Setup Terraform
-              uses: hashicorp/setup-terraform@v3
-              with:
-                  terraform_version: 1.10.0
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+          aws-region: us-east-1
 
-            - name: Terraform Init
-              working-directory: terraform
-              run: terraform init
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.10.0
 
-            - name: Terraform Apply
-              working-directory: terraform
-              run: terraform apply -auto-approve
-              # Note: In a real scenario, we might want to plan first or use a separate job.
+      - name: Terraform Init
+        working-directory: terraform
+        run: terraform init
 
-            - name: Install Frontend Dependencies
-              working-directory: src
-              run: npm ci
+      - name: Select or Create Terraform Workspace
+        working-directory: terraform
+        run: |
+          terraform workspace select ${{ env.ENVIRONMENT }} || terraform workspace new ${{ env.ENVIRONMENT }}
 
-            - name: Build Frontend
-              working-directory: src
-              run: |
-                  API_URL=$(cd ../terraform && terraform output -raw api_endpoint)
-                  echo "Building with API URL: $API_URL"
-                  NEXT_PUBLIC_API_URL=$API_URL \
-                  GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }} \
-                  GITLAB_TOKEN=${{ secrets.GITLAB_TOKEN }} \
-                  NEXT_PUBLIC_GA_ID=${{ vars.NEXT_PUBLIC_GA_ID }} \
-                  NEXT_PUBLIC_SITE_URL=https://www.jeremyspofford.com \
-                  npm run build
+      - name: Terraform Apply
+        working-directory: terraform
+        run: terraform apply -auto-approve -var-file=environments/${{ env.ENVIRONMENT }}.tfvars
 
-            - name: Sync Frontend to S3
-              working-directory: src
-              # Using the output from terraform or hardcoding bucket name if known/stable
-              # For robustness, we can fetch the bucket name from Terraform output
-              run: |
-                  BUCKET_NAME=$(cd ../terraform && terraform output -raw s3_bucket_name)
-                  echo "Deploying to bucket: $BUCKET_NAME"
-                  aws s3 sync out/ s3://$BUCKET_NAME --delete
+      - name: Get Terraform Outputs
+        id: tf_outputs
+        working-directory: terraform
+        run: |
+          echo "api_url=$(terraform output -raw api_endpoint)" >> $GITHUB_OUTPUT
+          echo "bucket_name=$(terraform output -raw s3_bucket_name)" >> $GITHUB_OUTPUT
+          echo "cloudfront_id=$(terraform output -raw cloudfront_distribution_id)" >> $GITHUB_OUTPUT
+          echo "site_url=$(terraform output -raw site_url)" >> $GITHUB_OUTPUT
 
-            - name: Invalidate CloudFront Cache
-              run: |
-                  DIST_ID=$(cd terraform && terraform output -raw cloudfront_distribution_id)
-                  echo "Invalidating distribution: $DIST_ID"
-                  aws cloudfront create-invalidation --distribution-id $DIST_ID --paths "/*"
+      - name: Install Backend Dependencies
+        working-directory: backend
+        run: npm ci
+
+      - name: Install Frontend Dependencies
+        working-directory: src
+        run: npm ci
+
+      - name: Build Frontend
+        working-directory: src
+        env:
+          NEXT_PUBLIC_API_URL: ${{ steps.tf_outputs.outputs.api_url }}
+          NEXT_PUBLIC_SITE_URL: ${{ steps.tf_outputs.outputs.site_url }}
+          # Feature flags: all ON for staging, all OFF for prod
+          NEXT_PUBLIC_SHOW_RESUME_DOWNLOAD: ${{ env.ENVIRONMENT == 'staging' && 'true' || 'false' }}
+          NEXT_PUBLIC_SHOW_CONTRIBUTIONS: ${{ env.ENVIRONMENT == 'staging' && 'true' || 'false' }}
+          NEXT_PUBLIC_ENABLE_AI: ${{ env.ENVIRONMENT == 'staging' && 'true' || 'false' }}
+          NEXT_PUBLIC_ENABLE_CONTACT_FORM: ${{ env.ENVIRONMENT == 'staging' && 'true' || 'false' }}
+          NEXT_PUBLIC_SHOW_PROJECTS: "true"
+          NEXT_PUBLIC_ENVIRONMENT: ${{ env.ENVIRONMENT }}
+          # Only include GA ID for production
+          NEXT_PUBLIC_GA_ID: ${{ env.ENVIRONMENT == 'prod' && vars.NEXT_PUBLIC_GA_ID || '' }}
+          # GitHub tokens for contributions
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITLAB_TOKEN: ${{ secrets.GITLAB_TOKEN }}
+        run: npm run build
+
+      - name: Sync Frontend to S3
+        run: |
+          aws s3 sync src/out/ s3://${{ steps.tf_outputs.outputs.bucket_name }} --delete
+
+      - name: Invalidate CloudFront Cache
+        run: |
+          aws cloudfront create-invalidation \
+            --distribution-id ${{ steps.tf_outputs.outputs.cloudfront_id }} \
+            --paths "/*"
+
+      - name: Deployment Summary
+        run: |
+          echo "## Deployment Complete" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Environment:** ${{ env.ENVIRONMENT }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Site URL:** ${{ steps.tf_outputs.outputs.site_url }}" >> $GITHUB_STEP_SUMMARY
+          echo "**API URL:** ${{ steps.tf_outputs.outputs.api_url }}" >> $GITHUB_STEP_SUMMARY

@@ -1,8 +1,8 @@
 resource "aws_dynamodb_table" "portfolio_content" {
-  name           = "portfolio-content"
-  billing_mode   = "PAY_PER_REQUEST"
-  hash_key       = "PK"
-  range_key      = "SK"
+  name         = "portfolio-content-${var.environment}"
+  billing_mode = "PAY_PER_REQUEST"
+  hash_key     = "PK"
+  range_key    = "SK"
 
   attribute {
     name = "PK"
@@ -15,6 +15,6 @@ resource "aws_dynamodb_table" "portfolio_content" {
   }
 
   tags = {
-    Name = "Portfolio Content"
+    Name = "Portfolio Content (${var.environment})"
   }
 }

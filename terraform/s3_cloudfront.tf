@@ -1,5 +1,5 @@
 resource "aws_s3_bucket" "frontend" {
-  bucket_prefix = "portfolio-frontend-"
+  bucket_prefix = "portfolio-frontend-${var.environment}-"
 }
 
 resource "aws_s3_bucket_public_access_block" "frontend" {
@@ -12,22 +12,22 @@ resource "aws_s3_bucket_public_access_block" "frontend" {
 }
 
 resource "aws_cloudfront_origin_access_control" "default" {
-  name                              = "portfolio-frontend-oac"
-  description                       = "OAC for Portfolio Frontend"
+  name                              = "portfolio-frontend-oac-${var.environment}"
+  description                       = "OAC for Portfolio Frontend (${var.environment})"
   origin_access_control_origin_type = "s3"
   signing_behavior                  = "always"
   signing_protocol                  = "sigv4"
 }
 
 resource "aws_cloudfront_function" "rewrite_uri" {
-  name    = "portfolio-rewrite-uri"
+  name    = "portfolio-rewrite-uri-${var.environment}"
   runtime = "cloudfront-js-2.0"
   publish = true
   code    = <<-EOF
     function handler(event) {
       var request = event.request;
       var uri = request.uri;
-      
+
       // If URI ends with / add index.html
       if (uri.endsWith('/')) {
         request.uri += 'index.html';
@@ -36,7 +36,7 @@ resource "aws_cloudfront_function" "rewrite_uri" {
       else if (!uri.includes('.')) {
         request.uri += '/index.html';
       }
-      
+
       return request;
     }
   EOF
@@ -52,6 +52,9 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
   enabled             = true
   is_ipv6_enabled     = true
   default_root_object = "index.html"
+
+  # Custom domain aliases (only if using custom domain)
+  aliases = var.use_custom_domain ? [var.domain_name] : []
 
   default_cache_behavior {
     allowed_methods  = ["GET", "HEAD", "OPTIONS"]
@@ -84,8 +87,28 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
     }
   }
 
-  viewer_certificate {
-    cloudfront_default_certificate = true
+  # Use ACM certificate if custom domain, otherwise CloudFront default
+  dynamic "viewer_certificate" {
+    for_each = var.use_custom_domain ? [1] : []
+    content {
+      acm_certificate_arn      = aws_acm_certificate.wildcard[0].arn
+      ssl_support_method       = "sni-only"
+      minimum_protocol_version = "TLSv1.2_2021"
+    }
+  }
+
+  dynamic "viewer_certificate" {
+    for_each = var.use_custom_domain ? [] : [1]
+    content {
+      cloudfront_default_certificate = true
+    }
+  }
+
+  # Wait for ACM certificate validation if using custom domain
+  depends_on = [aws_acm_certificate_validation.wildcard]
+
+  tags = {
+    Name = "Portfolio Frontend (${var.environment})"
   }
 }
 
@@ -120,4 +143,8 @@ output "s3_bucket_name" {
 
 output "cloudfront_distribution_id" {
   value = aws_cloudfront_distribution.s3_distribution.id
+}
+
+output "site_url" {
+  value = var.use_custom_domain ? "https://${var.domain_name}" : "https://${aws_cloudfront_distribution.s3_distribution.domain_name}"
 }

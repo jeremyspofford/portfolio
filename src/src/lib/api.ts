@@ -22,14 +22,27 @@ export interface ExperienceContent {
   endDate: string;
   description: string;
   technologies: string[];
-  key_deliverables?: ProjectContent[];
+  key_deliverables?: KeyDeliverable[];
+}
+
+export interface KeyDeliverable {
+  title: string;
+  description: string;
+  technologies: string[];
+  link?: string;
 }
 
 export interface ProjectContent {
   title: string;
   description: string;
   technologies: string[];
+  status: "active" | "completed" | "archived";
+  startDate: string;
+  endDate?: string;
   link?: string;
+  github?: string;
+  featured?: boolean;
+  order?: number;
 }
 
 export interface SkillContent {
@@ -54,14 +67,18 @@ export interface ContentItem<T> {
   content: T;
 }
 
-export async function fetchContent(section: string): Promise<ContentItem<any>[]> {
+export async function fetchContent(
+  section: string
+): Promise<ContentItem<any>[]> {
   if (!API_URL) {
     console.warn("API_URL is not defined");
     return [];
   }
-  
+
   try {
-    const res = await fetch(`${API_URL}/content?section=${section}`, { next: { revalidate: 60 } }); // Add revalidation
+    const res = await fetch(`${API_URL}/content?section=${section}`, {
+      next: { revalidate: 60 },
+    });
     if (!res.ok) throw new Error("Failed to fetch content");
     return res.json();
   } catch (error) {
@@ -70,37 +87,45 @@ export async function fetchContent(section: string): Promise<ContentItem<any>[]>
   }
 }
 
-export async function enhanceContent(jobDescription: string, resumeContent: Record<string, any>) {
-    if (!API_URL) return null;
+export async function enhanceContent(
+  jobDescription: string,
+  resumeContent: Record<string, any>
+) {
+  if (!API_URL) return null;
 
-    try {
-        const res = await fetch(`${API_URL}/enhance`, {
-            method: 'POST',
-            body: JSON.stringify({ jobDescription, resumeContent }),
-            headers: { 'Content-Type': 'application/json' }
-        });
-        if (!res.ok) throw new Error("Failed to enhance content");
-        return res.json();
-    } catch (error) {
-        console.error("Error enhancing content:", error);
-        throw error;
-    }
-}
-export async function chatWithAI(message: string) {
-    if (!API_URL) return null;
-
-    try {
-        const res = await fetch(`${API_URL}/enhance`, {
-            method: 'POST',
-            body: JSON.stringify({ type: 'chat', message }),
-            headers: { 'Content-Type': 'application/json' }
-        });
-        if (!res.ok) throw new Error("Failed to chat with AI");
-        return res.json();
-    } catch (error) {
-        console.error("Error asking AI:", error);
-        throw error;
-    }
+  try {
+    const res = await fetch(`${API_URL}/enhance`, {
+      method: "POST",
+      body: JSON.stringify({ jobDescription, resumeContent }),
+      headers: { "Content-Type": "application/json" },
+    });
+    if (!res.ok) throw new Error("Failed to enhance content");
+    return res.json();
+  } catch (error) {
+    console.error("Error enhancing content:", error);
+    throw error;
+  }
 }
 
+export async function submitContactForm(data: {
+  name: string;
+  email: string;
+  subject?: string;
+  message: string;
+}) {
+  if (!API_URL) throw new Error("API_URL is not defined");
 
+  const res = await fetch(`${API_URL}/contact`, {
+    method: "POST",
+    body: JSON.stringify(data),
+    headers: { "Content-Type": "application/json" },
+  });
+
+  const result = await res.json();
+
+  if (!res.ok) {
+    throw new Error(result.error || "Failed to send message");
+  }
+
+  return result;
+}

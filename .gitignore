@@ -4,6 +4,7 @@
 !CLAUDE.md
 !GEMINI.md
 !AGENTS.md
+.claude/
 
 # Dependencies
 **/node_modules/
@@ -23,6 +24,7 @@ coverage/
 *.tfstate
 *.tfstate.backup
 *.tfvars
+!terraform/environments/*.tfvars
 .terraform.lock.hcl
 
 # Environment Variables

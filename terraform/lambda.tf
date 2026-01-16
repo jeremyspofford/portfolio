@@ -3,12 +3,12 @@ data "archive_file" "backend_package" {
   type        = "zip"
   source_dir  = "${path.module}/../backend"
   output_path = "${path.module}/dist/backend_package.zip"
-  excludes    = ["package-lock.json", ".git", ".gitignore"] # Optional excludes
+  excludes    = ["package-lock.json", ".git", ".gitignore"]
 }
 
 # IAM Role for Lambdas (Shared Base)
 resource "aws_iam_role" "lambda_role" {
-  name = "portfolio_lambda_role"
+  name = "portfolio-lambda-role-${var.environment}"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
@@ -27,7 +27,7 @@ resource "aws_iam_role_policy_attachment" "lambda_basic" {
 
 # Policy for DynamoDB Access
 resource "aws_iam_policy" "dynamo_policy" {
-  name = "portfolio_dynamo_policy"
+  name = "portfolio-dynamo-policy-${var.environment}"
   policy = jsonencode({
     Version = "2012-10-17"
     Statement = [{
@@ -53,7 +53,7 @@ resource "aws_iam_role_policy_attachment" "dynamo_attach" {
 
 # Policy for Bedrock Access (Enhanced Content)
 resource "aws_iam_policy" "bedrock_policy" {
-  name = "portfolio_bedrock_policy"
+  name = "portfolio-bedrock-policy-${var.environment}"
   policy = jsonencode({
     Version = "2012-10-17"
     Statement = [{
@@ -72,11 +72,34 @@ resource "aws_iam_role_policy_attachment" "bedrock_attach" {
   policy_arn = aws_iam_policy.bedrock_policy.arn
 }
 
+# Policy for SES Access (Contact Form) - only if contact email is configured
+resource "aws_iam_policy" "ses_policy" {
+  count = var.contact_email_from != "" ? 1 : 0
+  name  = "portfolio-ses-policy-${var.environment}"
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [{
+      Effect = "Allow"
+      Action = [
+        "ses:SendEmail",
+        "ses:SendRawEmail"
+      ]
+      Resource = "*"
+    }]
+  })
+}
+
+resource "aws_iam_role_policy_attachment" "ses_attach" {
+  count      = var.contact_email_from != "" ? 1 : 0
+  role       = aws_iam_role.lambda_role.name
+  policy_arn = aws_iam_policy.ses_policy[0].arn
+}
+
 # LAMBDA FUNCTIONS
 
 resource "aws_lambda_function" "get_content" {
   filename         = data.archive_file.backend_package.output_path
-  function_name    = "portfolio-get-content"
+  function_name    = "portfolio-get-content-${var.environment}"
   role             = aws_iam_role.lambda_role.arn
   handler          = "handlers/get_content.handler"
   source_code_hash = data.archive_file.backend_package.output_base64sha256
@@ -90,7 +113,7 @@ resource "aws_lambda_function" "get_content" {
 
 resource "aws_lambda_function" "enhance_content" {
   filename         = data.archive_file.backend_package.output_path
-  function_name    = "portfolio-enhance-content"
+  function_name    = "portfolio-enhance-content-${var.environment}"
   role             = aws_iam_role.lambda_role.arn
   handler          = "handlers/enhance_content.handler"
   source_code_hash = data.archive_file.backend_package.output_base64sha256
@@ -105,7 +128,7 @@ resource "aws_lambda_function" "enhance_content" {
 
 resource "aws_lambda_function" "sync_contributions" {
   filename         = data.archive_file.backend_package.output_path
-  function_name    = "portfolio-sync-contributions"
+  function_name    = "portfolio-sync-contributions-${var.environment}"
   role             = aws_iam_role.lambda_role.arn
   handler          = "handlers/sync_contributions.handler"
   source_code_hash = data.archive_file.backend_package.output_base64sha256
@@ -118,4 +141,19 @@ resource "aws_lambda_function" "sync_contributions" {
   }
 }
 
-
+resource "aws_lambda_function" "contact_form" {
+  count            = var.contact_email_from != "" ? 1 : 0
+  filename         = data.archive_file.backend_package.output_path
+  function_name    = "portfolio-contact-form-${var.environment}"
+  role             = aws_iam_role.lambda_role.arn
+  handler          = "handlers/contact_form.handler"
+  source_code_hash = data.archive_file.backend_package.output_base64sha256
+  runtime          = "nodejs18.x"
+  timeout          = 10
+  environment {
+    variables = {
+      CONTACT_FROM_EMAIL = var.contact_email_from
+      CONTACT_TO_EMAIL   = var.contact_email_to
+    }
+  }
+}
