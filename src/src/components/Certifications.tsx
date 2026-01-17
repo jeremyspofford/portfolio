@@ -35,20 +35,20 @@ export function Certifications({ items }: CertificationsProps) {
   if (!sortedItems.length) return null;
 
   return (
-    <section id="certifications" className="py-20 px-4 md:px-8 bg-zinc-50 dark:bg-zinc-900/50">
+    <section id="certifications" className="py-12 md:py-20 px-4 md:px-8 bg-zinc-50 dark:bg-zinc-900/50">
       <div className="max-w-6xl mx-auto">
-        <h2 className="text-3xl md:text-4xl font-bold mb-12 flex items-center gap-3">
-          <BadgeCheck className="w-8 h-8 text-primary" />
+        <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-8 md:mb-12 flex items-center gap-2 sm:gap-3">
+          <BadgeCheck className="w-6 h-6 sm:w-8 sm:h-8 text-primary" />
           Certifications
         </h2>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
           {sortedItems.map((item) => {
             const cert = item.content;
             return (
-              <div 
-                key={item.SK} 
-                className="group relative flex flex-col bg-white dark:bg-zinc-800 rounded-xl p-6 shadow-sm border border-zinc-200 dark:border-zinc-700 hover:shadow-md transition-all duration-300"
+              <div
+                key={item.SK}
+                className="group relative flex flex-col bg-white dark:bg-zinc-800 rounded-xl p-4 sm:p-6 shadow-sm border border-zinc-200 dark:border-zinc-700 hover:shadow-md transition-all duration-300"
               >
                 <div className="flex justify-between items-start mb-4">
                     <div className="p-2 bg-zinc-100 dark:bg-zinc-700/50 rounded-lg">
@@ -105,22 +105,22 @@ export function Certifications({ items }: CertificationsProps) {
 
       {/* Image Modal */}
       {selectedImage && (
-        <div 
-            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-in fade-in duration-200"
+        <div
+            className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/80 backdrop-blur-sm animate-in fade-in duration-200"
             onClick={() => setSelectedImage(null)}
         >
-            <div className="relative max-w-4xl w-full max-h-[90vh] flex flex-col items-center">
-                <button 
+            <div className="relative max-w-[95vw] sm:max-w-4xl w-full max-h-[90vh] flex flex-col items-center">
+                <button
                     onClick={() => setSelectedImage(null)}
-                    className="absolute -top-12 right-0 p-2 text-white hover:text-gray-300 transition-colors"
+                    className="absolute top-2 right-2 sm:-top-10 sm:right-0 p-2 bg-black/50 sm:bg-transparent rounded-full text-white hover:text-gray-300 transition-colors z-10"
                 >
-                    <X className="w-8 h-8" />
+                    <X className="w-6 h-6 sm:w-8 sm:h-8" />
                 </button>
-                <img 
-                    src={selectedImage} 
-                    alt="Certification" 
+                <img
+                    src={selectedImage}
+                    alt="Certification"
                     className="rounded-lg shadow-2xl max-w-full max-h-[85vh] object-contain bg-white"
-                    onClick={(e) => e.stopPropagation()} 
+                    onClick={(e) => e.stopPropagation()}
                 />
             </div>
         </div>
