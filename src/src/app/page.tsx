@@ -3,7 +3,7 @@ import { Hero } from "@/components/Hero";
 import { About } from "@/components/About";
 import { ExperienceTimeline } from "@/components/ExperienceTimeline";
 import { Skills } from "@/components/Skills";
-// import { Projects } from "@/components/Projects"; // Removed in favor of merged timeline
+import { Projects } from "@/components/Projects";
 import { Certifications } from "@/components/Certifications";
 import { Contact } from "@/components/Contact";
 import ChatInterface from "@/components/ChatInterface";
@@ -17,11 +17,12 @@ import { config } from "@/config";
 
 export default async function Home() {
   // Fetch data in parallel
-  const [profileData, experienceData, skillsData, certificationsData, contributionsData] = await Promise.all([
+  const [profileData, experienceData, skillsData, certificationsData, projectsData, contributionsData] = await Promise.all([
     fetchContent("PROFILE"),
     fetchContent("EXPERIENCE"),
     fetchContent("SKILL"),
     fetchContent("CERTIFICATION"),
+    fetchContent("PROJECT"),
     config.features.showContributions ? fetchCombinedContributions() : Promise.resolve(null)
   ]);
 
@@ -42,7 +43,8 @@ export default async function Home() {
       <Skills items={skillsData} />
       <Certifications items={certificationsData} />
       <ExperienceTimeline items={experienceData} />
-      
+      <Projects items={projectsData} />
+
       {/* Latest Posts Section */}
       {latestPosts.length > 0 && (
         <section className="w-full max-w-4xl mx-auto p-6 md:p-12">

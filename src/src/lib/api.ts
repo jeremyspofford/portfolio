@@ -37,15 +37,34 @@ export interface SkillContent {
   items: string[];
   icon?: string;
   description?: string;
+  proficiency?: number; // 0-100 percentage
 }
 
 export interface CertificationContent {
   name: string;
   issuer: string;
   date: string;
+  issuedDate?: string;
+  expirationDate?: string;
   active: boolean;
   link?: string;
   imageUrl?: string;
+}
+
+export interface EducationContent {
+  degree: string;
+  institution: string;
+  graduationDate: string;
+  gpa?: string;
+  honors?: string[];
+}
+
+export interface StandaloneProjectContent {
+  title: string;
+  date: string;
+  description: string;
+  technologies: string[];
+  link?: string | null;
 }
 
 export interface ContentItem<T> {

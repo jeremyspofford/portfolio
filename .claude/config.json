@@ -1,0 +1,20 @@
+{
+  "enabledPlugins": {
+    "github@claude-plugins-official": true,
+    "code-review@claude-plugins-official": true,
+    "commit-commands@claude-plugins-official": true,
+    "typescript-lsp@claude-plugins-official": true,
+    "explanatory-output-style@claude-plugins-official": true,
+    "learning-output-style@claude-plugins-official": true,
+    "hookify@claude-plugins-official": true,
+    "ralph-wiggum@claude-plugins-official": true,
+    "n8n-node-configuration": true,
+    "n8n-code-javascript": true,
+    "n8n-code-python": true,
+    "n8n-expression-syntax": true,
+    "n8n-validation-expert": true,
+    "n8n-workflow-patterns": true,
+    "n8n-mcp-tools-expert": true
+  },
+  "customInstructions": "file://./CLAUDE.md"
+}

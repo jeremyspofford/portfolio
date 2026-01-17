@@ -10,16 +10,19 @@ export default function ResumePage() {
   const [isEnhancing, setIsEnhancing] = useState(false);
   const [profile, setProfile] = useState<any>(null);
   const [experience, setExperience] = useState<any[]>([]);
+  const [education, setEducation] = useState<any[]>([]);
   const [aiAnalysis, setAiAnalysis] = useState<any>(null);
 
   useEffect(() => {
     async function loadData() {
-        const [pData, eData] = await Promise.all([
+        const [pData, eData, eduData] = await Promise.all([
             fetchContent("PROFILE"),
-            fetchContent("EXPERIENCE")
+            fetchContent("EXPERIENCE"),
+            fetchContent("EDUCATION")
         ]);
         setProfile(pData.find((item: any) => item.SK === "MAIN")?.content);
         setExperience(eData);
+        setEducation(eduData);
     }
     loadData();
   }, []);
@@ -158,6 +161,44 @@ export default function ResumePage() {
                             ))}
                         </div>
                     </section>
+
+                    {/* Education */}
+                    {education.length > 0 && (
+                        <section>
+                            <h3 className="text-sm font-bold uppercase tracking-widest text-zinc-500 dark:text-zinc-400 mb-6 border-b border-zinc-100 dark:border-zinc-800 pb-2">
+                                Education
+                            </h3>
+                            <div className="space-y-4">
+                                {education.map((item: any) => (
+                                    <div key={item.SK}>
+                                        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-baseline mb-2">
+                                            <h4 className="text-lg font-bold text-zinc-900 dark:text-zinc-100">
+                                                {item.content.degree}
+                                            </h4>
+                                            <span className="text-sm font-mono text-zinc-500 shrink-0 bg-zinc-100 dark:bg-zinc-800 px-2 py-1 rounded">
+                                                {item.content.graduationDate}
+                                            </span>
+                                        </div>
+                                        <p className="text-zinc-700 dark:text-zinc-300 mb-1">
+                                            {item.content.institution}
+                                        </p>
+                                        {item.content.gpa && (
+                                            <p className="text-sm text-zinc-600 dark:text-zinc-400">
+                                                GPA: {item.content.gpa}
+                                            </p>
+                                        )}
+                                        {item.content.honors && item.content.honors.length > 0 && (
+                                            <ul className="list-disc list-outside ml-4 mt-2 space-y-1 text-sm text-zinc-600 dark:text-zinc-400">
+                                                {item.content.honors.map((honor: string, idx: number) => (
+                                                    <li key={idx} className="pl-1">{honor}</li>
+                                                ))}
+                                            </ul>
+                                        )}
+                                    </div>
+                                ))}
+                            </div>
+                        </section>
+                    )}
             </div>
             </div>
         </div>

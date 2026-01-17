@@ -1,4 +1,4 @@
-import { BadgeCheck, Terminal, Cloud, Database, Cpu, Globe, Code, Layers } from 'lucide-react';
+import { BadgeCheck, Terminal, Cloud, Database, Cpu, Globe, Code, Layers, Shield, Box, Server } from 'lucide-react';
 import { SkillContent } from '@/lib/api';
 
 interface SkillItem {
@@ -23,11 +23,24 @@ export function Skills({ items }: SkillsProps) {
                         <div className="p-2 bg-primary/10 rounded-lg">
                            {getIcon(skill.content.icon)}
                         </div>
-                        <div>
-                            <h3 className="text-lg font-semibold">{skill.content.category}</h3>
+                        <div className="flex-1">
+                            <div className="flex items-center justify-between mb-1">
+                                <h3 className="text-lg font-semibold">{skill.content.category}</h3>
+                                {skill.content.proficiency && (
+                                    <span className="text-sm font-medium text-primary">{skill.content.proficiency}%</span>
+                                )}
+                            </div>
+                            {skill.content.proficiency && (
+                                <div className="w-full bg-secondary rounded-full h-2 overflow-hidden">
+                                    <div
+                                        className="h-full bg-primary rounded-full transition-all duration-300"
+                                        style={{ width: `${skill.content.proficiency}%` }}
+                                    />
+                                </div>
+                            )}
                         </div>
                     </div>
-                    
+
                     {skill.content.description && (
                         <p className="text-sm text-muted-foreground mb-4 leading-relaxed">
                             {skill.content.description}
@@ -57,9 +70,12 @@ function getIcon(name?: string) {
         'cpu': Cpu,
         'globe': Globe,
         'code': Code,
-        'layers': Layers
+        'layers': Layers,
+        'shield': Shield,
+        'box': Box,
+        'server': Server
     };
-    
+
     const Icon = name ? icons[name.toLowerCase()] : BadgeCheck;
     return <Icon className="w-5 h-5 text-primary" />;
 }
