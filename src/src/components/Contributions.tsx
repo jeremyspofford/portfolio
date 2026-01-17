@@ -23,25 +23,25 @@ export function Contributions({ data, total }: ContributionsProps) {
   if (!mounted) return null;
 
   return (
-    <div className="w-full space-y-4">
-      <div className="flex items-center justify-between">
-        <h3 className="text-xl font-bold">Coding Activity</h3>
-        <span className="text-sm text-muted-foreground font-mono">
+    <div className="w-full space-y-3 md:space-y-4">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1">
+        <h3 className="text-lg sm:text-xl font-bold">Coding Activity</h3>
+        <span className="text-xs sm:text-sm text-muted-foreground font-mono">
           {total.toLocaleString()} contributions in the last year
         </span>
       </div>
-      
-      <div className="p-6 border rounded-xl bg-card/50 backdrop-blur-sm shadow-sm overflow-x-auto">
-        <div className="min-w-[700px]">
+
+      <div className="p-3 sm:p-6 border rounded-xl bg-card/50 backdrop-blur-sm shadow-sm overflow-x-auto">
+        <div className="min-w-[650px] sm:min-w-0">
            <ActivityCalendar
             data={data}
             theme={{
               light: ['#ebedf0', '#4ade80', '#22c55e', '#16a34a', '#15803d'], // More vibrant greens for light mode
               dark: ['#161b22', '#0e4429', '#006d32', '#26a641', '#39d353'],
             }}
-            blockSize={12}
-            blockMargin={4}
-            fontSize={12}
+            blockSize={10}
+            blockMargin={3}
+            fontSize={11}
             labels={{
                 legend: {
                     less: 'Less',

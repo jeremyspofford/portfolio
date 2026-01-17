@@ -47,9 +47,9 @@ export default function ChatInterface() {
   };
 
   return (
-    <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end print:hidden">
+    <div className="fixed bottom-0 right-0 sm:bottom-6 sm:right-6 z-50 flex flex-col items-end print:hidden">
       {isOpen && (
-        <div className="mb-4 w-[350px] md:w-[400px] h-[500px] bg-slate-900 border border-slate-700 rounded-2xl shadow-2xl flex flex-col overflow-hidden animate-in slide-in-from-bottom-10 fade-in duration-300">
+        <div className="sm:mb-4 w-full sm:w-[350px] md:w-[400px] h-[100dvh] sm:h-[min(500px,80vh)] sm:rounded-2xl bg-slate-900 border-0 sm:border border-slate-700 shadow-2xl flex flex-col overflow-hidden animate-in slide-in-from-bottom-10 fade-in duration-300">
           
           {/* Header */}
           <div className="p-4 bg-slate-800 border-b border-slate-700 flex justify-between items-center">
@@ -140,10 +140,10 @@ export default function ChatInterface() {
       {!isOpen && (
         <button
           onClick={() => setIsOpen(true)}
-          className="group relative flex items-center justify-center w-14 h-14 bg-indigo-600 hover:bg-indigo-500 text-white rounded-full shadow-lg hover:shadow-indigo-500/25 transition-all duration-300 hover:scale-110"
+          className="group relative flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 m-4 sm:m-0 bg-indigo-600 hover:bg-indigo-500 text-white rounded-full shadow-lg hover:shadow-indigo-500/25 transition-all duration-300 hover:scale-110"
         >
-          <MessageCircle className="w-7 h-7" />
-          <span className="absolute right-0 top-0 w-3 h-3 bg-emerald-500 rounded-full border-2 border-slate-900 animate-pulse" />
+          <MessageCircle className="w-6 h-6 sm:w-7 sm:h-7" />
+          <span className="absolute right-0 top-0 w-2.5 h-2.5 sm:w-3 sm:h-3 bg-emerald-500 rounded-full border-2 border-slate-900 animate-pulse" />
         </button>
       )}
     </div>

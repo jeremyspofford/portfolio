@@ -53,17 +53,21 @@ export function Navbar() {
       {/* Mobile Nav Overlay */}
       {isOpen && (
         <div className="md:hidden fixed inset-0 top-16 bg-background z-40 animate-in slide-in-from-top-5 fade-in duration-200 p-4 border-t">
-           <div className="flex flex-col space-y-4">
+           <div className="flex flex-col space-y-2">
              {NAV_ITEMS.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              onClick={() => setIsOpen(false)}
-              className="px-4 py-3 text-lg font-medium transition-colors hover:bg-muted rounded-md"
-            >
-              {item.label}
-            </Link>
-          ))}
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  onClick={() => setIsOpen(false)}
+                  className="px-4 py-3 text-lg font-medium transition-colors hover:bg-muted rounded-md"
+                >
+                  {item.label}
+                </Link>
+             ))}
+             <div className="px-4 py-3 flex items-center justify-between border-t mt-2 pt-4">
+               <span className="text-sm text-muted-foreground">Theme</span>
+               <ThemeToggle />
+             </div>
            </div>
         </div>
       )}
