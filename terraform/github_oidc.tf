@@ -1,10 +1,10 @@
-resource "aws_iam_openid_connect_provider" "github" {
-  url            = "https://token.actions.githubusercontent.com"
-  client_id_list = ["sts.amazonaws.com"]
-  thumbprint_list = [
-    "6938fd4d98bab03faadb97b34396831e3780aea1",
-    "1c58a3a8518e8759bf075b76b750d4f2df264fcd"
-  ]
+# Use existing GitHub OIDC provider if it exists, otherwise create one
+data "aws_iam_openid_connect_provider" "github_existing" {
+  url = "https://token.actions.githubusercontent.com"
+}
+
+locals {
+  github_oidc_arn = data.aws_iam_openid_connect_provider.github_existing.arn
 }
 
 resource "aws_iam_role" "github_actions_role" {
@@ -16,7 +16,7 @@ resource "aws_iam_role" "github_actions_role" {
       Action = "sts:AssumeRoleWithWebIdentity"
       Effect = "Allow"
       Principal = {
-        Federated = aws_iam_openid_connect_provider.github.arn
+        Federated = local.github_oidc_arn
       }
       Condition = {
         StringLike = {

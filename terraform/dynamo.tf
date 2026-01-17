@@ -15,6 +15,6 @@ resource "aws_dynamodb_table" "portfolio_content" {
   }
 
   tags = {
-    Name = "Portfolio Content (${var.environment})"
+    Name = "portfolio-content-${var.environment}"
   }
 }

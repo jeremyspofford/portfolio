@@ -13,7 +13,7 @@ resource "aws_s3_bucket_public_access_block" "frontend" {
 
 resource "aws_cloudfront_origin_access_control" "default" {
   name                              = "portfolio-frontend-oac-${var.environment}"
-  description                       = "OAC for Portfolio Frontend (${var.environment})"
+  description                       = "OAC for Portfolio Frontend - ${var.environment}"
   origin_access_control_origin_type = "s3"
   signing_behavior                  = "always"
   signing_protocol                  = "sigv4"
@@ -108,7 +108,7 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
   depends_on = [aws_acm_certificate_validation.wildcard]
 
   tags = {
-    Name = "Portfolio Frontend (${var.environment})"
+    Name = "portfolio-frontend-${var.environment}"
   }
 }
 

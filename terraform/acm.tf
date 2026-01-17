@@ -12,7 +12,7 @@ resource "aws_acm_certificate" "wildcard" {
   }
 
   tags = {
-    Name = "Portfolio Wildcard Certificate (${var.environment})"
+    Name = "portfolio-wildcard-cert-${var.environment}"
   }
 }
 
