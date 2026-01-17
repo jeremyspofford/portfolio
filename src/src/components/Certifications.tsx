@@ -3,7 +3,6 @@
 import { BadgeCheck, Calendar, Eye, X } from "lucide-react";
 import { ContentItem, CertificationContent } from "@/lib/api";
 import { useState } from "react";
-import { createPortal } from "react-dom";
 
 interface CertificationsProps {
   items: ContentItem<CertificationContent>[];

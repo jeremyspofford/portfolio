@@ -6,7 +6,6 @@ import { Skills } from "@/components/Skills";
 import { Projects } from "@/components/Projects";
 import { Certifications } from "@/components/Certifications";
 import { Contact } from "@/components/Contact";
-import ChatInterface from "@/components/ChatInterface";
 import { Contributions } from "@/components/Contributions"; // New
 import { fetchContent } from "@/lib/api";
 import { getAllPosts } from "@/lib/blog";
@@ -75,7 +74,6 @@ export default async function Home() {
       )}
 
       <Contact profile={profile} />
-      <ChatInterface />
     </div>
   );
 }

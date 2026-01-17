@@ -6,10 +6,10 @@ import Link from 'next/link';
 import { cn } from '@/lib/utils';
 import { Typewriter } from "./Typewriter";
 
-import { ContentItem, CertificationContent } from "@/lib/api";
+import { ContentItem, CertificationContent, ProfileContent } from "@/lib/api";
 
 interface HeroProps {
-  profile: any;
+  profile: ProfileContent | undefined;
   certifications: ContentItem<CertificationContent>[];
 }
 

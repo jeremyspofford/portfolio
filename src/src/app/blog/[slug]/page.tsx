@@ -27,11 +27,12 @@ export default async function BlogPost(props: { params: Promise<{ slug: string }
   const mdxOptions = {
     mdxOptions: {
       remarkPlugins: [remarkGfm],
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       rehypePlugins: [
         rehypeHighlight,
         rehypeSlug,
         [rehypeAutolinkHeadings, { behavior: 'wrap' }]
-      ] as any,
+      ] as unknown as Parameters<typeof MDXRemote>[0]['options']['mdxOptions']['rehypePlugins'],
     },
   };
 
