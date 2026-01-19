@@ -2,7 +2,6 @@
 
 import { motion } from 'framer-motion';
 import { Calendar, Building2 } from 'lucide-react';
-import { cn } from '@/lib/utils'; // Ensure utility exists
 
 interface ExperienceContent {
   company: string;

@@ -73,7 +73,7 @@ export interface ContentItem<T> {
   content: T;
 }
 
-export async function fetchContent(section: string): Promise<ContentItem<any>[]> {
+export async function fetchContent(section: string): Promise<ContentItem<unknown>[]> {
   if (!API_URL) {
     console.warn("API_URL is not defined");
     return [];
@@ -89,7 +89,18 @@ export async function fetchContent(section: string): Promise<ContentItem<any>[]>
   }
 }
 
-export async function enhanceContent(jobDescription: string, resumeContent: Record<string, any>) {
+export interface ResumeContent {
+    summary?: string;
+    experience?: ExperienceContent[];
+}
+
+export interface EnhanceResult {
+    analysis: string;
+    suggested_summary: string;
+    key_keywords_found: string[];
+}
+
+export async function enhanceContent(jobDescription: string, resumeContent: ResumeContent): Promise<EnhanceResult | null> {
     if (!API_URL) return null;
 
     try {
@@ -105,21 +116,58 @@ export async function enhanceContent(jobDescription: string, resumeContent: Reco
         throw error;
     }
 }
-export async function chatWithAI(message: string) {
-    if (!API_URL) return null;
+
+// Types for Job Posting Matcher feature
+export interface SkillMatchResult {
+    skill: string;
+    rating: number;
+    description: string;
+}
+
+export interface JobAnalysisResult {
+    skills: SkillMatchResult[];
+    overallScore: number;
+    summary: string;
+}
+
+export interface CandidateSkill {
+    category: string;
+    items: string[];
+    proficiency?: number;
+}
+
+export async function analyzeJobPosting(
+    jobPosting: string,
+    candidateSkills: CandidateSkill[]
+): Promise<JobAnalysisResult> {
+    if (!API_URL) {
+        throw new Error("API_URL is not defined");
+    }
+
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 30000); // 30s timeout
 
     try {
         const res = await fetch(`${API_URL}/enhance`, {
             method: 'POST',
-            body: JSON.stringify({ type: 'chat', message }),
-            headers: { 'Content-Type': 'application/json' }
+            body: JSON.stringify({
+                type: 'job_match',
+                jobPosting,
+                candidateSkills
+            }),
+            headers: { 'Content-Type': 'application/json' },
+            signal: controller.signal
         });
-        if (!res.ok) throw new Error("Failed to chat with AI");
+        clearTimeout(timeoutId);
+
+        if (!res.ok) throw new Error("Failed to analyze job posting");
         return res.json();
     } catch (error) {
-        console.error("Error asking AI:", error);
+        clearTimeout(timeoutId);
+        if (error instanceof Error && error.name === 'AbortError') {
+            throw new Error("Analysis timed out. Please try again.");
+        }
+        console.error("Error analyzing job posting:", error);
         throw error;
     }
 }
-
-

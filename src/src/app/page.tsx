@@ -6,7 +6,6 @@ import { Skills } from "@/components/Skills";
 import { Projects } from "@/components/Projects";
 import { Certifications } from "@/components/Certifications";
 import { Contact } from "@/components/Contact";
-import ChatInterface from "@/components/ChatInterface";
 import { Contributions } from "@/components/Contributions"; // New
 import { fetchContent } from "@/lib/api";
 import { getAllPosts } from "@/lib/blog";
@@ -40,9 +39,13 @@ export default async function Home() {
         )}
       </div>
 
-      <Skills items={skillsData} />
+      <div id="skills" className="scroll-mt-20">
+        <Skills items={skillsData} />
+      </div>
       <Certifications items={certificationsData} />
-      <ExperienceTimeline items={experienceData} />
+      <div id="experience" className="scroll-mt-20">
+        <ExperienceTimeline items={experienceData} />
+      </div>
       <Projects items={projectsData} />
 
       {/* Latest Posts Section */}
@@ -74,8 +77,9 @@ export default async function Home() {
         </section>
       )}
 
-      <Contact profile={profile} />
-      <ChatInterface />
+      <div id="contact" className="scroll-mt-20 w-full">
+        <Contact profile={profile} />
+      </div>
     </div>
   );
 }
