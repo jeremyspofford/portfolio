@@ -72,21 +72,17 @@ export function Navbar() {
               {item.label}
             </Link>
           ))}
-          {/* Section anchor links - only show on homepage */}
-          {pathname === '/' && (
-            <>
-              <span className="text-muted-foreground/30">|</span>
-              {SECTION_LINKS.map((item) => (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
-                >
-                  {item.label}
-                </Link>
-              ))}
-            </>
-          )}
+          {/* Section anchor links - always visible, navigate to homepage sections */}
+          <span className="text-muted-foreground/30">|</span>
+          {SECTION_LINKS.map((item) => (
+            <Link
+              key={item.href}
+              href={item.href}
+              className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
+            >
+              {item.label}
+            </Link>
+          ))}
           <ThemeToggle />
         </div>
 
