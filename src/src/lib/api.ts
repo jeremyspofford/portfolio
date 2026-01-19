@@ -171,3 +171,42 @@ export async function analyzeJobPosting(
         throw error;
     }
 }
+
+export async function analyzeJobPostingFromUrl(
+    jobUrl: string,
+    candidateSkills: CandidateSkill[]
+): Promise<JobAnalysisResult> {
+    if (!API_URL) {
+        throw new Error("API_URL is not defined");
+    }
+
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 60000); // 60s timeout for URL fetching
+
+    try {
+        const res = await fetch(`${API_URL}/enhance`, {
+            method: 'POST',
+            body: JSON.stringify({
+                type: 'job_match_url',
+                jobUrl,
+                candidateSkills
+            }),
+            headers: { 'Content-Type': 'application/json' },
+            signal: controller.signal
+        });
+        clearTimeout(timeoutId);
+
+        if (!res.ok) {
+            const errorData = await res.json().catch(() => ({}));
+            throw new Error(errorData.error || "Failed to analyze job posting from URL");
+        }
+        return res.json();
+    } catch (error) {
+        clearTimeout(timeoutId);
+        if (error instanceof Error && error.name === 'AbortError') {
+            throw new Error("Analysis timed out. The URL may be slow or inaccessible.");
+        }
+        console.error("Error analyzing job posting from URL:", error);
+        throw error;
+    }
+}
