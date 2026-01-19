@@ -59,7 +59,12 @@ export function JobPostingMatcher({ candidateSkills }: JobPostingMatcherProps) {
             value={jobPosting}
             onChange={(e) => setJobPosting(e.target.value)}
             disabled={isAnalyzing}
+            maxLength={10000}
+            aria-describedby="job-posting-hint"
           />
+          <p id="job-posting-hint" className="text-xs text-muted-foreground mt-1">
+            {jobPosting.length.toLocaleString()} / 10,000 characters
+          </p>
         </div>
 
         <button

@@ -39,9 +39,13 @@ export default async function Home() {
         )}
       </div>
 
-      <Skills items={skillsData} />
+      <div id="skills" className="scroll-mt-20">
+        <Skills items={skillsData} />
+      </div>
       <Certifications items={certificationsData} />
-      <ExperienceTimeline items={experienceData} />
+      <div id="experience" className="scroll-mt-20">
+        <ExperienceTimeline items={experienceData} />
+      </div>
       <Projects items={projectsData} />
 
       {/* Latest Posts Section */}
@@ -73,7 +77,9 @@ export default async function Home() {
         </section>
       )}
 
-      <Contact profile={profile} />
+      <div id="contact" className="scroll-mt-20 w-full">
+        <Contact profile={profile} />
+      </div>
     </div>
   );
 }
