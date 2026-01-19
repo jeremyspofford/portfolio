@@ -1,29 +1,39 @@
 'use client';
 
 import { useState } from 'react';
-import { Briefcase, Loader2, Sparkles, AlertCircle } from 'lucide-react';
+import { Briefcase, Loader2, Sparkles, AlertCircle, Link2, FileText } from 'lucide-react';
 import { SkillStarChart, SkillMatch } from './SkillStarChart';
-import { analyzeJobPosting, CandidateSkill, JobAnalysisResult } from '@/lib/api';
+import { analyzeJobPosting, analyzeJobPostingFromUrl, CandidateSkill, JobAnalysisResult } from '@/lib/api';
+
+type InputMode = 'text' | 'url';
 
 interface JobPostingMatcherProps {
   candidateSkills: CandidateSkill[];
 }
 
 export function JobPostingMatcher({ candidateSkills }: JobPostingMatcherProps) {
+  const [inputMode, setInputMode] = useState<InputMode>('text');
   const [jobPosting, setJobPosting] = useState('');
+  const [jobUrl, setJobUrl] = useState('');
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [result, setResult] = useState<JobAnalysisResult | null>(null);
 
   const handleAnalyze = async () => {
-    if (!jobPosting.trim()) return;
+    const hasInput = inputMode === 'text' ? jobPosting.trim() : jobUrl.trim();
+    if (!hasInput) return;
 
     setIsAnalyzing(true);
     setError(null);
     setResult(null);
 
     try {
-      const analysisResult = await analyzeJobPosting(jobPosting, candidateSkills);
+      let analysisResult: JobAnalysisResult;
+      if (inputMode === 'url') {
+        analysisResult = await analyzeJobPostingFromUrl(jobUrl, candidateSkills);
+      } else {
+        analysisResult = await analyzeJobPosting(jobPosting, candidateSkills);
+      }
       setResult(analysisResult);
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Failed to analyze job posting';
@@ -32,6 +42,19 @@ export function JobPostingMatcher({ candidateSkills }: JobPostingMatcherProps) {
       setIsAnalyzing(false);
     }
   };
+
+  const isValidUrl = (url: string) => {
+    try {
+      new URL(url);
+      return true;
+    } catch {
+      return false;
+    }
+  };
+
+  const canAnalyze = inputMode === 'text'
+    ? jobPosting.trim().length > 0
+    : jobUrl.trim().length > 0 && isValidUrl(jobUrl);
 
   // Convert JobAnalysisResult skills to SkillMatch format for the chart
   const skillMatches: SkillMatch[] = result?.skills ?? [];
@@ -43,33 +66,87 @@ export function JobPostingMatcher({ candidateSkills }: JobPostingMatcherProps) {
         Job Fit Analyzer
       </h3>
       <p className="text-sm text-muted-foreground mb-4">
-        Paste a job posting to see how well this candidate matches the requirements.
+        Paste a job posting or provide a URL to see how well this candidate matches the requirements.
       </p>
 
       <div className="space-y-4">
-        <div>
-          <label htmlFor="job-posting" className="sr-only">
-            Job Posting
-          </label>
-          <textarea
-            id="job-posting"
-            aria-label="Job Posting"
-            className="w-full h-48 p-3 text-sm border rounded-lg bg-background resize-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all font-mono"
-            placeholder="Paste a job posting here to analyze skill match..."
-            value={jobPosting}
-            onChange={(e) => setJobPosting(e.target.value)}
-            disabled={isAnalyzing}
-            maxLength={10000}
-            aria-describedby="job-posting-hint"
-          />
-          <p id="job-posting-hint" className="text-xs text-muted-foreground mt-1">
-            {jobPosting.length.toLocaleString()} / 10,000 characters
-          </p>
+        {/* Input Mode Toggle */}
+        <div className="flex rounded-lg border bg-muted/50 p-1">
+          <button
+            type="button"
+            onClick={() => setInputMode('text')}
+            className={`flex-1 flex items-center justify-center gap-2 px-3 py-2 text-sm font-medium rounded-md transition-all ${
+              inputMode === 'text'
+                ? 'bg-background text-foreground shadow-sm'
+                : 'text-muted-foreground hover:text-foreground'
+            }`}
+          >
+            <FileText className="w-4 h-4" />
+            Paste Text
+          </button>
+          <button
+            type="button"
+            onClick={() => setInputMode('url')}
+            className={`flex-1 flex items-center justify-center gap-2 px-3 py-2 text-sm font-medium rounded-md transition-all ${
+              inputMode === 'url'
+                ? 'bg-background text-foreground shadow-sm'
+                : 'text-muted-foreground hover:text-foreground'
+            }`}
+          >
+            <Link2 className="w-4 h-4" />
+            From URL
+          </button>
         </div>
+
+        {/* Text Input */}
+        {inputMode === 'text' && (
+          <div>
+            <label htmlFor="job-posting" className="sr-only">
+              Job Posting
+            </label>
+            <textarea
+              id="job-posting"
+              aria-label="Job Posting"
+              className="w-full h-48 p-3 text-sm border rounded-lg bg-background resize-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all font-mono"
+              placeholder="Paste a job posting here to analyze skill match..."
+              value={jobPosting}
+              onChange={(e) => setJobPosting(e.target.value)}
+              disabled={isAnalyzing}
+              maxLength={10000}
+              aria-describedby="job-posting-hint"
+            />
+            <p id="job-posting-hint" className="text-xs text-muted-foreground mt-1">
+              {jobPosting.length.toLocaleString()} / 10,000 characters
+            </p>
+          </div>
+        )}
+
+        {/* URL Input */}
+        {inputMode === 'url' && (
+          <div>
+            <label htmlFor="job-url" className="sr-only">
+              Job Posting URL
+            </label>
+            <input
+              id="job-url"
+              type="url"
+              aria-label="Job Posting URL"
+              className="w-full p-3 text-sm border rounded-lg bg-background focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all"
+              placeholder="https://linkedin.com/jobs/... or any job posting URL"
+              value={jobUrl}
+              onChange={(e) => setJobUrl(e.target.value)}
+              disabled={isAnalyzing}
+              aria-describedby="job-url-hint"
+            />
+            <p id="job-url-hint" className="text-xs text-muted-foreground mt-2">
+              Enter a URL to any job posting. The AI will fetch and analyze the content.
+            </p>
+          </div>
+        )}
 
         <button
           onClick={handleAnalyze}
-          disabled={!jobPosting.trim() || isAnalyzing}
+          disabled={!canAnalyze || isAnalyzing}
           className="w-full flex items-center justify-center gap-2 px-4 py-3 text-sm font-semibold bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-lg shadow-md hover:shadow-lg hover:opacity-95 transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:shadow-none"
         >
           {isAnalyzing ? (
