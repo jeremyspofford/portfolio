@@ -160,7 +160,10 @@ export async function analyzeJobPosting(
         });
         clearTimeout(timeoutId);
 
-        if (!res.ok) throw new Error("Failed to analyze job posting");
+        if (!res.ok) {
+            const errorData = await res.json().catch(() => ({}));
+            throw new Error(errorData.error || "Failed to analyze job posting");
+        }
         return res.json();
     } catch (error) {
         clearTimeout(timeoutId);
