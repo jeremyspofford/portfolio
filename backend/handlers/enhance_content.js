@@ -104,11 +104,23 @@ function extractTextFromHtml(html) {
 }
 
 exports.handler = async (event) => {
-  console.log("Handler invoked", JSON.stringify(event));
+  const requestId = event.requestContext?.requestId || 'unknown';
+  console.log(`[${requestId}] Handler invoked`, JSON.stringify({
+    path: event.path,
+    httpMethod: event.httpMethod,
+    bodyLength: event.body?.length || 0
+  }));
 
   try {
     const body = JSON.parse(event.body);
     const mode = body.type || 'enhance'; // 'job_match', 'job_match_url', 'enhance', or legacy 'chat'
+
+    console.log(`[${requestId}] Request mode: ${mode}`, JSON.stringify({
+      hasJobPosting: !!body.jobPosting,
+      hasJobUrl: !!body.jobUrl,
+      candidateSkillsCount: body.candidateSkills?.length || 0,
+      jobPostingLength: body.jobPosting?.length || 0
+    }));
 
     let systemPrompt = "";
     let userMessage = "";
@@ -251,11 +263,35 @@ Analyze the match and return the JSON response.`;
       }),
     };
 
+    console.log(`[${requestId}] Invoking Bedrock model: ${modelId}`);
     const command = new InvokeModelCommand(input);
-    const response = await client.send(command);
-    
+
+    let response;
+    try {
+      response = await client.send(command);
+      console.log(`[${requestId}] Bedrock response received`);
+    } catch (bedrockError) {
+      console.error(`[${requestId}] Bedrock invocation failed:`, JSON.stringify({
+        errorName: bedrockError.name,
+        errorMessage: bedrockError.message,
+        errorCode: bedrockError.$metadata?.httpStatusCode
+      }));
+
+      // Provide user-friendly error messages for common Bedrock errors
+      if (bedrockError.name === 'AccessDeniedException') {
+        throw new Error('AI model access denied. The Claude model may not be enabled in AWS Bedrock. Please enable model access in the AWS Bedrock console.');
+      } else if (bedrockError.name === 'ThrottlingException') {
+        throw new Error('AI service is busy. Please try again in a moment.');
+      } else if (bedrockError.name === 'ModelTimeoutException') {
+        throw new Error('AI analysis timed out. Please try with a shorter job posting.');
+      } else {
+        throw new Error(`AI service error: ${bedrockError.message}`);
+      }
+    }
+
     const responseBody = JSON.parse(new TextDecoder().decode(response.body));
     const aiContent = responseBody.content[0].text;
+    console.log(`[${requestId}] AI response length: ${aiContent.length}`);
 
     // For enhance and job_match modes, we expect JSON. For chat, just text.
     let finalBody = aiContent;
@@ -289,10 +325,20 @@ Analyze the match and return the JSON response.`;
     };
 
   } catch (error) {
-    console.error("AI Error:", error);
+    console.error(`[${requestId}] Handler error:`, JSON.stringify({
+      errorName: error.name,
+      errorMessage: error.message,
+      errorStack: error.stack?.split('\n').slice(0, 3).join(' ')
+    }));
+
     return {
       statusCode: 500,
-      headers: { "Access-Control-Allow-Origin": "*" },
+      headers: {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "POST, OPTIONS",
+        "Access-Control-Allow-Headers": "Content-Type"
+      },
       body: JSON.stringify({ error: error.message })
     };
   }

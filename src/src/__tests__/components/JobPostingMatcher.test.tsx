@@ -7,6 +7,7 @@ import * as api from '@/lib/api';
 // Mock the API
 vi.mock('@/lib/api', () => ({
   analyzeJobPosting: vi.fn(),
+  analyzeJobPostingFromUrl: vi.fn(),
 }));
 
 describe('JobPostingMatcher', () => {
@@ -120,7 +121,8 @@ describe('JobPostingMatcher', () => {
       expect(screen.getByRole('alert')).toBeInTheDocument();
     });
 
-    expect(screen.getByText(/failed to analyze/i)).toBeInTheDocument();
+    // Should display the actual error message from the API
+    expect(screen.getByText('API Error')).toBeInTheDocument();
   });
 
   it('clears previous results when new analysis starts', async () => {
@@ -193,6 +195,148 @@ describe('JobPostingMatcher', () => {
         'Job posting text',
         mockCandidateSkills
       );
+    });
+  });
+
+  // URL Mode Tests
+  describe('URL Input Mode', () => {
+    it('renders toggle buttons for text and URL modes', () => {
+      render(<JobPostingMatcher candidateSkills={mockCandidateSkills} />);
+      expect(screen.getByRole('button', { name: /paste text/i })).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: /from url/i })).toBeInTheDocument();
+    });
+
+    it('switches to URL input when URL mode is selected', async () => {
+      const user = userEvent.setup();
+      render(<JobPostingMatcher candidateSkills={mockCandidateSkills} />);
+
+      const urlModeButton = screen.getByRole('button', { name: /from url/i });
+      await user.click(urlModeButton);
+
+      expect(screen.getByPlaceholderText(/linkedin.com\/jobs/i)).toBeInTheDocument();
+      expect(screen.queryByPlaceholderText(/paste a job posting/i)).not.toBeInTheDocument();
+    });
+
+    it('disables analyze button for invalid URLs', async () => {
+      const user = userEvent.setup();
+      render(<JobPostingMatcher candidateSkills={mockCandidateSkills} />);
+
+      const urlModeButton = screen.getByRole('button', { name: /from url/i });
+      await user.click(urlModeButton);
+
+      const urlInput = screen.getByPlaceholderText(/linkedin.com\/jobs/i);
+      await user.type(urlInput, 'not-a-valid-url');
+
+      const analyzeButton = screen.getByRole('button', { name: /analyze match/i });
+      expect(analyzeButton).toBeDisabled();
+    });
+
+    it('enables analyze button for valid URLs', async () => {
+      const user = userEvent.setup();
+      render(<JobPostingMatcher candidateSkills={mockCandidateSkills} />);
+
+      const urlModeButton = screen.getByRole('button', { name: /from url/i });
+      await user.click(urlModeButton);
+
+      const urlInput = screen.getByPlaceholderText(/linkedin.com\/jobs/i);
+      await user.type(urlInput, 'https://linkedin.com/jobs/12345');
+
+      const analyzeButton = screen.getByRole('button', { name: /analyze match/i });
+      expect(analyzeButton).not.toBeDisabled();
+    });
+
+    it('calls analyzeJobPostingFromUrl when in URL mode', async () => {
+      const user = userEvent.setup();
+
+      vi.mocked(api.analyzeJobPostingFromUrl).mockResolvedValue({
+        skills: [{ skill: 'AWS', rating: 5, description: 'Great match' }],
+        overallScore: 85,
+        summary: 'Good fit for the role'
+      });
+
+      render(<JobPostingMatcher candidateSkills={mockCandidateSkills} />);
+
+      const urlModeButton = screen.getByRole('button', { name: /from url/i });
+      await user.click(urlModeButton);
+
+      const urlInput = screen.getByPlaceholderText(/linkedin.com\/jobs/i);
+      await user.type(urlInput, 'https://linkedin.com/jobs/12345');
+
+      const analyzeButton = screen.getByRole('button', { name: /analyze match/i });
+      await user.click(analyzeButton);
+
+      await waitFor(() => {
+        expect(api.analyzeJobPostingFromUrl).toHaveBeenCalledWith(
+          'https://linkedin.com/jobs/12345',
+          mockCandidateSkills
+        );
+      });
+    });
+  });
+
+  // Error Message Display Tests
+  describe('Error Message Display', () => {
+    it('displays specific error message from API', async () => {
+      const user = userEvent.setup();
+
+      const specificError = 'Bedrock model access denied. Please enable Claude in AWS console.';
+      vi.mocked(api.analyzeJobPosting).mockRejectedValue(new Error(specificError));
+
+      render(<JobPostingMatcher candidateSkills={mockCandidateSkills} />);
+
+      const textarea = screen.getByPlaceholderText(/paste a job posting/i);
+      await user.type(textarea, 'Some job posting');
+
+      const button = screen.getByRole('button', { name: /analyze match/i });
+      await user.click(button);
+
+      await waitFor(() => {
+        expect(screen.getByRole('alert')).toBeInTheDocument();
+      });
+
+      // Should display the specific error message, not a generic one
+      expect(screen.getByText(specificError)).toBeInTheDocument();
+    });
+
+    it('displays timeout error message', async () => {
+      const user = userEvent.setup();
+
+      const timeoutError = 'Analysis timed out. Please try again.';
+      vi.mocked(api.analyzeJobPosting).mockRejectedValue(new Error(timeoutError));
+
+      render(<JobPostingMatcher candidateSkills={mockCandidateSkills} />);
+
+      const textarea = screen.getByPlaceholderText(/paste a job posting/i);
+      await user.type(textarea, 'Some job posting');
+
+      const button = screen.getByRole('button', { name: /analyze match/i });
+      await user.click(button);
+
+      await waitFor(() => {
+        expect(screen.getByText(timeoutError)).toBeInTheDocument();
+      });
+    });
+
+    it('displays URL-specific error when URL fetch fails', async () => {
+      const user = userEvent.setup();
+
+      const urlError = 'Could not extract sufficient content from the URL. The page may require JavaScript or authentication.';
+      vi.mocked(api.analyzeJobPostingFromUrl).mockRejectedValue(new Error(urlError));
+
+      render(<JobPostingMatcher candidateSkills={mockCandidateSkills} />);
+
+      const urlModeButton = screen.getByRole('button', { name: /from url/i });
+      await user.click(urlModeButton);
+
+      const urlInput = screen.getByPlaceholderText(/linkedin.com\/jobs/i);
+      await user.type(urlInput, 'https://example.com/job');
+
+      const analyzeButton = screen.getByRole('button', { name: /analyze match/i });
+      await user.click(analyzeButton);
+
+      await waitFor(() => {
+        expect(screen.getByText(urlError)).toBeInTheDocument();
+      });
     });
   });
 });
