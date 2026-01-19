@@ -1,6 +1,7 @@
 'use client';
 
 import { Brain, Sparkles, Rocket, ExternalLink, Github } from 'lucide-react';
+import { useFeatureFlag } from '@/lib/featureFlags';
 
 interface AIProject {
   title: string;
@@ -44,6 +45,13 @@ const statusConfig = {
 };
 
 export function AIShowcase({ projects = defaultProjects }: AIShowcaseProps) {
+  const showAIShowcase = useFeatureFlag('showAIShowcase');
+
+  // Feature flag controls visibility
+  if (!showAIShowcase) {
+    return null;
+  }
+
   return (
     <section className="w-full py-12 md:py-20 px-4 bg-gradient-to-b from-violet-50/50 to-background dark:from-violet-950/20 dark:to-background">
       <div className="max-w-6xl mx-auto">
