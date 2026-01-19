@@ -6,10 +6,18 @@ import { Skills } from "@/components/Skills";
 import { Projects } from "@/components/Projects";
 import { Certifications } from "@/components/Certifications";
 import { Contact } from "@/components/Contact";
-import { Contributions } from "@/components/Contributions"; // New
-import { fetchContent } from "@/lib/api";
+import { Contributions } from "@/components/Contributions";
+import {
+  fetchContent,
+  ProfileContent,
+  ExperienceContent,
+  SkillContent,
+  CertificationContent,
+  StandaloneProjectContent,
+  ContentItem
+} from "@/lib/api";
 import { getAllPosts } from "@/lib/blog";
-import { fetchCombinedContributions } from "@/lib/contributions"; // Updated
+import { fetchCombinedContributions } from "@/lib/contributions";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { config } from "@/config";
@@ -25,28 +33,33 @@ export default async function Home() {
     config.features.showContributions ? fetchCombinedContributions() : Promise.resolve(null)
   ]);
 
-  const profile = profileData.find((item) => item.SK === "MAIN")?.content;
+  // Cast to proper types
+  const profile = profileData.find((item) => item.SK === "MAIN")?.content as ProfileContent | undefined;
+  const experience = experienceData as ContentItem<ExperienceContent>[];
+  const skills = skillsData as ContentItem<SkillContent>[];
+  const certifications = certificationsData as ContentItem<CertificationContent>[];
+  const projects = projectsData as ContentItem<StandaloneProjectContent>[];
   const latestPosts = getAllPosts().slice(0, 2);
 
   return (
     <div className="flex flex-col w-full">
-      <Hero profile={profile} certifications={certificationsData} />
-      
+      <Hero profile={profile} certifications={certifications} />
+
       <div className="container max-w-4xl mx-auto px-6 md:px-12 space-y-12">
-        <About bio={profile?.bio} />
+        <About bio={profile?.bio ?? ''} />
         {config.features.showContributions && contributionsData && (
            <Contributions data={contributionsData.contributions} total={contributionsData.total} />
         )}
       </div>
 
       <div id="skills" className="scroll-mt-20">
-        <Skills items={skillsData} />
+        <Skills items={skills} />
       </div>
-      <Certifications items={certificationsData} />
+      <Certifications items={certifications} />
       <div id="experience" className="scroll-mt-20">
-        <ExperienceTimeline items={experienceData} />
+        <ExperienceTimeline items={experience} />
       </div>
-      <Projects items={projectsData} />
+      <Projects items={projects} />
 
       {/* Latest Posts Section */}
       {latestPosts.length > 0 && (
