@@ -1,4 +1,5 @@
 import { BadgeCheck, Terminal, Cloud, Database, Cpu, Globe, Code, Layers, Shield, Box, Server } from 'lucide-react';
+import type { LucideIcon } from 'lucide-react';
 import { SkillContent } from '@/lib/api';
 
 interface SkillItem {
@@ -63,7 +64,7 @@ export function Skills({ items }: SkillsProps) {
 }
 
 function getIcon(name?: string) {
-    const icons: Record<string, any> = {
+    const icons: Record<string, LucideIcon> = {
         'cloud': Cloud,
         'terminal': Terminal,
         'database': Database,
@@ -76,6 +77,6 @@ function getIcon(name?: string) {
         'server': Server
     };
 
-    const Icon = name ? icons[name.toLowerCase()] : BadgeCheck;
+    const Icon = name ? icons[name.toLowerCase()] || BadgeCheck : BadgeCheck;
     return <Icon className="w-5 h-5 text-primary" />;
 }

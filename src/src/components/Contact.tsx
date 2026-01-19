@@ -9,11 +9,11 @@ export function Contact({ profile }: ContactProps) {
   if (!profile) return null;
 
   return (
-    <section id="contact" className="py-12 md:py-20 px-4 md:px-8 bg-white dark:bg-zinc-900 border-t border-zinc-100 dark:border-zinc-800">
+    <section className="py-12 md:py-20 px-4 md:px-8 bg-white dark:bg-zinc-900 border-t border-zinc-100 dark:border-zinc-800">
       <div className="max-w-4xl mx-auto text-center">
         <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 md:mb-6">Get In Touch</h2>
         <p className="text-base sm:text-lg text-zinc-600 dark:text-zinc-400 mb-8 md:mb-12 max-w-2xl mx-auto">
-          I'm always open to discussing new opportunities, interesting projects, or just chatting about DevOps and Cloud architecture.
+          I&apos;m always open to discussing new opportunities, interesting projects, or just chatting about DevOps and Cloud architecture.
         </p>
 
         <div className="flex flex-col md:flex-row justify-center gap-4 md:gap-8 mb-8 md:mb-12">
@@ -42,9 +42,9 @@ export function Contact({ profile }: ContactProps) {
 
         <div className="flex justify-center gap-4 sm:gap-6">
             {profile.socials.github && (
-                <a 
-                    href={profile.socials.github} 
-                    target="_blank" 
+                <a
+                    href={profile.socials.github}
+                    target="_blank"
                     rel="noopener noreferrer"
                     className="p-3 bg-zinc-100 dark:bg-zinc-800 rounded-full hover:bg-zinc-200 dark:hover:bg-zinc-700 transition-colors"
                 >
@@ -52,9 +52,9 @@ export function Contact({ profile }: ContactProps) {
                 </a>
             )}
             {profile.socials.linkedin && (
-                <a 
-                    href={profile.socials.linkedin} 
-                    target="_blank" 
+                <a
+                    href={profile.socials.linkedin}
+                    target="_blank"
                     rel="noopener noreferrer"
                     className="p-3 bg-zinc-100 dark:bg-zinc-800 rounded-full hover:bg-zinc-200 dark:hover:bg-zinc-700 transition-colors"
                 >
@@ -62,9 +62,9 @@ export function Contact({ profile }: ContactProps) {
                 </a>
             )}
              {profile.socials.twitter && (
-                 <a 
-                    href={profile.socials.twitter} 
-                    target="_blank" 
+                 <a
+                    href={profile.socials.twitter}
+                    target="_blank"
                     rel="noopener noreferrer"
                     className="p-3 bg-zinc-100 dark:bg-zinc-800 rounded-full hover:bg-zinc-200 dark:hover:bg-zinc-700 transition-colors"
                 >
@@ -72,7 +72,7 @@ export function Contact({ profile }: ContactProps) {
                 </a>
             )}
         </div>
-        
+
         <div className="mt-10 sm:mt-16 pt-6 sm:pt-8 border-t border-zinc-100 dark:border-zinc-800 text-xs sm:text-sm text-zinc-500">
             © {new Date().getFullYear()} {profile.name}. All rights reserved. Built with Next.js, Tailwind, and AWS.
         </div>
