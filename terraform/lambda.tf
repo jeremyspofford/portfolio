@@ -118,4 +118,20 @@ resource "aws_lambda_function" "sync_contributions" {
   }
 }
 
+resource "aws_lambda_function" "get_feature_flags" {
+  filename         = data.archive_file.backend_package.output_path
+  function_name    = "portfolio-get-feature-flags"
+  role             = aws_iam_role.lambda_role.arn
+  handler          = "handlers/get_feature_flags.handler"
+  source_code_hash = data.archive_file.backend_package.output_base64sha256
+  runtime          = "nodejs18.x"
+  timeout          = 10
+  environment {
+    variables = {
+      APPCONFIG_APP_ID     = aws_appconfig_application.portfolio.id
+      APPCONFIG_PROFILE_ID = aws_appconfig_configuration_profile.feature_flags.configuration_profile_id
+    }
+  }
+}
+
 
