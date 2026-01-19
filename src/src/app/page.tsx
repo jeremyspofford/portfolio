@@ -76,7 +76,7 @@ export default async function Home() {
           </div>
           <div className="grid md:grid-cols-2 gap-6">
             {latestPosts.map((post) => (
-              <Link 
+              <Link
                 key={post.slug}
                 href={`/blog/${post.slug}`}
                 className="group p-6 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 border-2 border-slate-200 dark:border-slate-600 hover:border-indigo-500 dark:hover:border-indigo-400 rounded-2xl transition-all shadow-sm hover:shadow-lg"
