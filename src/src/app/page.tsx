@@ -1,6 +1,7 @@
 
 import { Hero } from "@/components/Hero";
 import { About } from "@/components/About";
+import { AIShowcase } from "@/components/AIShowcase";
 import { ExperienceTimeline } from "@/components/ExperienceTimeline";
 import { Skills } from "@/components/Skills";
 import { Projects } from "@/components/Projects";
@@ -51,6 +52,9 @@ export default async function Home() {
            <Contributions data={contributionsData.contributions} total={contributionsData.total} />
         )}
       </div>
+
+      {/* AI Engineering Journey Section */}
+      <AIShowcase />
 
       <div id="skills" className="scroll-mt-20">
         <Skills items={skills} />

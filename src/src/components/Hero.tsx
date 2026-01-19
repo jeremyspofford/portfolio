@@ -78,9 +78,20 @@ export function Hero({ profile, certifications }: HeroProps) {
                 <span className="sm:hidden">{profile.titles?.[0]}</span>
             </div>
 
-            <p className="mx-auto max-w-[700px] text-sm sm:text-base text-gray-500 md:text-lg dark:text-gray-400 italic">
+            <p className="mx-auto max-w-[700px] text-sm sm:text-base text-gray-500 md:text-lg dark:text-gray-400">
               {profile.bio}
             </p>
+
+            {/* Career Direction / AI Roadmap */}
+            <div className="mt-4 sm:mt-6 px-4 py-3 bg-gradient-to-r from-violet-500/10 to-indigo-500/10 dark:from-violet-500/20 dark:to-indigo-500/20 border border-violet-200 dark:border-violet-800/50 rounded-lg max-w-lg mx-auto">
+              <div className="flex items-center justify-center gap-2 text-xs sm:text-sm font-medium">
+                <span className="text-violet-600 dark:text-violet-400">Career Direction:</span>
+                <span className="text-gray-700 dark:text-gray-300">Senior Platform AI Engineer</span>
+              </div>
+              <p className="text-[10px] sm:text-xs text-gray-500 dark:text-gray-400 mt-1 text-center">
+                Bridging DevOps expertise with AI/ML infrastructure
+              </p>
+            </div>
 
             {/* Active Certifications Chips */}
             {activeCerts.length > 0 && (
