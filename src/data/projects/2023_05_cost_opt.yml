@@ -1,0 +1,12 @@
+PK: PROJECT
+SK: 2023-05-COST-OPT
+content:
+  title: Cloud Cost Optimization Initiative
+  date: May 2023
+  description: Led optimization initiative resulting in 30% reduction in monthly infrastructure expenses across all cloud environments.
+  technologies:
+    - GCP
+    - Terraform
+    - Cost Management
+    - FinOps
+  link: null

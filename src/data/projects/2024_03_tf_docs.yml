@@ -1,0 +1,12 @@
+PK: PROJECT
+SK: 2024-03-TERRAFORM-DOCS
+content:
+  title: Terraform Documentation Automation
+  date: Mar 2024
+  description: Implemented comprehensive automation generating standardized README files, usage examples, and configuration templates with automatic updates for Terraform modules.
+  technologies:
+    - Terraform
+    - terraform-docs
+    - Python
+    - GitLab CI
+  link: null

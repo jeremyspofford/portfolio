@@ -1,0 +1,784 @@
+{
+  "summary": {
+    "iterations": 40,
+    "successful": 40,
+    "failed": 0,
+    "errors": 0,
+    "checkpoints": 1,
+    "rollbacks": 0
+  },
+  "iterations": [
+    {
+      "iteration": 1,
+      "duration": 7.2977516651153564,
+      "success": true,
+      "error": "",
+      "timestamp": "2026-01-13T12:56:06.627246",
+      "trigger_reason": "initial",
+      "output_preview": "",
+      "tokens_used": 0,
+      "cost": 0.0,
+      "tools_used": []
+    },
+    {
+      "iteration": 2,
+      "duration": 0.0033409595489501953,
+      "success": true,
+      "error": "",
+      "timestamp": "2026-01-13T12:56:08.633260",
+      "trigger_reason": "task_incomplete",
+      "output_preview": "",
+      "tokens_used": 0,
+      "cost": 0.0,
+      "tools_used": []
+    },
+    {
+      "iteration": 3,
+      "duration": 0.0020220279693603516,
+      "success": true,
+      "error": "",
+      "timestamp": "2026-01-13T12:56:10.637979",
+      "trigger_reason": "task_incomplete",
+      "output_preview": "",
+      "tokens_used": 0,
+      "cost": 0.0,
+      "tools_used": []
+    },
+    {
+      "iteration": 4,
+      "duration": 0.005129814147949219,
+      "success": true,
+      "error": "",
+      "timestamp": "2026-01-13T12:56:12.645679",
+      "trigger_reason": "task_incomplete",
+      "output_preview": "",
+      "tokens_used": 0,
+      "cost": 0.0,
+      "tools_used": []
+    },
+    {
+      "iteration": 5,
+      "duration": 0.22672796249389648,
+      "success": true,
+      "error": "",
+      "timestamp": "2026-01-13T12:56:14.874806",
+      "trigger_reason": "task_incomplete",
+      "output_preview": "",
+      "tokens_used": 0,
+      "cost": 0.0,
+      "tools_used": []
+    },
+    {
+      "iteration": 6,
+      "duration": 0.001302957534790039,
+      "success": true,
+      "error": "",
+      "timestamp": "2026-01-13T12:56:16.876893",
+      "trigger_reason": "task_incomplete",
+      "output_preview": "",
+      "tokens_used": 0,
+      "cost": 0.0,
+      "tools_used": []
+    },
+    {
+      "iteration": 7,
+      "duration": 0.003936052322387695,
+      "success": true,
+      "error": "",
+      "timestamp": "2026-01-13T12:56:18.882456",
+      "trigger_reason": "task_incomplete",
+      "output_preview": "",
+      "tokens_used": 0,
+      "cost": 0.0,
+      "tools_used": []
+    },
+    {
+      "iteration": 8,
+      "duration": 0.008787870407104492,
+      "success": true,
+      "error": "",
+      "timestamp": "2026-01-13T12:56:20.894770",
+      "trigger_reason": "task_incomplete",
+      "output_preview": "",
+      "tokens_used": 0,
+      "cost": 0.0,
+      "tools_used": []
+    },
+    {
+      "iteration": 9,
+      "duration": 0.023670196533203125,
+      "success": true,
+      "error": "",
+      "timestamp": "2026-01-13T12:56:22.921549",
+      "trigger_reason": "task_incomplete",
+      "output_preview": "",
+      "tokens_used": 0,
+      "cost": 0.0,
+      "tools_used": []
+    },
+    {
+      "iteration": 10,
+      "duration": 0.18236398696899414,
+      "success": true,
+      "error": "",
+      "timestamp": "2026-01-13T12:56:25.107137",
+      "trigger_reason": "task_incomplete",
+      "output_preview": "",
+      "tokens_used": 0,
+      "cost": 0.0,
+      "tools_used": []
+    },
+    {
+      "iteration": 11,
+      "duration": 0.008339166641235352,
+      "success": true,
+      "error": "",
+      "timestamp": "2026-01-13T12:56:27.118552",
+      "trigger_reason": "task_incomplete",
+      "output_preview": "",
+      "tokens_used": 0,
+      "cost": 0.0,
+      "tools_used": []
+    },
+    {
+      "iteration": 12,
+      "duration": 0.011188983917236328,
+      "success": true,
+      "error": "",
+      "timestamp": "2026-01-13T12:56:29.132514",
+      "trigger_reason": "task_incomplete",
+      "output_preview": "",
+      "tokens_used": 0,
+      "cost": 0.0,
+      "tools_used": []
+    },
+    {
+      "iteration": 13,
+      "duration": 0.00886082649230957,
+      "success": true,
+      "error": "",
+      "timestamp": "2026-01-13T12:56:31.145136",
+      "trigger_reason": "task_incomplete",
+      "output_preview": "",
+      "tokens_used": 0,
+      "cost": 0.0,
+      "tools_used": []
+    },
+    {
+      "iteration": 14,
+      "duration": 0.02363896369934082,
+      "success": true,
+      "error": "",
+      "timestamp": "2026-01-13T12:56:33.171233",
+      "trigger_reason": "task_incomplete",
+      "output_preview": "",
+      "tokens_used": 0,
+      "cost": 0.0,
+      "tools_used": []
+    },
+    {
+      "iteration": 15,
+      "duration": 0.10178995132446289,
+      "success": true,
+      "error": "",
+      "timestamp": "2026-01-13T12:56:35.275412",
+      "trigger_reason": "task_incomplete",
+      "output_preview": "",
+      "tokens_used": 0,
+      "cost": 0.0,
+      "tools_used": []
+    },
+    {
+      "iteration": 16,
+      "duration": 0.009549140930175781,
+      "success": true,
+      "error": "",
+      "timestamp": "2026-01-13T12:56:37.288104",
+      "trigger_reason": "task_incomplete",
+      "output_preview": "",
+      "tokens_used": 0,
+      "cost": 0.0,
+      "tools_used": []
+    },
+    {
+      "iteration": 17,
+      "duration": 0.01301121711730957,
+      "success": true,
+      "error": "",
+      "timestamp": "2026-01-13T12:56:39.303640",
+      "trigger_reason": "task_incomplete",
+      "output_preview": "",
+      "tokens_used": 0,
+      "cost": 0.0,
+      "tools_used": []
+    },
+    {
+      "iteration": 18,
+      "duration": 0.009858131408691406,
+      "success": true,
+      "error": "",
+      "timestamp": "2026-01-13T12:56:41.315750",
+      "trigger_reason": "task_incomplete",
+      "output_preview": "",
+      "tokens_used": 0,
+      "cost": 0.0,
+      "tools_used": []
+    },
+    {
+      "iteration": 19,
+      "duration": 0.012099027633666992,
+      "success": true,
+      "error": "",
+      "timestamp": "2026-01-13T12:56:43.334276",
+      "trigger_reason": "task_incomplete",
+      "output_preview": "",
+      "tokens_used": 0,
+      "cost": 0.0,
+      "tools_used": []
+    },
+    {
+      "iteration": 20,
+      "duration": 0.08586812019348145,
+      "success": true,
+      "error": "",
+      "timestamp": "2026-01-13T12:56:45.422916",
+      "trigger_reason": "task_incomplete",
+      "output_preview": "",
+      "tokens_used": 0,
+      "cost": 0.0,
+      "tools_used": []
+    },
+    {
+      "iteration": 21,
+      "duration": 0.007859945297241211,
+      "success": true,
+      "error": "",
+      "timestamp": "2026-01-13T12:56:47.433372",
+      "trigger_reason": "task_incomplete",
+      "output_preview": "",
+      "tokens_used": 0,
+      "cost": 0.0,
+      "tools_used": []
+    },
+    {
+      "iteration": 22,
+      "duration": 0.010162830352783203,
+      "success": true,
+      "error": "",
+      "timestamp": "2026-01-13T12:56:49.446467",
+      "trigger_reason": "task_incomplete",
+      "output_preview": "",
+      "tokens_used": 0,
+      "cost": 0.0,
+      "tools_used": []
+    },
+    {
+      "iteration": 23,
+      "duration": 0.01400899887084961,
+      "success": true,
+      "error": "",
+      "timestamp": "2026-01-13T12:56:51.466560",
+      "trigger_reason": "task_incomplete",
+      "output_preview": "",
+      "tokens_used": 0,
+      "cost": 0.0,
+      "tools_used": []
+    },
+    {
+      "iteration": 24,
+      "duration": 0.006556987762451172,
+      "success": true,
+      "error": "",
+      "timestamp": "2026-01-13T12:56:53.477662",
+      "trigger_reason": "task_incomplete",
+      "output_preview": "",
+      "tokens_used": 0,
+      "cost": 0.0,
+      "tools_used": []
+    },
+    {
+      "iteration": 25,
+      "duration": 0.12727713584899902,
+      "success": true,
+      "error": "",
+      "timestamp": "2026-01-13T12:56:55.607174",
+      "trigger_reason": "task_incomplete",
+      "output_preview": "",
+      "tokens_used": 0,
+      "cost": 0.0,
+      "tools_used": []
+    },
+    {
+      "iteration": 26,
+      "duration": 0.009067058563232422,
+      "success": true,
+      "error": "",
+      "timestamp": "2026-01-13T12:56:57.621111",
+      "trigger_reason": "task_incomplete",
+      "output_preview": "",
+      "tokens_used": 0,
+      "cost": 0.0,
+      "tools_used": []
+    },
+    {
+      "iteration": 27,
+      "duration": 0.00962519645690918,
+      "success": true,
+      "error": "",
+      "timestamp": "2026-01-13T12:56:59.633285",
+      "trigger_reason": "task_incomplete",
+      "output_preview": "",
+      "tokens_used": 0,
+      "cost": 0.0,
+      "tools_used": []
+    },
+    {
+      "iteration": 28,
+      "duration": 0.003917217254638672,
+      "success": true,
+      "error": "",
+      "timestamp": "2026-01-13T12:57:01.640168",
+      "trigger_reason": "task_incomplete",
+      "output_preview": "",
+      "tokens_used": 0,
+      "cost": 0.0,
+      "tools_used": []
+    },
+    {
+      "iteration": 29,
+      "duration": 0.004204988479614258,
+      "success": true,
+      "error": "",
+      "timestamp": "2026-01-13T12:57:03.646841",
+      "trigger_reason": "task_incomplete",
+      "output_preview": "",
+      "tokens_used": 0,
+      "cost": 0.0,
+      "tools_used": []
+    },
+    {
+      "iteration": 30,
+      "duration": 0.08594989776611328,
+      "success": true,
+      "error": "",
+      "timestamp": "2026-01-13T12:57:05.739040",
+      "trigger_reason": "task_incomplete",
+      "output_preview": "",
+      "tokens_used": 0,
+      "cost": 0.0,
+      "tools_used": []
+    },
+    {
+      "iteration": 31,
+      "duration": 0.008164167404174805,
+      "success": true,
+      "error": "",
+      "timestamp": "2026-01-13T12:57:07.750240",
+      "trigger_reason": "task_incomplete",
+      "output_preview": "",
+      "tokens_used": 0,
+      "cost": 0.0,
+      "tools_used": []
+    },
+    {
+      "iteration": 32,
+      "duration": 0.012425899505615234,
+      "success": true,
+      "error": "",
+      "timestamp": "2026-01-13T12:57:09.765772",
+      "trigger_reason": "task_incomplete",
+      "output_preview": "",
+      "tokens_used": 0,
+      "cost": 0.0,
+      "tools_used": []
+    },
+    {
+      "iteration": 33,
+      "duration": 0.011764287948608398,
+      "success": true,
+      "error": "",
+      "timestamp": "2026-01-13T12:57:11.786229",
+      "trigger_reason": "task_incomplete",
+      "output_preview": "",
+      "tokens_used": 0,
+      "cost": 0.0,
+      "tools_used": []
+    },
+    {
+      "iteration": 34,
+      "duration": 0.009901762008666992,
+      "success": true,
+      "error": "",
+      "timestamp": "2026-01-13T12:57:13.798317",
+      "trigger_reason": "task_incomplete",
+      "output_preview": "",
+      "tokens_used": 0,
+      "cost": 0.0,
+      "tools_used": []
+    },
+    {
+      "iteration": 35,
+      "duration": 0.11310005187988281,
+      "success": true,
+      "error": "",
+      "timestamp": "2026-01-13T12:57:15.916372",
+      "trigger_reason": "task_incomplete",
+      "output_preview": "",
+      "tokens_used": 0,
+      "cost": 0.0,
+      "tools_used": []
+    },
+    {
+      "iteration": 36,
+      "duration": 0.006367921829223633,
+      "success": true,
+      "error": "",
+      "timestamp": "2026-01-13T12:57:17.925072",
+      "trigger_reason": "task_incomplete",
+      "output_preview": "",
+      "tokens_used": 0,
+      "cost": 0.0,
+      "tools_used": []
+    },
+    {
+      "iteration": 37,
+      "duration": 0.0047681331634521484,
+      "success": true,
+      "error": "",
+      "timestamp": "2026-01-13T12:57:19.935744",
+      "trigger_reason": "task_incomplete",
+      "output_preview": "",
+      "tokens_used": 0,
+      "cost": 0.0,
+      "tools_used": []
+    },
+    {
+      "iteration": 38,
+      "duration": 0.011710882186889648,
+      "success": true,
+      "error": "",
+      "timestamp": "2026-01-13T12:57:21.953391",
+      "trigger_reason": "task_incomplete",
+      "output_preview": "",
+      "tokens_used": 0,
+      "cost": 0.0,
+      "tools_used": []
+    },
+    {
+      "iteration": 39,
+      "duration": 0.00900578498840332,
+      "success": true,
+      "error": "",
+      "timestamp": "2026-01-13T12:57:23.964490",
+      "trigger_reason": "task_incomplete",
+      "output_preview": "",
+      "tokens_used": 0,
+      "cost": 0.0,
+      "tools_used": []
+    },
+    {
+      "iteration": 40,
+      "duration": 0.10257387161254883,
+      "success": true,
+      "error": "",
+      "timestamp": "2026-01-13T12:57:26.069740",
+      "trigger_reason": "task_incomplete",
+      "output_preview": "",
+      "tokens_used": 0,
+      "cost": 0.0,
+      "tools_used": []
+    }
+  ],
+  "cost": {
+    "total": 0.0,
+    "by_tool": {
+      "acp": 0.0
+    },
+    "history": [
+      {
+        "timestamp": 1768326966.626644,
+        "tool": "acp",
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "cost": 0.0
+      },
+      {
+        "timestamp": 1768326968.63271,
+        "tool": "acp",
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "cost": 0.0
+      },
+      {
+        "timestamp": 1768326970.637631,
+        "tool": "acp",
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "cost": 0.0
+      },
+      {
+        "timestamp": 1768326972.64535,
+        "tool": "acp",
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "cost": 0.0
+      },
+      {
+        "timestamp": 1768326974.651996,
+        "tool": "acp",
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "cost": 0.0
+      },
+      {
+        "timestamp": 1768326976.876582,
+        "tool": "acp",
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "cost": 0.0
+      },
+      {
+        "timestamp": 1768326978.881883,
+        "tool": "acp",
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "cost": 0.0
+      },
+      {
+        "timestamp": 1768326980.8943481,
+        "tool": "acp",
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "cost": 0.0
+      },
+      {
+        "timestamp": 1768326982.9203358,
+        "tool": "acp",
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "cost": 0.0
+      },
+      {
+        "timestamp": 1768326984.93188,
+        "tool": "acp",
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "cost": 0.0
+      },
+      {
+        "timestamp": 1768326987.113188,
+        "tool": "acp",
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "cost": 0.0
+      },
+      {
+        "timestamp": 1768326989.1321962,
+        "tool": "acp",
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "cost": 0.0
+      },
+      {
+        "timestamp": 1768326991.144404,
+        "tool": "acp",
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "cost": 0.0
+      },
+      {
+        "timestamp": 1768326993.1702049,
+        "tool": "acp",
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "cost": 0.0
+      },
+      {
+        "timestamp": 1768326995.1864378,
+        "tool": "acp",
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "cost": 0.0
+      },
+      {
+        "timestamp": 1768326997.286589,
+        "tool": "acp",
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "cost": 0.0
+      },
+      {
+        "timestamp": 1768326999.297694,
+        "tool": "acp",
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "cost": 0.0
+      },
+      {
+        "timestamp": 1768327001.3142872,
+        "tool": "acp",
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "cost": 0.0
+      },
+      {
+        "timestamp": 1768327003.333973,
+        "tool": "acp",
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "cost": 0.0
+      },
+      {
+        "timestamp": 1768327005.34848,
+        "tool": "acp",
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "cost": 0.0
+      },
+      {
+        "timestamp": 1768327007.432294,
+        "tool": "acp",
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "cost": 0.0
+      },
+      {
+        "timestamp": 1768327009.445337,
+        "tool": "acp",
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "cost": 0.0
+      },
+      {
+        "timestamp": 1768327011.4601831,
+        "tool": "acp",
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "cost": 0.0
+      },
+      {
+        "timestamp": 1768327013.47353,
+        "tool": "acp",
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "cost": 0.0
+      },
+      {
+        "timestamp": 1768327015.4860082,
+        "tool": "acp",
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "cost": 0.0
+      },
+      {
+        "timestamp": 1768327017.619859,
+        "tool": "acp",
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "cost": 0.0
+      },
+      {
+        "timestamp": 1768327019.632255,
+        "tool": "acp",
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "cost": 0.0
+      },
+      {
+        "timestamp": 1768327021.639071,
+        "tool": "acp",
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "cost": 0.0
+      },
+      {
+        "timestamp": 1768327023.646525,
+        "tool": "acp",
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "cost": 0.0
+      },
+      {
+        "timestamp": 1768327025.663025,
+        "tool": "acp",
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "cost": 0.0
+      },
+      {
+        "timestamp": 1768327027.749007,
+        "tool": "acp",
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "cost": 0.0
+      },
+      {
+        "timestamp": 1768327029.764483,
+        "tool": "acp",
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "cost": 0.0
+      },
+      {
+        "timestamp": 1768327031.785095,
+        "tool": "acp",
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "cost": 0.0
+      },
+      {
+        "timestamp": 1768327033.7978072,
+        "tool": "acp",
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "cost": 0.0
+      },
+      {
+        "timestamp": 1768327035.812604,
+        "tool": "acp",
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "cost": 0.0
+      },
+      {
+        "timestamp": 1768327037.922424,
+        "tool": "acp",
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "cost": 0.0
+      },
+      {
+        "timestamp": 1768327039.934814,
+        "tool": "acp",
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "cost": 0.0
+      },
+      {
+        "timestamp": 1768327041.9526038,
+        "tool": "acp",
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "cost": 0.0
+      },
+      {
+        "timestamp": 1768327043.964109,
+        "tool": "acp",
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "cost": 0.0
+      },
+      {
+        "timestamp": 1768327045.969845,
+        "tool": "acp",
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "cost": 0.0
+      }
+    ]
+  },
+  "analysis": {
+    "avg_iteration_duration": 0.215191251039505,
+    "success_rate": 100.0
+  }
+}

@@ -1,0 +1,14 @@
+{
+    "name": "portfolio-monorepo",
+    "version": "1.0.0",
+    "private": true,
+    "workspaces": [
+        "src",
+        "scripts"
+    ],
+    "scripts": {
+        "dev": "npm run dev --workspace=src",
+        "build": "npm run build --workspace=src",
+        "deploy": "./scripts/deploy.sh"
+    }
+}

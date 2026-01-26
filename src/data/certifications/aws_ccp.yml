@@ -1,0 +1,11 @@
+PK: CERTIFICATION
+SK: AWS_CCP_2020
+content:
+  name: AWS Certified Cloud Practitioner
+  issuer: Amazon Web Services
+  date: Jun 2020 - Jun 2023
+  issuedDate: Jun 2020
+  expirationDate: Jun 2023
+  active: false
+  link: https://www.credly.com/badges/58407824-f9ed-47d5-8b3b-a96f134cc416/public_url
+  imageUrl: https://images.credly.com/size/680x680/images/00634f82-b07f-4bbd-a6bb-53de397fc3a6/image.png

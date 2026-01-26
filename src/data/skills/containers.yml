@@ -1,0 +1,11 @@
+PK: SKILL
+SK: CONTAINERS
+content:
+  category: Containerization
+  proficiency: 85
+  items:
+    - Docker
+    - Kubernetes
+    - Container Security
+  icon: box
+  description: Container orchestration and cloud-native application deployment expertise.

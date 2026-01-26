@@ -1,0 +1,39 @@
+PK: EXPERIENCE
+SK: 2022-11-01
+content:
+  company: VividCloud
+  role: Senior DevOps Engineer
+  startDate: "2022-11"
+  endDate: Present
+  description: Led cloud infrastructure optimization initiatives resulting in significant cost reductions. Enhanced CI/CD workflows with parallelized Terraform jobs and dynamic preview environments. Automated SSL certificate renewal processes using GCP Secret Manager and Pub/Sub.
+  technologies:
+    - GCP
+    - Terraform
+    - GitLab CI
+    - AWS
+  key_deliverables:
+    - title: Cloud Cost Optimization Initiative
+      description: Led an initiative resulting in a 30% reduction in monthly infrastructure expenses across all environments.
+      technologies:
+        - GCP
+        - Terraform
+        - Cost Management
+    - title: Dynamic Preview Environments
+      description: Designed and implemented scalable preview environments tied to GitLab merge requests to improve testing efficiency.
+      technologies:
+        - GitLab
+        - Terraform
+        - GCP
+    - title: Certificate Management Automation
+      description: Implemented automated SSL certificate renewal system with GCP Secret Manager and Pub/Sub.
+      technologies:
+        - GCP Secret Manager
+        - Pub/Sub
+        - Terraform
+        - GitLab CI
+    - title: Terraform Documentation Automation
+      description: Engineered comprehensive automation generating standardized README files, usage examples, and configuration templates with automatic updates.
+      technologies:
+        - Terraform
+        - terraform-docs
+        - GitLab CI

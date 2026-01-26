@@ -1,0 +1,12 @@
+PK: SKILL
+SK: WINDOWS
+content:
+  category: Windows Server
+  proficiency: 80
+  items:
+    - Active Directory
+    - IIS
+    - PowerShell Automation
+    - Group Policy
+  icon: server
+  description: Windows Server administration and automation expertise.

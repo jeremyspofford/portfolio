@@ -1,0 +1,12 @@
+PK: PROJECT
+SK: 2025-01-EMQX
+content:
+  title: EMQX SSL Certificate Automation
+  date: Jan 2025
+  description: Developed automated SSL certificate management solution improving security and reducing manual intervention for EMQX broker deployments.
+  technologies:
+    - GCP
+    - Secret Manager
+    - Pub/Sub
+    - Terraform
+  link: null

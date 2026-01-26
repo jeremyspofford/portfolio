@@ -1,0 +1,11 @@
+PK: SKILL
+SK: CICD
+content:
+  category: CI/CD & Automation
+  proficiency: 90
+  items:
+    - GitLab CI/CD
+    - GitHub Actions
+    - Jenkins
+  icon: terminal
+  description: Building robust automated pipelines for build, test, and deployment workflows.

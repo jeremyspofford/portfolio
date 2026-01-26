@@ -1,0 +1,12 @@
+PK: PROJECT
+SK: 2023-05-CERT-MGMT
+content:
+  title: Certificate Management Automation
+  date: May 2023
+  description: Implemented automated SSL renewal system eliminating manual processes and downtime risks using GCP Secret Manager and Pub/Sub.
+  technologies:
+    - GCP Secret Manager
+    - Pub/Sub
+    - Terraform
+    - GitLab CI
+  link: null

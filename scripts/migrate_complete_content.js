@@ -35,7 +35,7 @@ const completeData = [
       startDate: "2022-11",
       endDate: "Present",
       description: "Led cloud infrastructure optimization initiatives resulting in significant cost reductions. Enhanced CI/CD workflows with parallelized Terraform jobs and dynamic preview environments. Automated SSL certificate renewal processes using GCP Secret Manager and Pub/Sub.",
-      technologies: ["GCP", "Terraform", "GitLab CI", "Kubernetes"],
+      technologies: ["GCP", "Terraform", "GitLab CI", "AWS"],
       key_deliverables: [
         {
           title: "Cloud Cost Optimization Initiative",
@@ -69,12 +69,12 @@ const completeData = [
       startDate: "2021-06",
       endDate: "2022-11",
       description: "Developed cloud administration applications reducing support call durations by 50%. Collaborated on web application for cloud migrations, removing technical interventions. Implemented code review protocols strengthening software quality standards.",
-      technologies: ["C#", ".NET", "AWS", "SQL"],
+      technologies: ["TypeScript", "GitHub", "CI/CD", "AWS", "Angular"],
       key_deliverables: [
         {
           title: "Cloud Administration Application",
           description: "Developed cloud administration tool that reduced support call durations by 50% through self-service capabilities.",
-          technologies: ["C#", ".NET", "AWS"]
+          technologies: ["TypeScript", "Angular", "AWS", "GitHub"]
         },
         {
           title: "Migration to GitHub CI/CD",
@@ -93,17 +93,17 @@ const completeData = [
       startDate: "2019-06",
       endDate: "2021-06",
       description: "Designed CI/CD pipelines streamlining deployment processes across teams. Architected scalable Puppet infrastructure for environment consistency. Automated user onboarding and routine administrative tasks via PowerShell.",
-      technologies: ["AWS", "Puppet", "PowerShell", "IIS", "Terraform"],
+      technologies: ["On-Prem", "Azure", "Puppet", "PowerShell", "IIS", "MS SQL Server", "SQL"],
       key_deliverables: [
         {
           title: "CI/CD Pipeline Architecture",
           description: "Designed and implemented comprehensive CI/CD pipelines streamlining deployment processes across multiple teams.",
-          technologies: ["AWS", "Terraform", "GitLab CI"]
+          technologies: ["TeamCity", "Azure DevOps", "PowerShell"]
         },
         {
           title: "Infrastructure Automation",
           description: "Architected scalable Puppet infrastructure ensuring consistency across all environments.",
-          technologies: ["Puppet", "AWS", "PowerShell"]
+          technologies: ["Puppet", "Azure", "PowerShell"]
         }
       ]
     }
@@ -117,17 +117,17 @@ const completeData = [
       startDate: "2017-08",
       endDate: "2019-06",
       description: "Converted legacy data systems, increasing revenue by $500K. Engineered a CLI automation tool for error log processing, accelerating conversion speed by 50%. Developed SQL scripts for seamless data integration.",
-      technologies: ["C#", ".NET", "SQL", "Python"],
+      technologies: ["COBOL", "SQL", "PowerShell", "Python"],
       key_deliverables: [
         {
           title: "Legacy System Conversions",
           description: "Successfully converted legacy data systems contributing to $500K in increased revenue.",
-          technologies: ["C#", "SQL", "Data Migration"]
+          technologies: ["COBOL", "SQL", "Data Migration"]
         },
         {
           title: "CLI Automation Tool",
           description: "Engineered automation tool for error log processing, accelerating conversion speed by 50%.",
-          technologies: ["Python", "CLI Development"]
+          technologies: ["Python", "CLI Development", "PowerShell"]
         }
       ]
     }
@@ -146,12 +146,12 @@ const completeData = [
         {
           title: "Automated Pharmacy Reporting",
           description: "Implemented automated reporting systems for pharmacy operations using Python and SQL.",
-          technologies: ["Python", "SQL", "Automation"]
+          technologies: ["Python", "SQL"]
         },
         {
           title: "IT Documentation Framework",
           description: "Created comprehensive documentation framework establishing IT communication protocols and standards.",
-          technologies: ["PowerShell", "SQL", "SharePoint"]
+          technologies: ["Server Administration", "SharePoint"]
         }
       ]
     }
@@ -165,7 +165,7 @@ const completeData = [
       startDate: "2014-10",
       endDate: "2016-04",
       description: "Led OS upgrades across thousands of hospital machines. Orchestrated software deployment strategies minimizing operational disruption. Provided desktop support and systems troubleshooting.",
-      technologies: ["Windows", "Active Directory", "SCCM"],
+      technologies: ["Windows", "Active Directory", "SCCM", "Software Deployment"],
       key_deliverables: [
         {
           title: "Large-Scale OS Upgrades",
@@ -183,8 +183,9 @@ const completeData = [
     content: {
       category: "GCP Cloud Platform",
       proficiency: 95,
-      items: ["Compute Engine", "Cloud Run", "Cloud Functions", "VPC/Subnets", "Private Service Connect", "Secret Manager", "GKE", "Cloud Build", "BigQuery", "Pub/Sub"],
-      icon: "cloud",
+      items: ["Compute Engine", "Cloud Run", "VPC/Subnets", "Private Service Connect", "Secret Manager", "BigQuery"],
+      // icon: "cloud",
+      icon: "fab fa-google",
       description: "Expertise in Google Cloud Platform services and architecture with extensive hands-on experience."
     }
   },

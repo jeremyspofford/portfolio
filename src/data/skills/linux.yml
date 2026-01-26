@@ -1,0 +1,12 @@
+PK: SKILL
+SK: LINUX
+content:
+  category: Linux Administration
+  proficiency: 85
+  items:
+    - Ubuntu/Debian
+    - RHEL/CentOS
+    - Shell Scripting
+    - System Monitoring
+  icon: terminal
+  description: Comprehensive Linux system administration and automation capabilities.

@@ -1,0 +1,26 @@
+PK: EXPERIENCE
+SK: 2017-08-01
+content:
+  company: Tyler Technologies
+  role: Conversions Developer
+  startDate: "2017-08"
+  endDate: "2019-06"
+  description: Converted legacy data systems, increasing revenue by $500K. Engineered a CLI automation tool for error log processing, accelerating conversion speed by 50%. Developed SQL scripts for seamless data integration.
+  technologies:
+    - COBOL
+    - SQL
+    - PowerShell
+    - Python
+  key_deliverables:
+    - title: Legacy System Conversions
+      description: Successfully converted legacy data systems contributing to $500K in increased revenue.
+      technologies:
+        - COBOL
+        - SQL
+        - Data Migration
+    - title: CLI Automation Tool
+      description: Engineered automation tool for error log processing, accelerating conversion speed by 50%.
+      technologies:
+        - Python
+        - CLI Development
+        - PowerShell
