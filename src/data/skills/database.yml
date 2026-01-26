@@ -1,0 +1,14 @@
+PK: SKILL
+SK: DATABASE
+content:
+  category: Database Management
+  proficiency: 75
+  items:
+    - SQL
+    - Liquibase
+    - Redis
+    - MSSQL
+    - PostgreSQL
+    - DynamoDB
+  icon: database
+  description: Database administration, schema migrations, and data management.

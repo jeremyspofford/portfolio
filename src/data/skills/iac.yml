@@ -1,0 +1,13 @@
+PK: SKILL
+SK: IAC
+content:
+  category: Infrastructure as Code
+  proficiency: 90
+  items:
+    - Terraform
+    - OpenTofu
+    - Terragrunt
+    - AWS CDK
+    - Ansible
+  icon: code
+  description: Advanced infrastructure automation and configuration management expertise.

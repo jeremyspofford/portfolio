@@ -1,0 +1,29 @@
+PK: EXPERIENCE
+SK: 2019-06-01
+content:
+  company: Tyler Technologies
+  role: DevOps Engineer
+  startDate: "2019-06"
+  endDate: "2021-06"
+  description: Designed CI/CD pipelines streamlining deployment processes across teams. Architected scalable Puppet infrastructure for environment consistency. Automated user onboarding and routine administrative tasks via PowerShell.
+  technologies:
+    - On-Prem
+    - Azure
+    - Puppet
+    - PowerShell
+    - IIS
+    - MS SQL Server
+    - SQL
+  key_deliverables:
+    - title: CI/CD Pipeline Architecture
+      description: Designed and implemented comprehensive CI/CD pipelines streamlining deployment processes across multiple teams.
+      technologies:
+        - TeamCity
+        - Azure DevOps
+        - PowerShell
+    - title: Infrastructure Automation
+      description: Architected scalable Puppet infrastructure ensuring consistency across all environments.
+      technologies:
+        - Puppet
+        - Azure
+        - PowerShell

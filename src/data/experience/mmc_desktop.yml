@@ -1,0 +1,20 @@
+PK: EXPERIENCE
+SK: 2014-10-01
+content:
+  company: Maine Medical Center
+  role: Desktop Support Specialist
+  startDate: "2014-10"
+  endDate: "2016-04"
+  description: Led OS upgrades across thousands of hospital machines. Orchestrated software deployment strategies minimizing operational disruption. Provided desktop support and systems troubleshooting.
+  technologies:
+    - Windows
+    - Active Directory
+    - SCCM
+    - Software Deployment
+  key_deliverables:
+    - title: Large-Scale OS Upgrades
+      description: Successfully led OS upgrade initiative across thousands of hospital workstations with minimal disruption.
+      technologies:
+        - Windows
+        - SCCM
+        - Active Directory

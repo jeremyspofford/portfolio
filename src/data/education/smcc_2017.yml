@@ -1,0 +1,9 @@
+PK: EDUCATION
+SK: SMCC_2017
+content:
+  degree: Associate's Degree in Computer Science
+  institution: Southern Maine Community College
+  graduationDate: May 2017
+  gpa: "3.8"
+  honors:
+    - Phi Theta Kappa Honor Society

@@ -1,0 +1,112 @@
+---
+title: "Building an AI Smart Home"
+date: "2024-01-02"
+description: "How I used Home Assistant, n8n, and AWS Bedrock to build a truly intelligent home automation system."
+tags: ["Home Automation", "AI", "Self-Hosted"]
+---
+
+# The Vision
+
+Most "smart homes" are just remote-controlled homes. You still have to pull out your phone to turn on the lights or adjust the thermostat. I wanted a home that _thinks_ — one that understands context and anticipates my needs.
+
+## The Stack
+
+My setup is entirely self-hosted (because privacy matters):
+
+- **Home Assistant**: The brain. Open-source, runs on a Raspberry Pi 5.
+- **n8n**: The nervous system. Handles complex workflow automation.
+- **AWS Bedrock (Claude)**: The intelligence. Provides natural language understanding for voice commands and status summaries.
+
+## The Architecture
+
+```md
+┌─────────────────┐
+│  Voice Command  │
+│  (via Alexa)    │
+└────────┬────────┘
+         │
+         ▼
+┌─────────────────┐
+│  Home Assistant │◄──────┐
+│  (Core Hub)     │       │
+└────────┬────────┘       │
+         │                │
+         ▼                │
+┌─────────────────┐       │
+│     n8n         │       │
+│  (Orchestrator) │───────┤
+└────────┬────────┘       │
+         │                │
+         ▼                │
+┌─────────────────┐       │
+│  AWS Bedrock    │       │
+│  (Claude 3)     │───────┘
+└─────────────────┘
+```
+
+## Key Features
+
+### 1. Natural Language Home Summaries
+
+Instead of opening 5 different apps, I ask: _"How's the house?"_
+
+Claude processes sensor data and responds: _"All doors are locked. It's 72°F inside, 45°F outside. The garage door was left open 2 hours ago — I've closed it for you."_
+
+### 2. Presence-Aware Automation
+
+Using a combination of:
+
+- Unifi cameras with person detection
+- Phone geofencing
+- Bluetooth beacons
+
+The house knows who's home and adjusts accordingly. Lights follow me, the thermostat optimizes for occupied rooms, and security mode activates when everyone leaves.
+
+### 3. Predictive Maintenance
+
+n8n workflows monitor device health. When my water heater's efficiency dropped, I got a notification _before_ it failed.
+
+## The Implementation
+
+### Secure Remote Access
+
+I used a **Cloudflare Tunnel** to expose Home Assistant securely — no port forwarding, no dynamic DNS headaches.
+
+```yaml
+# cloudflared config.yml
+tunnel: home-assistant
+credentials-file: /etc/cloudflared/creds.json
+ingress:
+    - hostname: home.mydomain.com
+      service: http://localhost:8123
+    - service: http_status:404
+```
+
+### n8n Workflow Example
+
+Here's a simplified version of my "Morning Routine" workflow:
+
+1. **Trigger**: Alarm goes off (via Home Assistant webhook)
+2. **Action**: Gradually increase bedroom lights over 10 minutes
+3. **Action**: Start coffee maker
+4. **Action**: Query weather API
+5. **Action**: Send summary to my phone via Pushover
+
+## Lessons Learned
+
+1. **Start simple**: Don't automate everything at once. Start with lights, then expand.
+2. **Always have manual overrides**: No one wants to be locked out by a misbehaving script.
+3. **Monitor your monitors**: Use healthchecks.io to ensure your automation hub is actually running.
+4. **Privacy-first**: Keep it local when possible. Your home data shouldn't live on someone else's server.
+
+## What's Next?
+
+I'm currently experimenting with:
+
+- **Local wake word detection** using Whisper
+- **Visual AI** for camera-based automations (is the stove on?)
+- **Energy optimization** using historical data and ML predictions
+
+---
+
+_Want to build something similar? Check out the [Home Assistant docs](https://www.home-assistant.io/) and the [n8n community](https://community.n8n.io/)._

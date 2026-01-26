@@ -1,0 +1,12 @@
+PK: PROJECT
+SK: 2023-09-PREVIEW-ENVS
+content:
+  title: Dynamic Preview Environments
+  date: Sep 2023
+  description: Designed scalable preview environments tied to GitLab merge requests improving testing efficiency and development workflow.
+  technologies:
+    - GitLab
+    - Terraform
+    - GCP
+    - Kubernetes
+  link: null

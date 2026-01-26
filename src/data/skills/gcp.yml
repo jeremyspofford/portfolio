@@ -1,0 +1,14 @@
+PK: SKILL
+SK: GCP
+content:
+  category: GCP Cloud Platform
+  proficiency: 95
+  items:
+    - Compute Engine
+    - Cloud Run
+    - VPC/Subnets
+    - Private Service Connect
+    - Secret Manager
+    - BigQuery
+  icon: fab fa-google
+  description: Expertise in Google Cloud Platform services and architecture with extensive hands-on experience.

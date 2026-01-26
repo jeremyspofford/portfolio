@@ -1,0 +1,27 @@
+PK: EXPERIENCE
+SK: 2021-06-01
+content:
+  company: Tyler Technologies
+  role: Software Engineer
+  startDate: "2021-06"
+  endDate: "2022-11"
+  description: Developed cloud administration applications reducing support call durations by 50%. Collaborated on web application for cloud migrations, removing technical interventions. Implemented code review protocols strengthening software quality standards.
+  technologies:
+    - TypeScript
+    - GitHub
+    - CI/CD
+    - AWS
+    - Angular
+  key_deliverables:
+    - title: Cloud Administration Application
+      description: Developed cloud administration tool that reduced support call durations by 50% through self-service capabilities.
+      technologies:
+        - TypeScript
+        - Angular
+        - AWS
+        - GitHub
+    - title: Migration to GitHub CI/CD
+      description: Led migration from legacy CI systems to GitHub Actions with automated security scanning.
+      technologies:
+        - GitHub Actions
+        - Security Scanning

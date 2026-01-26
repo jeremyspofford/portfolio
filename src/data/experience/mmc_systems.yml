@@ -1,0 +1,25 @@
+PK: EXPERIENCE
+SK: 2016-04-01
+content:
+  company: Maine Medical Center
+  role: Systems Specialist
+  startDate: "2016-04"
+  endDate: "2017-08"
+  description: Implemented automated pharmacy reporting systems using Python and SQL. Established IT communication protocols with 2-hour response standards. Created comprehensive IT documentation framework.
+  technologies:
+    - Windows
+    - Active Directory
+    - PowerShell
+    - Python
+    - SQL
+  key_deliverables:
+    - title: Automated Pharmacy Reporting
+      description: Implemented automated reporting systems for pharmacy operations using Python and SQL.
+      technologies:
+        - Python
+        - SQL
+    - title: IT Documentation Framework
+      description: Created comprehensive documentation framework establishing IT communication protocols and standards.
+      technologies:
+        - Server Administration
+        - SharePoint

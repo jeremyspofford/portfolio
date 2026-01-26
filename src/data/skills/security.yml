@@ -1,0 +1,12 @@
+PK: SKILL
+SK: SECURITY
+content:
+  category: Security & Compliance
+  proficiency: 85
+  items:
+    - SonarQube
+    - Veracode
+    - Secret Management
+    - IAM Integration
+  icon: shield
+  description: Security best practices, compliance, and vulnerability management.
