@@ -42,11 +42,12 @@ jobs:
 
       - name: Terraform Init
         working-directory: terraform
-        run: terraform init
+        run: terraform init -input=false
 
       - name: Select/Create Workspace
         working-directory: terraform
-        run: terraform workspace select $TF_WORKSPACE || terraform workspace new $TF_WORKSPACE
+        run: |
+          terraform workspace select $TF_WORKSPACE || terraform workspace new $TF_WORKSPACE
 
       - name: Terraform Apply
         working-directory: terraform
@@ -113,11 +114,12 @@ jobs:
 
       - name: Terraform Init
         working-directory: terraform
-        run: terraform init
+        run: terraform init -input=false
 
       - name: Select/Create Workspace
         working-directory: terraform
-        run: terraform workspace select $TF_WORKSPACE || terraform workspace new $TF_WORKSPACE
+        run: |
+          terraform workspace select $TF_WORKSPACE || terraform workspace new $TF_WORKSPACE
 
       - name: Terraform Apply
         working-directory: terraform
