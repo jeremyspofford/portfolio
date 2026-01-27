@@ -17,7 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     if: github.event_name == 'push'
     env:
-      TF_WORKSPACE: stage
+      WORKSPACE_NAME: stage
       DOMAIN_NAME: stage.jeremyspofford.dev
 
     steps:
@@ -46,12 +46,11 @@ jobs:
 
       - name: Select/Create Workspace
         working-directory: terraform
-        run: |
-          terraform workspace select $TF_WORKSPACE || terraform workspace new $TF_WORKSPACE
+        run: terraform workspace select -or-create $WORKSPACE_NAME
 
       - name: Terraform Apply
         working-directory: terraform
-        run: terraform apply -auto-approve -var="environment=$TF_WORKSPACE" -var="domain_name=$DOMAIN_NAME"
+        run: terraform apply -auto-approve -var="environment=$WORKSPACE_NAME" -var="domain_name=$DOMAIN_NAME"
 
       - name: Install Frontend Dependencies
         working-directory: src
@@ -89,7 +88,7 @@ jobs:
     # Only run if manually triggered via the "Run workflow" button
     if: github.event_name == 'workflow_dispatch'
     env:
-      TF_WORKSPACE: prod
+      WORKSPACE_NAME: prod
       DOMAIN_NAME: jeremyspofford.dev
 
     steps:
@@ -118,12 +117,11 @@ jobs:
 
       - name: Select/Create Workspace
         working-directory: terraform
-        run: |
-          terraform workspace select $TF_WORKSPACE || terraform workspace new $TF_WORKSPACE
+        run: terraform workspace select -or-create $WORKSPACE_NAME
 
       - name: Terraform Apply
         working-directory: terraform
-        run: terraform apply -auto-approve -var="environment=$TF_WORKSPACE" -var="domain_name=$DOMAIN_NAME"
+        run: terraform apply -auto-approve -var="environment=$WORKSPACE_NAME" -var="domain_name=$DOMAIN_NAME"
 
       - name: Install Frontend Dependencies
         working-directory: src
