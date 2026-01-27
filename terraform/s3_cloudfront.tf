@@ -1,5 +1,5 @@
 resource "aws_s3_bucket" "frontend" {
-  bucket_prefix = "portfolio-frontend-"
+  bucket_prefix = "portfolio-frontend-${var.environment}-"
 }
 
 resource "aws_s3_bucket_public_access_block" "frontend" {
@@ -84,8 +84,12 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
     }
   }
 
+  aliases = var.environment == "prod" ? [var.domain_name, "www.${var.domain_name}"] : [var.domain_name]
+
   viewer_certificate {
-    cloudfront_default_certificate = true
+    acm_certificate_arn      = aws_acm_certificate_validation.cert.certificate_arn
+    ssl_support_method       = "sni-only"
+    minimum_protocol_version = "TLSv1.2_2021"
   }
 }
 
