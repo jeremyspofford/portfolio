@@ -80,12 +80,13 @@ jobs:
           echo "Invalidating distribution: $DIST_ID"
           aws cloudfront create-invalidation --distribution-id $DIST_ID --paths "/*"
 
-  # Job 2: Build & Deploy to Prod (Manual)
+  # Job 2: Build & Deploy to Prod (Automatic after Stage)
   deploy_prod:
     name: Deploy Production
     runs-on: ubuntu-latest
-    # Only run if manually triggered via the "Run workflow" button
-    if: github.event_name == 'workflow_dispatch'
+    needs: deploy_stage
+    # Run on push (if stage succeeds) OR manual trigger
+    if: success() || github.event_name == 'workflow_dispatch'
     env:
       WORKSPACE_NAME: prod
       DOMAIN_NAME: jeremyspofford.dev
