@@ -3,7 +3,7 @@
 
 # AppConfig Application
 resource "aws_appconfig_application" "portfolio" {
-  name        = "portfolio-app"
+  name        = "portfolio-app-${var.environment}"
   description = "Feature flags for Jeremy Spofford Portfolio"
 
   tags = {
@@ -144,7 +144,7 @@ resource "aws_appconfig_hosted_configuration_version" "production_flags" {
     }
     values = {
       showAIShowcase = {
-        enabled = false  # Disabled in prod until fully tested
+        enabled = false # Disabled in prod until fully tested
       }
       showContributions = {
         enabled = true
@@ -176,9 +176,8 @@ resource "aws_appconfig_deployment" "production" {
   depends_on = [aws_appconfig_deployment.staging]
 }
 
-# IAM Policy for Lambda to access AppConfig
 resource "aws_iam_policy" "appconfig_policy" {
-  name        = "portfolio_appconfig_policy"
+  name        = "portfolio_appconfig_policy_${var.environment}"
   description = "Allow Lambda to read AppConfig feature flags"
 
   policy = jsonencode({

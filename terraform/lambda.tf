@@ -8,7 +8,7 @@ data "archive_file" "backend_package" {
 
 # IAM Role for Lambdas (Shared Base)
 resource "aws_iam_role" "lambda_role" {
-  name = "portfolio_lambda_role"
+  name = "portfolio_lambda_role_${var.environment}"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
@@ -29,7 +29,7 @@ resource "aws_iam_role_policy_attachment" "lambda_basic" {
 
 # Policy for Bedrock Access (Enhanced Content)
 resource "aws_iam_policy" "bedrock_policy" {
-  name = "portfolio_bedrock_policy"
+  name = "portfolio_bedrock_policy_${var.environment}"
   policy = jsonencode({
     Version = "2012-10-17"
     Statement = [{
