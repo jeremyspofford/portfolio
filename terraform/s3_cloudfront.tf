@@ -13,7 +13,7 @@ resource "aws_s3_bucket_public_access_block" "frontend" {
 }
 
 resource "aws_cloudfront_origin_access_control" "default" {
-  name                              = "portfolio-frontend-oac"
+  name                              = "portfolio-frontend-oac-${var.environment}"
   description                       = "OAC for Portfolio Frontend"
   origin_access_control_origin_type = "s3"
   signing_behavior                  = "always"
@@ -21,7 +21,7 @@ resource "aws_cloudfront_origin_access_control" "default" {
 }
 
 resource "aws_cloudfront_function" "rewrite_uri" {
-  name    = "portfolio-rewrite-uri"
+  name    = "portfolio-rewrite-uri-${var.environment}"
   runtime = "cloudfront-js-2.0"
   publish = true
   code    = <<-EOF
