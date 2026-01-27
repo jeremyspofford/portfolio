@@ -1,10 +1,14 @@
 name: Jeremy Spofford
 title: Senior DevOps Engineer
 titles:
-  - Senior DevOps Engineer
-  - Cloud Infrastructure Architect
-  - Platform Engineer
-  - Site Reliability Engineer
+  - AI Platform Engineer
+  - MLOps Engineer
+  - LLM Engineer / Applied AI Engineer
+  - AI Infrastructure Engineer
+  # - Platform Engineer
+  # - DevOps Engineer
+  # - Cloud Infrastructure Architect
+  # - Site Reliability Engineer
 bio: "I am a Senior DevOps Engineer with expertise in cloud infrastructure, automation, and CI/CD pipeline optimization. I have extensive hands-on experience with Google Cloud Platform (GCP), Terraform, GitLab CI, and cloud-native tooling, with a proven track record of improving system performance, deployment reliability, and operational security."
 email: JeremySpofford@gmail.com
 location: Windham, ME

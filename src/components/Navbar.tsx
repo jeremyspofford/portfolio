@@ -10,15 +10,16 @@ import { ThemeToggle } from '@/components/ThemeToggle';
 
 const NAV_ITEMS = [
   { label: 'Home', href: '/' },
-  { label: 'Resume', href: '/resume' },
-  { label: 'Blog', href: '/blog' },
+  { label: 'Skills', href: '/#skills' },
+  { label: 'Certifications', href: '/#certifications' },
+  { label: 'Experience', href: '/#experience' },
+  { label: 'Contact', href: '/#contact' },
 ];
 
 // Anchor links for homepage sections
 const SECTION_LINKS = [
-  { label: 'Skills', href: '/#skills' },
-  { label: 'Experience', href: '/#experience' },
-  { label: 'Contact', href: '/#contact' },
+  { label: 'Resume', href: '/resume' },
+  { label: 'Blog', href: '/blog' },
 ];
 
 export function Navbar() {
