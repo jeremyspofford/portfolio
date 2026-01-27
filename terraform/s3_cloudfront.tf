@@ -1,5 +1,5 @@
 resource "aws_s3_bucket" "frontend" {
-  bucket_prefix = "portfolio-frontend-${var.environment}-"
+  bucket        = "jeremyspofford-portfolio-frontend-${var.environment}"
   force_destroy = true
 }
 
