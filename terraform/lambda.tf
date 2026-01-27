@@ -25,31 +25,7 @@ resource "aws_iam_role_policy_attachment" "lambda_basic" {
   policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
 }
 
-# Policy for DynamoDB Access
-resource "aws_iam_policy" "dynamo_policy" {
-  name = "portfolio_dynamo_policy"
-  policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [{
-      Effect = "Allow"
-      Action = [
-        "dynamodb:GetItem",
-        "dynamodb:PutItem",
-        "dynamodb:UpdateItem",
-        "dynamodb:Query",
-        "dynamodb:Scan",
-        "dynamodb:BatchGetItem",
-        "dynamodb:BatchWriteItem"
-      ]
-      Resource = aws_dynamodb_table.portfolio_content.arn
-    }]
-  })
-}
 
-resource "aws_iam_role_policy_attachment" "dynamo_attach" {
-  role       = aws_iam_role.lambda_role.name
-  policy_arn = aws_iam_policy.dynamo_policy.arn
-}
 
 # Policy for Bedrock Access (Enhanced Content)
 resource "aws_iam_policy" "bedrock_policy" {
@@ -81,11 +57,7 @@ resource "aws_lambda_function" "get_content" {
   handler          = "handlers/get_content.handler"
   source_code_hash = data.archive_file.backend_package.output_base64sha256
   runtime          = "nodejs18.x"
-  environment {
-    variables = {
-      TABLE_NAME = aws_dynamodb_table.portfolio_content.name
-    }
-  }
+
 }
 
 resource "aws_lambda_function" "enhance_content" {
@@ -96,11 +68,7 @@ resource "aws_lambda_function" "enhance_content" {
   source_code_hash = data.archive_file.backend_package.output_base64sha256
   runtime          = "nodejs18.x"
   timeout          = 30
-  environment {
-    variables = {
-      TABLE_NAME = aws_dynamodb_table.portfolio_content.name
-    }
-  }
+
 }
 
 resource "aws_lambda_function" "sync_contributions" {
@@ -111,11 +79,7 @@ resource "aws_lambda_function" "sync_contributions" {
   source_code_hash = data.archive_file.backend_package.output_base64sha256
   runtime          = "nodejs18.x"
   timeout          = 60
-  environment {
-    variables = {
-      TABLE_NAME = aws_dynamodb_table.portfolio_content.name
-    }
-  }
+
 }
 
 resource "aws_lambda_function" "get_feature_flags" {
