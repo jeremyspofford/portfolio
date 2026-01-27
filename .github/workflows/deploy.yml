@@ -11,66 +11,143 @@ permissions:
     contents: read
 
 jobs:
-    deploy:
-        name: Deploy
-        runs-on: ubuntu-latest
+  # Job 1: Build & Deploy to Stage (Automatic)
+  deploy_stage:
+    name: Deploy Stage
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push'
+    env:
+      TF_WORKSPACE: stage
+      DOMAIN_NAME: stage.jeremyspofford.dev
 
-        steps:
-            - name: Checkout Code
-              uses: actions/checkout@v4
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
 
-            - name: Setup Node.js
-              uses: actions/setup-node@v4
-              with:
-                  node-version: "20"
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
 
-            - name: Configure AWS Credentials
-              uses: aws-actions/configure-aws-credentials@v4
-              with:
-                  role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
-                  aws-region: us-east-1
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+          aws-region: us-east-1
 
-            - name: Setup Terraform
-              uses: hashicorp/setup-terraform@v3
-              with:
-                  terraform_version: 1.10.0
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.10.0
 
-            - name: Terraform Init
-              working-directory: terraform
-              run: terraform init
+      - name: Terraform Init
+        working-directory: terraform
+        run: terraform init
 
-            - name: Terraform Apply
-              working-directory: terraform
-              run: terraform apply -auto-approve
-              # Note: In a real scenario, we might want to plan first or use a separate job.
+      - name: Select/Create Workspace
+        working-directory: terraform
+        run: terraform workspace select $TF_WORKSPACE || terraform workspace new $TF_WORKSPACE
 
-            - name: Install Frontend Dependencies
-              working-directory: src
-              run: npm ci
+      - name: Terraform Apply
+        working-directory: terraform
+        run: terraform apply -auto-approve -var="environment=$TF_WORKSPACE" -var="domain_name=$DOMAIN_NAME"
 
-            - name: Build Frontend
-              working-directory: src
-              run: |
-                  API_URL=$(cd ../terraform && terraform output -raw api_endpoint)
-                  echo "Building with API URL: $API_URL"
-                  NEXT_PUBLIC_API_URL=$API_URL \
-                  GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }} \
-                  GITLAB_TOKEN=${{ secrets.GITLAB_TOKEN }} \
-                  NEXT_PUBLIC_GA_ID=${{ vars.NEXT_PUBLIC_GA_ID }} \
-                  NEXT_PUBLIC_SITE_URL=https://www.jeremyspofford.com \
-                  npm run build
+      - name: Install Frontend Dependencies
+        working-directory: src
+        run: npm ci
 
-            - name: Sync Frontend to S3
-              working-directory: src
-              # Using the output from terraform or hardcoding bucket name if known/stable
-              # For robustness, we can fetch the bucket name from Terraform output
-              run: |
-                  BUCKET_NAME=$(cd ../terraform && terraform output -raw s3_bucket_name)
-                  echo "Deploying to bucket: $BUCKET_NAME"
-                  aws s3 sync out/ s3://$BUCKET_NAME --delete
+      - name: Build Frontend
+        working-directory: src
+        run: |
+          API_URL=$(cd ../terraform && terraform output -raw api_endpoint)
+          echo "Building with API URL: $API_URL"
+          NEXT_PUBLIC_API_URL=$API_URL \
+          GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }} \
+          GITLAB_TOKEN=${{ secrets.GITLAB_TOKEN }} \
+          NEXT_PUBLIC_GA_ID=${{ vars.NEXT_PUBLIC_GA_ID }} \
+          NEXT_PUBLIC_SITE_URL=https://$DOMAIN_NAME \
+          npm run build
 
-            - name: Invalidate CloudFront Cache
-              run: |
-                  DIST_ID=$(cd terraform && terraform output -raw cloudfront_distribution_id)
-                  echo "Invalidating distribution: $DIST_ID"
-                  aws cloudfront create-invalidation --distribution-id $DIST_ID --paths "/*"
+      - name: Sync Frontend to S3
+        working-directory: src
+        run: |
+          BUCKET_NAME=$(cd ../terraform && terraform output -raw s3_bucket_name)
+          echo "Deploying to bucket: $BUCKET_NAME"
+          aws s3 sync out/ s3://$BUCKET_NAME --delete
+
+      - name: Invalidate CloudFront Cache
+        run: |
+          DIST_ID=$(cd terraform && terraform output -raw cloudfront_distribution_id)
+          echo "Invalidating distribution: $DIST_ID"
+          aws cloudfront create-invalidation --distribution-id $DIST_ID --paths "/*"
+
+  # Job 2: Build & Deploy to Prod (Manual)
+  deploy_prod:
+    name: Deploy Production
+    runs-on: ubuntu-latest
+    # Only run if manually triggered via the "Run workflow" button
+    if: github.event_name == 'workflow_dispatch'
+    env:
+      TF_WORKSPACE: prod
+      DOMAIN_NAME: jeremyspofford.dev
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+          aws-region: us-east-1
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.10.0
+
+      - name: Terraform Init
+        working-directory: terraform
+        run: terraform init
+
+      - name: Select/Create Workspace
+        working-directory: terraform
+        run: terraform workspace select $TF_WORKSPACE || terraform workspace new $TF_WORKSPACE
+
+      - name: Terraform Apply
+        working-directory: terraform
+        run: terraform apply -auto-approve -var="environment=$TF_WORKSPACE" -var="domain_name=$DOMAIN_NAME"
+
+      - name: Install Frontend Dependencies
+        working-directory: src
+        run: npm ci
+
+      - name: Build Frontend
+        working-directory: src
+        run: |
+          API_URL=$(cd ../terraform && terraform output -raw api_endpoint)
+          echo "Building with API URL: $API_URL"
+          NEXT_PUBLIC_API_URL=$API_URL \
+          GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }} \
+          GITLAB_TOKEN=${{ secrets.GITLAB_TOKEN }} \
+          NEXT_PUBLIC_GA_ID=${{ vars.NEXT_PUBLIC_GA_ID }} \
+          NEXT_PUBLIC_SITE_URL=https://$DOMAIN_NAME \
+          npm run build
+
+      - name: Sync Frontend to S3
+        working-directory: src
+        run: |
+          BUCKET_NAME=$(cd ../terraform && terraform output -raw s3_bucket_name)
+          echo "Deploying to bucket: $BUCKET_NAME"
+          aws s3 sync out/ s3://$BUCKET_NAME --delete
+
+      - name: Invalidate CloudFront Cache
+        run: |
+          DIST_ID=$(cd terraform && terraform output -raw cloudfront_distribution_id)
+          echo "Invalidating distribution: $DIST_ID"
+          aws cloudfront create-invalidation --distribution-id $DIST_ID --paths "/*"

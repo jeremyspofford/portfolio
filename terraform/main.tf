@@ -20,7 +20,7 @@ provider "aws" {
     tags = {
       Project     = "Portfolio"
       ManagedBy   = "Terraform"
-      Environment = "Production"
+      Environment = var.environment
     }
   }
 }
