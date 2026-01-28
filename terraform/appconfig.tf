@@ -47,7 +47,7 @@ resource "aws_appconfig_configuration_profile" "feature_flags" {
 
 # Deployment Strategy - Immediate (for feature flags)
 resource "aws_appconfig_deployment_strategy" "immediate" {
-  name                           = "portfolio-immediate"
+  name                           = "portfolio-immediate-${var.environment}"
   description                    = "Immediate deployment for feature flags"
   deployment_duration_in_minutes = 0
   final_bake_time_in_minutes     = 0

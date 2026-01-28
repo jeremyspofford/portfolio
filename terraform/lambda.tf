@@ -52,7 +52,7 @@ resource "aws_iam_role_policy_attachment" "bedrock_attach" {
 
 resource "aws_lambda_function" "get_content" {
   filename         = data.archive_file.backend_package.output_path
-  function_name    = "portfolio-get-content"
+  function_name    = "portfolio-get-content-${var.environment}"
   role             = aws_iam_role.lambda_role.arn
   handler          = "handlers/get_content.handler"
   source_code_hash = data.archive_file.backend_package.output_base64sha256
@@ -62,7 +62,7 @@ resource "aws_lambda_function" "get_content" {
 
 resource "aws_lambda_function" "enhance_content" {
   filename         = data.archive_file.backend_package.output_path
-  function_name    = "portfolio-enhance-content"
+  function_name    = "portfolio-enhance-content-${var.environment}"
   role             = aws_iam_role.lambda_role.arn
   handler          = "handlers/enhance_content.handler"
   source_code_hash = data.archive_file.backend_package.output_base64sha256
@@ -73,7 +73,7 @@ resource "aws_lambda_function" "enhance_content" {
 
 resource "aws_lambda_function" "sync_contributions" {
   filename         = data.archive_file.backend_package.output_path
-  function_name    = "portfolio-sync-contributions"
+  function_name    = "portfolio-sync-contributions-${var.environment}"
   role             = aws_iam_role.lambda_role.arn
   handler          = "handlers/sync_contributions.handler"
   source_code_hash = data.archive_file.backend_package.output_base64sha256
@@ -84,7 +84,7 @@ resource "aws_lambda_function" "sync_contributions" {
 
 resource "aws_lambda_function" "get_feature_flags" {
   filename         = data.archive_file.backend_package.output_path
-  function_name    = "portfolio-get-feature-flags"
+  function_name    = "portfolio-get-feature-flags-${var.environment}"
   role             = aws_iam_role.lambda_role.arn
   handler          = "handlers/get_feature_flags.handler"
   source_code_hash = data.archive_file.backend_package.output_base64sha256
