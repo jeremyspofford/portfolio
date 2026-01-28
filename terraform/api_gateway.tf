@@ -1,5 +1,5 @@
 resource "aws_apigatewayv2_api" "http_api" {
-  name          = "portfolio-api"
+  name          = "portfolio-api-${var.environment}"
   protocol_type = "HTTP"
   cors_configuration {
     allow_origins = ["*"] # Lock down to CloudFront domain later

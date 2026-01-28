@@ -28,7 +28,7 @@ resource "aws_iam_role_policy_attachment" "scheduler_attach" {
 }
 
 resource "aws_scheduler_schedule" "sync_schedule" {
-  name       = "portfolio-sync-contributions-schedule"
+  name       = "portfolio-sync-contributions-schedule-${var.environment}"
   group_name = "default"
 
   flexible_time_window {
