@@ -19,11 +19,11 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     locale: 'en_US',
-    url: 'https://www.jeremyspofford.com',
+    url: 'https://jeremyspofford.dev',
     siteName: 'Jeremy Spofford Portfolio',
     images: [
       {
-        url: 'https://www.jeremyspofford.com/og-image.png', // Placeholder
+        url: 'https://jeremyspofford.dev/og-image.png',
         width: 1200,
         height: 630,
         alt: 'Jeremy Spofford - Senior DevOps Engineer',

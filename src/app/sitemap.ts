@@ -3,7 +3,7 @@ import { getAllPosts } from '@/lib/blog';
 
 export const dynamic = 'force-static';
 
-const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.jeremyspofford.com'; // Replace with actual domain
+const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://jeremyspofford.dev';
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const posts = getAllPosts();
