@@ -2,7 +2,7 @@ import { MetadataRoute } from 'next';
 
 export const dynamic = 'force-static';
 
-const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.jeremyspofford.com';
+const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://jeremyspofford.dev';
 
 export default function robots(): MetadataRoute.Robots {
   return {
