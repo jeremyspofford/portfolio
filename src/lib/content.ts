@@ -5,7 +5,7 @@ import yaml from 'js-yaml';
 import { ContentItem, ProfileContent } from './api';
 
 // Define the data directory
-const DATA_DIR = path.join(process.cwd(), 'data');
+const DATA_DIR = path.join(process.cwd(), 'src', 'data');
 
 export async function fetchContent(section: string): Promise<ContentItem<unknown>[]> {
   try {
