@@ -1,5 +1,7 @@
 # Serverless AI Portfolio
 
+[![Deploy](https://github.com/jeremyspofford/portfolio/actions/workflows/deploy.yml/badge.svg)](https://github.com/jeremyspofford/portfolio/actions/workflows/deploy.yml)
+
 A modern, full-stack portfolio application built with Next.js, AWS Serverless architecture, and AI integration using AWS Bedrock.
 
 ## 🏗 Architecture
