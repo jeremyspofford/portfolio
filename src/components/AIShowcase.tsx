@@ -39,9 +39,9 @@ const defaultProjects: AIProject[] = [
 ];
 
 const statusConfig = {
-  'completed': { label: 'Completed', color: 'bg-green-100 text-green-700 border-green-200 },
-  'in-progress': { label: 'In Progress', color: 'bg-violet-100 text-violet-700 border-violet-200 },
-  'planned': { label: 'Planned', color: 'bg-gray-100 text-gray-600 border-gray-200 },
+  'completed': { label: 'Completed', color: 'bg-green-100 text-green-700 border-green-200' },
+  'in-progress': { label: 'In Progress', color: 'bg-violet-100 text-violet-700 border-violet-200' },
+  'planned': { label: 'Planned', color: 'bg-gray-100 text-gray-600 border-gray-200' },
 };
 
 export function AIShowcase({ projects = defaultProjects }: AIShowcaseProps) {

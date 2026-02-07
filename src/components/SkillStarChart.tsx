@@ -66,7 +66,7 @@ export function SkillStarChart({ skills, overallScore }: SkillStarChartProps) {
                       className={`w-4 h-4 ${
                         index < cappedRating
                           ? 'text-yellow-500 fill-yellow-500'
-                          : 'text-gray-300
+                          : 'text-gray-300'
                       }`}
                     />
                   ))}
