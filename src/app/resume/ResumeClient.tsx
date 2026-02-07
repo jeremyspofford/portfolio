@@ -69,26 +69,26 @@ export function ResumeClient({ profile, experience, education, skills, certifica
       <div className="grid gap-8 lg:grid-cols-[1fr_380px]">
         {/* Main Resume Content - Paper Sheet */}
         <div className="relative">
-          <div className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 shadow-lg print:shadow-none print:border-none p-8 md:p-12 min-h-[11in] mx-auto print:mx-0 print:p-0">
+          <div className="bg-white border border-zinc-200 shadow-lg print:shadow-none print:border-none p-8 md:p-12 min-h-[11in] mx-auto print:mx-0 print:p-0">
             {/* Header */}
-            <header className="border-b-2 border-zinc-900 dark:border-zinc-100 pb-8 mb-8">
+            <header className="border-b-2 border-zinc-900 pb-8 mb-8">
                 <>
-                  <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight text-zinc-900 dark:text-zinc-50 mb-4 uppercase">
+                  <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight text-zinc-900 mb-4 uppercase">
                     {profile?.name || "Name"}
                   </h2>
-                  <div className="flex flex-col md:flex-row md:items-center justify-between text-zinc-600 dark:text-zinc-400 font-medium">
-                    <p className="text-lg text-zinc-900 dark:text-zinc-200">{profile?.title}</p>
+                  <div className="flex flex-col md:flex-row md:items-center justify-between text-zinc-600 font-medium">
+                    <p className="text-lg text-zinc-900">{profile?.title}</p>
                     <div className="flex flex-col md:flex-row md:gap-6 text-sm mt-2 md:mt-0">
                       <span className="hover:text-primary transition-colors">{profile?.email}</span>
                       {profile?.socials?.github && (
                         <>
-                          <span className="hidden md:inline text-zinc-300 dark:text-zinc-700">|</span>
+                          <span className="hidden md:inline text-zinc-300">|</span>
                           <span className="hover:text-primary transition-colors">{profile.socials.github}</span>
                         </>
                       )}
                       {profile?.location && (
                         <>
-                          <span className="hidden md:inline text-zinc-300 dark:text-zinc-700">|</span>
+                          <span className="hidden md:inline text-zinc-300">|</span>
                           <span>{profile.location}</span>
                         </>
                       )}
@@ -100,40 +100,40 @@ export function ResumeClient({ profile, experience, education, skills, certifica
             <div className="space-y-8">
               {/* Summary */}
               <section>
-                <h3 className="text-sm font-bold uppercase tracking-widest text-zinc-500 dark:text-zinc-400 mb-4 border-b border-zinc-100 dark:border-zinc-800 pb-2">
+                <h3 className="text-sm font-bold uppercase tracking-widest text-zinc-500 mb-4 border-b border-zinc-100 pb-2">
                   Professional Summary
                 </h3>
-                  <p className="text-zinc-700 dark:text-zinc-300 leading-relaxed max-w-3xl">
+                  <p className="text-zinc-700 leading-relaxed max-w-3xl">
                     {profile?.bio}
                   </p>
               </section>
 
               {/* Experience */}
               <section>
-                <h3 className="text-sm font-bold uppercase tracking-widest text-zinc-500 dark:text-zinc-400 mb-6 border-b border-zinc-100 dark:border-zinc-800 pb-2">
+                <h3 className="text-sm font-bold uppercase tracking-widest text-zinc-500 mb-6 border-b border-zinc-100 pb-2">
                   Work Experience
                 </h3>
                 <div className="space-y-8">
                     {experience.map((item) => (
                       <div key={item.SK} className="group">
                         <div className="flex flex-col sm:flex-row sm:justify-between sm:items-baseline mb-2">
-                          <h4 className="text-lg font-bold text-zinc-900 dark:text-zinc-100">
+                          <h4 className="text-lg font-bold text-zinc-900">
                             {item.content.role} <span className="font-normal text-zinc-500">at</span> {item.content.company}
                           </h4>
-                          <span className="text-sm font-mono text-zinc-500 shrink-0 bg-zinc-100 dark:bg-zinc-800 px-2 py-1 rounded">
+                          <span className="text-sm font-mono text-zinc-500 shrink-0 bg-zinc-100 px-2 py-1 rounded">
                             {item.content.startDate} — {item.content.endDate}
                           </span>
                         </div>
-                        <p className="text-zinc-700 dark:text-zinc-300 leading-relaxed mb-3">
+                        <p className="text-zinc-700 leading-relaxed mb-3">
                           {item.content.description}
                         </p>
 
                         {/* Key Deliverables (if any) */}
                         {item.content.key_deliverables && item.content.key_deliverables.length > 0 && (
-                          <ul className="list-disc list-outside ml-4 space-y-1 text-sm text-zinc-600 dark:text-zinc-400">
+                          <ul className="list-disc list-outside ml-4 space-y-1 text-sm text-zinc-600">
                             {item.content.key_deliverables.map((del: DeliverableContent, idx: number) => (
                               <li key={idx} className="pl-1">
-                                <span className="font-semibold text-zinc-800 dark:text-zinc-200">{del.title}</span>: {del.description}
+                                <span className="font-semibold text-zinc-800">{del.title}</span>: {del.description}
                               </li>
                             ))}
                           </ul>
@@ -143,7 +143,7 @@ export function ResumeClient({ profile, experience, education, skills, certifica
                         {item.content.technologies && item.content.technologies.length > 0 && (
                           <div className="flex flex-wrap gap-1 mt-3">
                             {item.content.technologies.slice(0, 5).map((tech: string) => (
-                              <span key={tech} className="text-[10px] uppercase font-bold text-zinc-500 bg-zinc-50 dark:bg-zinc-800/50 px-1.5 py-0.5 rounded border border-zinc-200 dark:border-zinc-700">
+                              <span key={tech} className="text-[10px] uppercase font-bold text-zinc-500 bg-zinc-50 px-1.5 py-0.5 rounded border border-zinc-200">
                                 {tech}
                               </span>
                             ))}
@@ -157,30 +157,30 @@ export function ResumeClient({ profile, experience, education, skills, certifica
               {/* Education */}
               {education.length > 0 && (
                 <section>
-                  <h3 className="text-sm font-bold uppercase tracking-widest text-zinc-500 dark:text-zinc-400 mb-6 border-b border-zinc-100 dark:border-zinc-800 pb-2">
+                  <h3 className="text-sm font-bold uppercase tracking-widest text-zinc-500 mb-6 border-b border-zinc-100 pb-2">
                     Education
                   </h3>
                   <div className="space-y-4">
                     {education.map((item) => (
                       <div key={item.SK}>
                         <div className="flex flex-col sm:flex-row sm:justify-between sm:items-baseline mb-2">
-                          <h4 className="text-lg font-bold text-zinc-900 dark:text-zinc-100">
+                          <h4 className="text-lg font-bold text-zinc-900">
                             {item.content.degree}
                           </h4>
-                          <span className="text-sm font-mono text-zinc-500 shrink-0 bg-zinc-100 dark:bg-zinc-800 px-2 py-1 rounded">
+                          <span className="text-sm font-mono text-zinc-500 shrink-0 bg-zinc-100 px-2 py-1 rounded">
                             {item.content.graduationDate}
                           </span>
                         </div>
-                        <p className="text-zinc-700 dark:text-zinc-300 mb-1">
+                        <p className="text-zinc-700 mb-1">
                           {item.content.institution}
                         </p>
                         {item.content.gpa && (
-                          <p className="text-sm text-zinc-600 dark:text-zinc-400">
+                          <p className="text-sm text-zinc-600">
                             GPA: {item.content.gpa}
                           </p>
                         )}
                         {item.content.honors && item.content.honors.length > 0 && (
-                          <ul className="list-disc list-outside ml-4 mt-2 space-y-1 text-sm text-zinc-600 dark:text-zinc-400">
+                          <ul className="list-disc list-outside ml-4 mt-2 space-y-1 text-sm text-zinc-600">
                             {item.content.honors.map((honor: string, idx: number) => (
                               <li key={idx} className="pl-1">{honor}</li>
                             ))}
@@ -195,16 +195,16 @@ export function ResumeClient({ profile, experience, education, skills, certifica
               {/* Skills */}
               {skills.length > 0 && (
                 <section>
-                  <h3 className="text-sm font-bold uppercase tracking-widest text-zinc-500 dark:text-zinc-400 mb-6 border-b border-zinc-100 dark:border-zinc-800 pb-2">
+                  <h3 className="text-sm font-bold uppercase tracking-widest text-zinc-500 mb-6 border-b border-zinc-100 pb-2">
                     Skills
                   </h3>
                   <div className="grid grid-cols-2 gap-x-8 gap-y-4">
                     {skills.map((skill) => (
                       <div key={skill.SK}>
-                        <h4 className="font-bold text-zinc-900 dark:text-zinc-100 mb-1">
+                        <h4 className="font-bold text-zinc-900 mb-1">
                           {skill.content.category}
                         </h4>
-                        <p className="text-zinc-700 dark:text-zinc-300 text-sm leading-relaxed">
+                        <p className="text-zinc-700 text-sm leading-relaxed">
                           {skill.content.items.join(", ")}
                         </p>
                       </div>
@@ -216,21 +216,21 @@ export function ResumeClient({ profile, experience, education, skills, certifica
               {/* Certifications */}
               {certifications.length > 0 && (
                  <section>
-                   <h3 className="text-sm font-bold uppercase tracking-widest text-zinc-500 dark:text-zinc-400 mb-6 border-b border-zinc-100 dark:border-zinc-800 pb-2">
+                   <h3 className="text-sm font-bold uppercase tracking-widest text-zinc-500 mb-6 border-b border-zinc-100 pb-2">
                      Certifications
                    </h3>
                    <div className="space-y-4">
                      {certifications.map((cert) => (
                        <div key={cert.SK} className="flex flex-col sm:flex-row sm:justify-between sm:items-baseline">
                          <div>
-                           <h4 className="font-bold text-zinc-900 dark:text-zinc-100">
+                           <h4 className="font-bold text-zinc-900">
                              {cert.content.name}
                            </h4>
-                           <p className="text-sm text-zinc-600 dark:text-zinc-400">
+                           <p className="text-sm text-zinc-600">
                              {cert.content.issuer}
                            </p>
                          </div>
-                         <div className="text-sm font-mono text-zinc-500 bg-zinc-100 dark:bg-zinc-800 px-2 py-1 rounded mt-1 sm:mt-0">
+                         <div className="text-sm font-mono text-zinc-500 bg-zinc-100 px-2 py-1 rounded mt-1 sm:mt-0">
                            {cert.content.date}
                          </div>
                        </div>

@@ -165,7 +165,7 @@ export function JobPostingMatcher({ candidateSkills }: JobPostingMatcherProps) {
         {error && (
           <div
             role="alert"
-            className="flex items-center gap-2 p-3 text-sm text-red-700 bg-red-50 dark:text-red-400 dark:bg-red-950/50 border border-red-200 dark:border-red-900 rounded-lg"
+            className="flex items-center gap-2 p-3 text-sm text-red-700 bg-red-50 border border-red-200 rounded-lg"
           >
             <AlertCircle className="w-4 h-4 flex-shrink-0" />
             <span>Failed to analyze job posting. Please try again.</span>
@@ -180,11 +180,11 @@ export function JobPostingMatcher({ candidateSkills }: JobPostingMatcherProps) {
             />
 
             {result.summary && (
-              <div className="p-4 bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-950/30 dark:to-emerald-950/30 border border-green-200 dark:border-green-900 rounded-lg">
-                <h4 className="text-sm font-semibold text-green-700 dark:text-green-400 mb-2">
+              <div className="p-4 bg-gradient-to-r from-green-50 to-emerald-50 border border-green-200 rounded-lg">
+                <h4 className="text-sm font-semibold text-green-700 mb-2">
                   Summary
                 </h4>
-                <p className="text-sm text-green-800 dark:text-green-300 leading-relaxed">
+                <p className="text-sm text-green-800 leading-relaxed">
                   {result.summary}
                 </p>
               </div>

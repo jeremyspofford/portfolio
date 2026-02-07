@@ -46,10 +46,10 @@ export default async function BlogPost(props: { params: Promise<{ slug: string }
           Back to Blog
         </Link>
       
-      <div className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl shadow-sm overflow-hidden min-h-[500px]">
+      <div className="bg-white border border-zinc-200 rounded-2xl shadow-sm overflow-hidden min-h-[500px]">
           {/* Hero Image */}
           {post.image && (
-              <div className="w-full h-64 md:h-96 relative bg-zinc-100 dark:bg-zinc-800">
+              <div className="w-full h-64 md:h-96 relative bg-zinc-100">
                   <img 
                     src={post.image} 
                     alt={post.title} 
@@ -67,7 +67,7 @@ export default async function BlogPost(props: { params: Promise<{ slug: string }
                 </div>
                 </div>
 
-                <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight text-zinc-900 dark:text-zinc-50 leading-tight">
+                <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight text-zinc-900 leading-tight">
                 {post.title}
                 </h1>
                 
@@ -81,7 +81,7 @@ export default async function BlogPost(props: { params: Promise<{ slug: string }
                 </div>
             </header>
 
-            <div className="prose prose-zinc dark:prose-invert max-w-none
+            <div className="prose prose-zinc max-w-none
                 prose-headings:font-bold prose-headings:tracking-tight
                 prose-a:text-primary prose-a:no-underline hover:prose-a:underline
                 prose-img:rounded-xl prose-img:shadow-md

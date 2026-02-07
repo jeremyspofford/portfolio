@@ -66,7 +66,7 @@ export function Hero({ profile, certifications }: HeroProps) {
             <h1 className="text-2xl font-bold tracking-tighter sm:text-3xl md:text-5xl lg:text-6xl/none bg-clip-text text-transparent bg-gradient-to-r from-primary to-blue-600">
               {profile.name}
             </h1>
-            <div className="h-7 sm:h-8 md:h-10 text-lg sm:text-xl md:text-2xl lg:text-3xl font-mono text-gray-500 dark:text-gray-400">
+            <div className="h-7 sm:h-8 md:h-10 text-lg sm:text-xl md:text-2xl lg:text-3xl font-mono text-gray-500">
                 <span className="mr-1 sm:mr-2">&gt;</span>
                 <Typewriter words={profile.titles || [profile.title]} />
             </div>
@@ -78,17 +78,17 @@ export function Hero({ profile, certifications }: HeroProps) {
                 <span className="sm:hidden">{profile.titles?.[0]}</span>
             </div>
 
-            <p className="mx-auto max-w-[700px] text-sm sm:text-base text-gray-500 md:text-lg dark:text-gray-400">
+            <p className="mx-auto max-w-[700px] text-sm sm:text-base text-gray-500 md:text-lg">
               {profile.bio}
             </p>
 
             {/* Career Direction / AI Roadmap */}
-            <div className="mt-4 sm:mt-6 px-4 py-3 bg-gradient-to-r from-violet-500/10 to-indigo-500/10 dark:from-violet-500/20 dark:to-indigo-500/20 border border-violet-200 dark:border-violet-800/50 rounded-lg max-w-lg mx-auto">
+            <div className="mt-4 sm:mt-6 px-4 py-3 bg-gradient-to-r from-violet-500/10 to-indigo-500/10 border border-violet-200 rounded-lg max-w-lg mx-auto">
               <div className="flex items-center justify-center gap-2 text-xs sm:text-sm font-medium">
-                <span className="text-violet-600 dark:text-violet-400">Career Direction:</span>
-                <span className="text-gray-700 dark:text-gray-300">Senior Platform AI Engineer</span>
+                <span className="text-violet-600">Career Direction:</span>
+                <span className="text-gray-700">Senior Platform AI Engineer</span>
               </div>
-              <p className="text-[10px] sm:text-xs text-gray-500 dark:text-gray-400 mt-1 text-center">
+              <p className="text-[10px] sm:text-xs text-gray-500 mt-1 text-center">
                 Bridging DevOps expertise with AI/ML infrastructure
               </p>
             </div>
@@ -97,7 +97,7 @@ export function Hero({ profile, certifications }: HeroProps) {
             {activeCerts.length > 0 && (
                 <div className="flex flex-wrap justify-center gap-1.5 sm:gap-2 mt-3 sm:mt-4">
                     {activeCerts.map((cert) => (
-                        <span key={cert.name} className="inline-flex items-center px-2 py-0.5 sm:px-2.5 rounded-full text-[10px] sm:text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400 border border-green-200 dark:border-green-800">
+                        <span key={cert.name} className="inline-flex items-center px-2 py-0.5 sm:px-2.5 rounded-full text-[10px] sm:text-xs font-medium bg-green-100 text-green-800 border border-green-200">
                             {cert.name}
                         </span>
                     ))}

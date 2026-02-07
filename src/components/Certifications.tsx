@@ -34,7 +34,7 @@ export function Certifications({ items }: CertificationsProps) {
   if (!sortedItems.length) return null;
 
   return (
-    <section id="certifications" className="py-12 md:py-20 px-4 md:px-8 bg-zinc-50 dark:bg-zinc-900/50">
+    <section id="certifications" className="py-12 md:py-20 px-4 md:px-8 bg-zinc-50">
       <div className="max-w-6xl mx-auto">
         <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-8 md:mb-12 flex items-center gap-2 sm:gap-3">
           <BadgeCheck className="w-6 h-6 sm:w-8 sm:h-8 text-primary" />
@@ -47,19 +47,19 @@ export function Certifications({ items }: CertificationsProps) {
             return (
               <div
                 key={item.SK}
-                className="group relative flex flex-col bg-white dark:bg-zinc-800 rounded-xl p-4 sm:p-6 shadow-sm border border-zinc-200 dark:border-zinc-700 hover:shadow-md transition-all duration-300"
+                className="group relative flex flex-col bg-white rounded-xl p-4 sm:p-6 shadow-sm border border-zinc-200 hover:shadow-md transition-all duration-300"
               >
                 <div className="flex justify-between items-start mb-4">
-                    <div className="p-2 bg-zinc-100 dark:bg-zinc-700/50 rounded-lg">
+                    <div className="p-2 bg-zinc-100 rounded-lg">
                         {/* Placeholder for logo if we had one, simplified to text char for now or generic icon */}
-                         <BadgeCheck className="w-6 h-6 text-zinc-600 dark:text-zinc-400" />
+                         <BadgeCheck className="w-6 h-6 text-zinc-600" />
                     </div>
                     {cert.active ? (
-                        <span className="px-2 py-1 text-xs font-medium rounded-full bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400">
+                        <span className="px-2 py-1 text-xs font-medium rounded-full bg-green-100 text-green-700">
                             Active
                         </span>
                     ) : (
-                         <span className="px-2 py-1 text-xs font-medium rounded-full bg-zinc-100 text-zinc-600 dark:bg-zinc-700 dark:text-zinc-400">
+                         <span className="px-2 py-1 text-xs font-medium rounded-full bg-zinc-100 text-zinc-600">
                             Expired
                         </span>
                     )}
@@ -69,12 +69,12 @@ export function Certifications({ items }: CertificationsProps) {
                   {cert.name}
                 </h3>
                 
-                <p className="text-sm text-zinc-500 dark:text-zinc-400 font-medium mb-4">
+                <p className="text-sm text-zinc-500 font-medium mb-4">
                     {cert.issuer}
                 </p>
 
-                <div className="mt-auto pt-4 border-t border-zinc-100 dark:border-zinc-700/50 flex items-center justify-between text-sm">
-                   <div className="flex items-center text-zinc-500 dark:text-zinc-400">
+                <div className="mt-auto pt-4 border-t border-zinc-100 flex items-center justify-between text-sm">
+                   <div className="flex items-center text-zinc-500">
                         <Calendar className="w-4 h-4 mr-2" />
                         {cert.date}
                    </div>

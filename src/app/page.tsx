@@ -70,7 +70,7 @@ export default async function Home() {
       {latestPosts.length > 0 && (
         <section className="w-full max-w-4xl mx-auto p-6 md:p-12">
           <div className="flex justify-between items-baseline mb-8">
-            <h2 className="text-3xl font-bold text-slate-900 dark:text-white">Latest Thoughts</h2>
+            <h2 className="text-3xl font-bold text-slate-900">Latest Thoughts</h2>
             <Link href="/blog" className="text-indigo-400 hover:text-indigo-300 flex items-center gap-1 text-sm font-medium">
               View all <ArrowRight className="w-4 h-4" />
             </Link>
@@ -80,13 +80,13 @@ export default async function Home() {
               <Link
                 key={post.slug}
                 href={`/blog/${post.slug}`}
-                className="group p-6 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 border-2 border-slate-200 dark:border-slate-600 hover:border-indigo-500 dark:hover:border-indigo-400 rounded-2xl transition-all shadow-sm hover:shadow-lg"
+                className="group p-6 bg-white hover:bg-slate-50 border-2 border-slate-200 hover:border-indigo-500 rounded-2xl transition-all shadow-sm hover:shadow-lg"
               >
-                <div className="text-xs text-slate-500 dark:text-slate-300 mb-2 font-mono">{post.date}</div>
-                <h3 className="text-xl font-bold text-slate-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-300 transition-colors mb-2">
+                <div className="text-xs text-slate-500 mb-2 font-mono">{post.date}</div>
+                <h3 className="text-xl font-bold text-slate-900 group-hover:text-indigo-600 transition-colors mb-2">
                   {post.title}
                 </h3>
-                <p className="text-slate-600 dark:text-slate-200 text-sm line-clamp-2 leading-relaxed">
+                <p className="text-slate-600 text-sm line-clamp-2 leading-relaxed">
                   {post.description}
                 </p>
               </Link>

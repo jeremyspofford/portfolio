@@ -30,8 +30,8 @@ export function SkillStarChart({ skills, overallScore }: SkillStarChartProps) {
       </h3>
 
       {overallScore !== undefined && (
-        <div className="flex items-center gap-4 p-4 bg-gradient-to-r from-indigo-50 to-purple-50 dark:from-indigo-950/50 dark:to-purple-950/50 rounded-xl border border-indigo-100 dark:border-indigo-900">
-          <div className="text-4xl font-bold text-indigo-600 dark:text-indigo-400">
+        <div className="flex items-center gap-4 p-4 bg-gradient-to-r from-indigo-50 to-purple-50 rounded-xl border border-indigo-100">
+          <div className="text-4xl font-bold text-indigo-600">
             {overallScore}%
           </div>
           <div className="text-sm text-muted-foreground">
@@ -66,7 +66,7 @@ export function SkillStarChart({ skills, overallScore }: SkillStarChartProps) {
                       className={`w-4 h-4 ${
                         index < cappedRating
                           ? 'text-yellow-500 fill-yellow-500'
-                          : 'text-gray-300 dark:text-gray-600'
+                          : 'text-gray-300
                       }`}
                     />
                   ))}

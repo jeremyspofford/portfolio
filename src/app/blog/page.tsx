@@ -11,15 +11,15 @@ export default function BlogIndex() {
       <div className="space-y-4">
         <Link 
           href="/"
-          className="inline-flex items-center text-sm text-slate-600 dark:text-slate-400 hover:text-indigo-500 dark:hover:text-indigo-400 transition-colors font-medium"
+          className="inline-flex items-center text-sm text-slate-600 hover:text-indigo-500 transition-colors font-medium"
         >
           <ArrowLeft className="w-4 h-4 mr-2" />
           Back to Portfolio
         </Link>
-        <h1 className="text-4xl md:text-5xl font-bold text-slate-900 dark:text-white">
+        <h1 className="text-4xl md:text-5xl font-bold text-slate-900">
           Latest Thoughts
         </h1>
-        <p className="text-slate-600 dark:text-slate-400 text-lg">
+        <p className="text-slate-600 text-lg">
           Musings on DevOps, AI, and building for the modern web.
         </p>
       </div>

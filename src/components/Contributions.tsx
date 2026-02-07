@@ -37,7 +37,7 @@ export function Contributions({ data, total }: ContributionsProps) {
             data={data}
             theme={{
               light: ['#ebedf0', '#4ade80', '#22c55e', '#16a34a', '#15803d'], // More vibrant greens for light mode
-              dark: ['#161b22', '#0e4429', '#006d32', '#26a641', '#39d353'],
+              ['#161b22', '#0e4429', '#006d32', '#26a641', '#39d353'],
             }}
             blockSize={10}
             blockMargin={3}

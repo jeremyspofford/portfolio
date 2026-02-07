@@ -6,7 +6,7 @@ import { cn } from '@/lib/utils';
 import { Menu, X } from 'lucide-react';
 import { useState, useEffect, useCallback } from 'react';
 
-import { ThemeToggle } from '@/components/ThemeToggle';
+// ThemeToggle removed - light mode only
 
 const NAV_ITEMS = [
   { label: 'Home', href: '/' },
@@ -84,7 +84,6 @@ export function Navbar() {
               {item.label}
             </Link>
           ))}
-          <ThemeToggle />
         </div>
 
         {/* Mobile Menu Toggle */}
@@ -132,11 +131,6 @@ export function Navbar() {
                    {item.label}
                  </Link>
                ))}
-             </div>
-             {/* Theme toggle in mobile menu */}
-             <div className="px-4 py-3 flex items-center justify-between border-t mt-2 pt-4">
-               <span className="text-sm text-muted-foreground">Theme</span>
-               <ThemeToggle />
              </div>
            </div>
         </div>

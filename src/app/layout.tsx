@@ -49,8 +49,8 @@ export default function RootLayout({
         <GoogleAnalytics />
         <ThemeProvider
             attribute="class"
-            defaultTheme="system"
-            enableSystem
+            defaultTheme="light"
+            forcedTheme="light"
             disableTransitionOnChange
         >
           <FeatureFlagsProvider>
