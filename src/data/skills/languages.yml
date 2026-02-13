@@ -9,6 +9,5 @@ content:
     - TypeScript
     - JavaScript
     - PowerShell
-    - C#
   icon: code
   description: Polyglot programming for automation, scripting, and application development.

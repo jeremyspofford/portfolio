@@ -26,8 +26,8 @@ const defaultProjects: AIProject[] = [
   },
   {
     title: "AI Infrastructure Platform",
-    description: "Building scalable infrastructure for ML model deployment using Kubernetes, MLflow, and cloud-native tools.",
-    technologies: ["Kubernetes", "MLflow", "Terraform", "Python"],
+    description: "Building scalable infrastructure for ML model deployment using Docker, MLflow, and cloud-native tools.",
+    technologies: ["Docker", "MLflow", "Terraform", "Python"],
     status: "in-progress",
   },
   {
@@ -76,7 +76,7 @@ export function AIShowcase({ projects = defaultProjects }: AIShowcaseProps) {
               <Rocket className="w-5 h-5 text-indigo-600" />
             </div>
             <h3 className="font-semibold mb-1">DevOps Foundation</h3>
-            <p className="text-xs text-muted-foreground">CI/CD, Kubernetes, Terraform, AWS</p>
+            <p className="text-xs text-muted-foreground">CI/CD, Docker, Terraform, AWS</p>
           </div>
           <div className="p-4 bg-card border rounded-lg text-center relative">
             <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-2 py-0.5 bg-violet-500 text-white text-[10px] font-bold rounded-full uppercase">

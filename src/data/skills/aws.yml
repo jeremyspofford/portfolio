@@ -12,5 +12,7 @@ content:
     - DynamoDB
     - CloudFront
     - API Gateway
+    - Cognito
+    - CloudWatch
   icon: cloud
   description: Deep knowledge of AWS core services and serverless computing architectures.

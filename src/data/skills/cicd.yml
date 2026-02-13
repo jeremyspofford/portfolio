@@ -6,6 +6,7 @@ content:
   items:
     - GitLab CI/CD
     - GitHub Actions
-    - Jenkins
+    - Azure DevOps
+    - TeamCity
   icon: terminal
   description: Building robust automated pipelines for build, test, and deployment workflows.

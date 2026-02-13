@@ -5,7 +5,7 @@ content:
   proficiency: 85
   items:
     - Docker
-    - Kubernetes
+    - Docker Compose
     - Container Security
   icon: box
   description: Container orchestration and cloud-native application deployment expertise.

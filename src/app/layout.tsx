@@ -15,7 +15,7 @@ export const metadata: Metadata = {
     template: '%s | Jeremy Spofford',
     default: 'Jeremy Spofford | Senior DevOps Engineer',
   },
-  description: "Senior DevOps Engineer specialized in AWS, Terraform, Kubernetes, and building the Ultimate AI Smart Home.",
+  description: "Senior DevOps Engineer specialized in AWS, GCP, Terraform, and cloud infrastructure automation.",
   openGraph: {
     type: 'website',
     locale: 'en_US',
