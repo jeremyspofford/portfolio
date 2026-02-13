@@ -1,0 +1,13 @@
+PK: SKILL
+SK: AI
+content:
+  category: AI & Automation
+  proficiency: 80
+  items:
+    - LLM Integration
+    - Prompt Engineering
+    - Python Automation
+    - RAG Pipelines
+    - AI-Assisted DevOps
+  icon: brain
+  description: Leveraging AI and large language models to automate workflows, accelerate development, and build intelligent tooling.

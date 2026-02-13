@@ -24,6 +24,13 @@ content:
         - GitLab
         - Terraform
         - GCP
+    - title: AWS Cognito Authentication
+      description: Implemented AWS Cognito-based authentication system with user pools, MFA, and federated identity for secure application access.
+      technologies:
+        - AWS Cognito
+        - IAM
+        - Lambda
+        - API Gateway
     - title: Certificate Management Automation
       description: Implemented automated SSL certificate renewal system with GCP Secret Manager and Pub/Sub.
       technologies:
