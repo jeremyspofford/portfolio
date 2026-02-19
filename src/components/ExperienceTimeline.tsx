@@ -33,13 +33,13 @@ export function ExperienceTimeline({ items }: ExperienceTimelineProps) {
   );
 
   return (
-    <section id="experience" className="w-full py-20 md:py-32 px-6 md:px-12 scroll-mt-20">
+    <section id="experience" className="w-full py-20 md:py-32 px-6 md:px-12 scroll-mt-20" style={{ background: "#0A0E17" }}>
       <div className="max-w-5xl mx-auto">
 
         {/* Section header */}
         <div className="mb-16">
           <div className="flex items-center gap-3 mb-4">
-            <span className="font-mono text-[#22D3EE] text-sm">04.</span>
+            <span className="font-mono text-[#22D3EE] text-sm">03.</span>
             <div className="h-px flex-1 max-w-[60px] bg-[#22D3EE]/30" />
           </div>
           <h2 className="font-display font-bold text-4xl md:text-5xl text-[#F1F5F9] mb-4">

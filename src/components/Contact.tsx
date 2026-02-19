@@ -29,7 +29,7 @@ export function Contact({ profile }: ContactProps) {
         {/* Section header */}
         <div className="mb-16">
           <div className="flex items-center gap-3 mb-4">
-            <span className="font-mono text-[#22D3EE] text-sm">05.</span>
+            <span className="font-mono text-[#22D3EE] text-sm">04.</span>
             <div className="h-px flex-1 max-w-[60px] bg-[#22D3EE]/30" />
           </div>
           <h2 className="font-display font-bold text-4xl md:text-5xl text-[#F1F5F9] mb-4">
@@ -125,7 +125,7 @@ export function Contact({ profile }: ContactProps) {
         {/* Footer */}
         <div className="mt-20 pt-8 border-t border-[#1E293B] flex flex-col sm:flex-row justify-between gap-3 text-xs font-mono text-[#94A3B8]">
           <span>© {new Date().getFullYear()} {profile.name}</span>
-          <span>Built with Next.js · Deployed on AWS · Designed with intention</span>
+          <span>Built with Next.js · Deployed on Cloudflare Pages · Designed with intention</span>
         </div>
       </div>
     </section>

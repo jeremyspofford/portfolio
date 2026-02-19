@@ -74,13 +74,13 @@ export function Projects({ items }: ProjectsProps) {
   const remainingItems = sortedItems.slice(3);
 
   return (
-    <section id="projects" className="w-full py-20 md:py-32 px-6 md:px-12">
+    <section id="projects" className="w-full py-20 md:py-32 px-6 md:px-12" style={{ background: "#0A0E17" }}>
       <div className="max-w-7xl mx-auto">
 
         {/* Section header */}
         <div className="mb-16">
           <div className="flex items-center gap-3 mb-4">
-            <span className="font-mono text-[#22D3EE] text-sm">02.</span>
+            <span className="font-mono text-[#22D3EE] text-sm">01.</span>
             <div className="h-px flex-1 max-w-[60px] bg-[#22D3EE]/30" />
           </div>
           <h2 className="font-display font-bold text-4xl md:text-5xl text-[#F1F5F9] mb-4">

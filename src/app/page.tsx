@@ -1,5 +1,4 @@
 import { Hero } from "@/components/Hero";
-import { About } from "@/components/About";
 import { ExperienceTimeline } from "@/components/ExperienceTimeline";
 import { Skills } from "@/components/Skills";
 import { Projects } from "@/components/Projects";
@@ -33,29 +32,26 @@ export default async function Home() {
 
   return (
     <div className="flex flex-col w-full" style={{ background: "#0A0E17" }}>
-      {/* 1. Hero — value proposition + terminal */}
+      {/* 1. Hero — terminal + value proposition */}
       <Hero profile={profile} certifications={certifications} />
 
-      {/* 2. About + Philosophy */}
-      <About bio={profile?.bio ?? ''} />
-
-      {/* 3. Projects — THE CENTERPIECE */}
+      {/* 2. Projects — THE CENTERPIECE, immediately after hero */}
       <div style={{ background: "#0A0E17" }}>
         <Projects items={projects} />
       </div>
 
-      {/* 4. Skills */}
+      {/* 3. Skills — compact tier list */}
       <Skills items={skills} />
 
-      {/* 5. Experience */}
+      {/* 4. Experience — dark timeline */}
       <div style={{ background: "#0A0E17" }}>
         <ExperienceTimeline items={experience} />
       </div>
 
-      {/* 6. Certifications */}
+      {/* 5. Certifications */}
       <Certifications items={certifications} />
 
-      {/* 7. Contact */}
+      {/* 6. Contact */}
       <Contact profile={profile} />
     </div>
   );

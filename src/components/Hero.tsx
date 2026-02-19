@@ -11,20 +11,23 @@ interface HeroProps {
 }
 
 const TERMINAL_LINES = [
-  { prefix: "$ ", text: "terraform apply --auto-approve", color: "text-[#22D3EE]" },
-  { prefix: "", text: "Plan: 12 to add, 3 to change, 0 to destroy.", color: "text-[#94A3B8]" },
-  { prefix: "", text: "Apply complete! Resources: 12 added, 3 changed.", color: "text-[#10B981]" },
-  { prefix: "$ ", text: "kubectl rollout status deploy/api-gateway", color: "text-[#22D3EE]" },
-  { prefix: "", text: "deployment.apps/api-gateway successfully rolled out", color: "text-[#10B981]" },
-  { prefix: "$ ", text: "aws cloudwatch get-metric-statistics --cost", color: "text-[#22D3EE]" },
-  { prefix: "", text: "Monthly spend reduced by 30% ↓ $12,400 saved", color: "text-[#10B981]" },
+  { prefix: "$ ", text: "terraform apply --auto-approve", delay: 40, color: "#22D3EE" },
+  { prefix: "", text: "Plan: 12 to add, 3 to change, 0 to destroy.", delay: 0, color: "#94A3B8" },
+  { prefix: "", text: "Apply complete! Resources: 12 added, 3 changed.", delay: 0, color: "#10B981" },
+  { prefix: "$ ", text: "kubectl rollout status deploy/api-gateway", delay: 40, color: "#22D3EE" },
+  { prefix: "", text: "Waiting for rollout to finish: 0 of 1 updated...", delay: 0, color: "#94A3B8" },
+  { prefix: "", text: "✓ deployment \"api-gateway\" successfully rolled out", delay: 0, color: "#10B981" },
+  { prefix: "$ ", text: "aws cloudwatch get-metric-statistics --metric-name EstimatedCharges", delay: 35, color: "#22D3EE" },
+  { prefix: "", text: "Monthly spend: $8,200 ↓ 30% — $3,600 saved this month", delay: 0, color: "#10B981" },
+  { prefix: "$ ", text: "docker compose up --build -d", delay: 40, color: "#22D3EE" },
+  { prefix: "", text: "[+] Running 5/5  ✓ api ✓ worker ✓ db ✓ cache ✓ proxy", delay: 0, color: "#10B981" },
 ];
 
 const STAT_ITEMS = [
-  { value: "12+", label: "Years experience" },
-  { value: "30%", label: "Cloud cost reduction" },
+  { value: "12+", label: "Yrs experience" },
+  { value: "30%", label: "Cloud savings" },
   { value: "5+", label: "Civic tools shipped" },
-  { value: "100%", label: "Infra as code" },
+  { value: "IaC", label: "Everything as code" },
 ];
 
 export function Hero({ profile, certifications }: HeroProps) {
@@ -45,19 +48,20 @@ export function Hero({ profile, certifications }: HeroProps) {
 
     if (phase === "typing") {
       if (typedText.length < fullText.length) {
-        const delay = typedText.length < line.prefix.length ? 80 : 35;
+        const charDelay = line.prefix && typedText.length < line.prefix.length ? 80 : (line.delay || 0);
         const timer = setTimeout(() => {
           setTypedText(fullText.slice(0, typedText.length + 1));
-        }, delay);
+        }, charDelay || 30);
         return () => clearTimeout(timer);
       } else {
         setPhase("waiting");
+        const pauseTime = line.prefix ? 500 : 200;
         const timer = setTimeout(() => {
           setVisibleLines(prev => [...prev, currentTyping]);
           setCurrentTyping(prev => prev + 1);
           setTypedText("");
           setPhase("typing");
-        }, 400);
+        }, pauseTime);
         return () => clearTimeout(timer);
       }
     }
@@ -66,28 +70,35 @@ export function Hero({ profile, certifications }: HeroProps) {
   if (!profile) return null;
 
   return (
-    <section className="relative w-full min-h-[100dvh] flex items-center overflow-hidden">
+    <section className="relative w-full min-h-[100dvh] flex items-center overflow-hidden" style={{ background: "#0A0E17" }}>
       {/* Background grid */}
       <div
-        className="absolute inset-0 opacity-[0.03]"
+        className="absolute inset-0 pointer-events-none"
         style={{
           backgroundImage: `
-            linear-gradient(rgba(34,211,238,0.5) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(34,211,238,0.5) 1px, transparent 1px)
+            linear-gradient(rgba(34,211,238,0.04) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(34,211,238,0.04) 1px, transparent 1px)
           `,
           backgroundSize: "60px 60px",
         }}
       />
-      {/* Radial glow */}
+      {/* Radial glow — top left */}
       <div
-        className="absolute top-0 right-0 w-[600px] h-[600px] rounded-full pointer-events-none"
+        className="absolute top-0 left-0 w-[700px] h-[700px] pointer-events-none"
         style={{
-          background: "radial-gradient(circle at 70% 30%, rgba(34,211,238,0.06) 0%, transparent 70%)",
+          background: "radial-gradient(circle at 20% 20%, rgba(34,211,238,0.07) 0%, transparent 65%)",
+        }}
+      />
+      {/* Radial glow — bottom right */}
+      <div
+        className="absolute bottom-0 right-0 w-[500px] h-[500px] pointer-events-none"
+        style={{
+          background: "radial-gradient(circle at 80% 80%, rgba(34,211,238,0.04) 0%, transparent 65%)",
         }}
       />
 
       <div className="relative z-10 w-full max-w-7xl mx-auto px-6 md:px-12 py-24 md:py-32">
-        <div className="grid lg:grid-cols-[1fr_480px] gap-12 lg:gap-16 items-center">
+        <div className="grid lg:grid-cols-[1fr_500px] gap-10 lg:gap-16 items-center">
 
           {/* Left: Text content */}
           <div className="space-y-8">
@@ -98,18 +109,26 @@ export function Hero({ profile, certifications }: HeroProps) {
             </div>
 
             {/* Main headline */}
-            <div className="space-y-3">
-              <h1 className="font-display font-bold text-[#F1F5F9] leading-[1.08] tracking-tight">
-                <span className="block text-5xl sm:text-6xl lg:text-7xl">Building</span>
-                <span className="block text-5xl sm:text-6xl lg:text-7xl">infrastructure</span>
-                <span className="block text-5xl sm:text-6xl lg:text-7xl gradient-text-cyan">
+            <div className="space-y-2">
+              <h1 className="font-display font-bold text-[#F1F5F9] leading-[1.06] tracking-tight">
+                <span className="block text-5xl sm:text-6xl lg:text-[4.5rem] xl:text-[5rem]">Building</span>
+                <span className="block text-5xl sm:text-6xl lg:text-[4.5rem] xl:text-[5rem]">infrastructure</span>
+                <span
+                  className="block text-5xl sm:text-6xl lg:text-[4.5rem] xl:text-[5rem]"
+                  style={{
+                    background: "linear-gradient(135deg, #22D3EE 0%, #06B6D4 50%, #0EA5E9 100%)",
+                    WebkitBackgroundClip: "text",
+                    WebkitTextFillColor: "transparent",
+                    backgroundClip: "text",
+                  }}
+                >
                   without drama.
                 </span>
               </h1>
             </div>
 
             {/* Positioning */}
-            <p className="text-[#94A3B8] text-lg md:text-xl leading-relaxed max-w-lg">
+            <p className="text-[#94A3B8] text-lg md:text-xl leading-relaxed max-w-xl">
               Senior DevOps Engineer · 12+ years automating cloud infrastructure,
               cutting costs, and shipping civic tools that make power accountable.
               Founder of{" "}
@@ -117,13 +136,17 @@ export function Hero({ profile, certifications }: HeroProps) {
             </p>
 
             {/* Stats row */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-2">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-1">
               {STAT_ITEMS.map((stat) => (
-                <div key={stat.label} className="space-y-1">
-                  <div className="font-mono text-2xl font-bold text-[#22D3EE]">
+                <div
+                  key={stat.label}
+                  className="rounded-lg border border-[#1E293B] p-3"
+                  style={{ background: "#1A1F2E" }}
+                >
+                  <div className="font-mono text-2xl font-bold text-[#22D3EE] leading-none mb-1">
                     {stat.value}
                   </div>
-                  <div className="text-xs text-[#94A3B8] uppercase tracking-wider font-mono">
+                  <div className="text-[10px] text-[#94A3B8] uppercase tracking-wider font-mono leading-tight">
                     {stat.label}
                   </div>
                 </div>
@@ -131,31 +154,39 @@ export function Hero({ profile, certifications }: HeroProps) {
             </div>
 
             {/* CTA buttons */}
-            <div className="flex flex-col sm:flex-row gap-3">
+            <div className="flex flex-col sm:flex-row gap-3 pt-1">
               <Link
                 href="#projects"
-                className="inline-flex items-center justify-center h-11 px-6 rounded-lg bg-[#22D3EE] text-[#0A0E17] font-semibold font-display text-sm hover:bg-[#06B6D4] transition-colors"
+                className="inline-flex items-center justify-center h-11 px-6 rounded-lg font-semibold font-display text-sm transition-all duration-200"
+                style={{
+                  background: "#22D3EE",
+                  color: "#0A0E17",
+                }}
+                onMouseEnter={e => (e.currentTarget.style.background = "#06B6D4")}
+                onMouseLeave={e => (e.currentTarget.style.background = "#22D3EE")}
               >
-                See my work
+                See my work ↓
               </Link>
               <Link
                 href="/resume"
-                className="inline-flex items-center justify-center h-11 px-6 rounded-lg border border-[#1E293B] text-[#F1F5F9] font-medium text-sm hover:border-[#22D3EE]/50 hover:text-[#22D3EE] transition-colors bg-[#1A1F2E]/50"
+                className="inline-flex items-center justify-center h-11 px-6 rounded-lg border font-medium text-sm transition-all duration-200 text-[#F1F5F9] hover:text-[#22D3EE] hover:border-[#22D3EE]/50"
+                style={{ borderColor: "#1E293B", background: "#1A1F2E" }}
               >
                 <FileText className="mr-2 h-4 w-4" />
                 View Resume
               </Link>
               <Link
                 href={`mailto:${profile.email}`}
-                className="inline-flex items-center justify-center h-11 px-6 rounded-lg border border-[#1E293B] text-[#94A3B8] font-medium text-sm hover:border-[#22D3EE]/50 hover:text-[#22D3EE] transition-colors"
+                className="inline-flex items-center justify-center h-11 px-6 rounded-lg border font-medium text-sm text-[#94A3B8] hover:text-[#22D3EE] hover:border-[#22D3EE]/50 transition-all duration-200"
+                style={{ borderColor: "#1E293B" }}
               >
                 <Mail className="mr-2 h-4 w-4" />
                 Contact
               </Link>
             </div>
 
-            {/* Social links */}
-            <div className="flex items-center gap-5">
+            {/* Social links + cert chips */}
+            <div className="flex items-center gap-5 flex-wrap">
               {profile.socials?.github && (
                 <a
                   href={profile.socials.github}
@@ -191,14 +222,17 @@ export function Hero({ profile, certifications }: HeroProps) {
                   </svg>
                 </a>
               )}
-
-              {/* Active cert chips */}
               {activeCerts.length > 0 && (
-                <div className="ml-2 flex items-center gap-2 border-l border-[#1E293B] pl-5">
+                <div className="ml-1 flex items-center gap-2 border-l border-[#1E293B] pl-5">
                   {activeCerts.slice(0, 2).map((cert) => (
                     <span
                       key={cert.name}
-                      className="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-mono bg-[#10B981]/10 text-[#10B981] border border-[#10B981]/20"
+                      className="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-mono border"
+                      style={{
+                        background: "rgba(16,185,129,0.08)",
+                        color: "#10B981",
+                        borderColor: "rgba(16,185,129,0.2)",
+                      }}
                     >
                       {cert.name.replace("Google Cloud ", "GCP ").replace("Certified ", "")}
                     </span>
@@ -208,59 +242,108 @@ export function Hero({ profile, certifications }: HeroProps) {
             </div>
           </div>
 
-          {/* Right: Terminal window */}
-          <div className="hidden lg:block">
+          {/* Right: Terminal window — visible md+ */}
+          <div className="hidden md:block">
             <div
-              className="rounded-xl overflow-hidden border border-[#1E293B]"
-              style={{ background: "#0D1117", boxShadow: "0 0 0 1px rgba(34,211,238,0.1), 0 20px 60px rgba(0,0,0,0.5)" }}
+              className="rounded-xl overflow-hidden"
+              style={{
+                background: "#080C12",
+                border: "1px solid #1E293B",
+                boxShadow: "0 0 0 1px rgba(34,211,238,0.08), 0 24px 64px rgba(0,0,0,0.6), 0 0 40px rgba(34,211,238,0.04)",
+              }}
             >
               {/* Terminal titlebar */}
-              <div className="flex items-center gap-2 px-4 py-3 border-b border-[#1E293B]" style={{ background: "#161B24" }}>
+              <div
+                className="flex items-center gap-2 px-4 py-3 border-b"
+                style={{ background: "#0D1117", borderColor: "#1E293B" }}
+              >
                 <div className="flex gap-1.5">
-                  <div className="w-3 h-3 rounded-full bg-[#FF5F57]" />
-                  <div className="w-3 h-3 rounded-full bg-[#FEBC2E]" />
-                  <div className="w-3 h-3 rounded-full bg-[#28C840]" />
+                  <div className="w-3 h-3 rounded-full" style={{ background: "#FF5F57" }} />
+                  <div className="w-3 h-3 rounded-full" style={{ background: "#FEBC2E" }} />
+                  <div className="w-3 h-3 rounded-full" style={{ background: "#28C840" }} />
                 </div>
-                <span className="ml-2 text-[11px] font-mono text-[#94A3B8]">jeremy@devops:~</span>
+                <div className="flex-1 text-center">
+                  <span className="text-[11px] font-mono text-[#4B5563]">jeremy@devops — zsh — 120×36</span>
+                </div>
               </div>
 
               {/* Terminal body */}
-              <div className="p-5 space-y-1.5 min-h-[320px] font-mono text-sm">
+              <div className="p-5 min-h-[380px] font-mono text-[13px] leading-relaxed overflow-hidden">
+                {/* Prompt line before animation */}
+                {visibleLines.length === 0 && currentTyping === 0 && phase === "typing" && typedText === "" && (
+                  <div className="text-[#4B5563]"># DevOps session initialized</div>
+                )}
+
                 {/* Completed lines */}
                 {visibleLines.map((lineIdx) => {
                   const line = TERMINAL_LINES[lineIdx];
                   return (
-                    <div key={lineIdx} className={`${line.color} leading-relaxed`}>
+                    <div key={lineIdx} className="leading-relaxed" style={{ color: line.color }}>
                       {line.prefix && (
-                        <span className="text-[#22D3EE]">{line.prefix}</span>
+                        <span style={{ color: "#22D3EE" }}>{line.prefix}</span>
                       )}
-                      {line.prefix ? line.text : line.prefix + line.text}
+                      {line.text}
                     </div>
                   );
                 })}
 
                 {/* Currently typing line */}
                 {currentTyping < TERMINAL_LINES.length && (
-                  <div className={`${TERMINAL_LINES[currentTyping].color} leading-relaxed`}>
+                  <div className="leading-relaxed" style={{ color: TERMINAL_LINES[currentTyping].color }}>
                     {TERMINAL_LINES[currentTyping].prefix && typedText.startsWith(TERMINAL_LINES[currentTyping].prefix) ? (
                       <>
-                        <span className="text-[#22D3EE]">{TERMINAL_LINES[currentTyping].prefix}</span>
+                        <span style={{ color: "#22D3EE" }}>{TERMINAL_LINES[currentTyping].prefix}</span>
                         {typedText.slice(TERMINAL_LINES[currentTyping].prefix.length)}
                       </>
                     ) : (
                       typedText
                     )}
-                    <span className="border-r-2 border-[#22D3EE] ml-0.5 cursor-blink">&nbsp;</span>
+                    <span
+                      className="inline-block w-[2px] h-[1em] ml-0.5 align-text-bottom cursor-blink"
+                      style={{ background: "#22D3EE" }}
+                    />
                   </div>
                 )}
 
-                {/* Done state */}
+                {/* Done state — idle prompt */}
                 {phase === "done" && (
-                  <div className="text-[#22D3EE] mt-4">
+                  <div className="mt-2" style={{ color: "#22D3EE" }}>
                     <span>$ </span>
-                    <span className="border-r-2 border-[#22D3EE] ml-0.5 cursor-blink">&nbsp;</span>
+                    <span
+                      className="inline-block w-[2px] h-[1em] align-text-bottom cursor-blink"
+                      style={{ background: "#22D3EE" }}
+                    />
                   </div>
                 )}
+              </div>
+
+              {/* Terminal footer status bar */}
+              <div
+                className="px-4 py-2 border-t flex items-center justify-between"
+                style={{ background: "#22D3EE", borderColor: "#22D3EE" }}
+              >
+                <span className="font-mono text-[11px] font-bold" style={{ color: "#0A0E17" }}>NORMAL</span>
+                <span className="font-mono text-[11px]" style={{ color: "#0A0E17", opacity: 0.8 }}>
+                  jeremyspofford.dev
+                </span>
+                <span className="font-mono text-[11px]" style={{ color: "#0A0E17", opacity: 0.8 }}>
+                  bash  utf-8
+                </span>
+              </div>
+            </div>
+
+            {/* Below terminal: uptime badge */}
+            <div className="mt-4 flex items-center justify-end gap-4">
+              <div
+                className="flex items-center gap-2 px-3 py-1.5 rounded-full font-mono text-xs"
+                style={{
+                  background: "rgba(16,185,129,0.08)",
+                  border: "1px solid rgba(16,185,129,0.2)",
+                  color: "#10B981",
+                }}
+              >
+                <span className="w-1.5 h-1.5 rounded-full bg-[#10B981] animate-pulse inline-block" />
+                Infra running · 99.9% uptime
               </div>
             </div>
           </div>
@@ -269,8 +352,8 @@ export function Hero({ profile, certifications }: HeroProps) {
 
       {/* Scroll indicator */}
       <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-[#94A3B8]">
-        <span className="text-xs font-mono tracking-widest uppercase">scroll</span>
-        <div className="w-px h-8 bg-gradient-to-b from-[#94A3B8] to-transparent" />
+        <span className="text-[10px] font-mono tracking-widest uppercase opacity-60">scroll</span>
+        <div className="w-px h-8 bg-gradient-to-b from-[#94A3B8]/60 to-transparent" />
       </div>
     </section>
   );
