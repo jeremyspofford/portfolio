@@ -1,7 +1,6 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { Calendar, Building2 } from 'lucide-react';
 
 interface ExperienceContent {
   company: string;
@@ -11,10 +10,10 @@ interface ExperienceContent {
   description: string;
   technologies: string[];
   key_deliverables?: {
-      title: string;
-      description: string;
-      technologies: string[];
-      link?: string;
+    title: string;
+    description: string;
+    technologies: string[];
+    link?: string;
   }[];
 }
 
@@ -29,76 +28,128 @@ interface ExperienceTimelineProps {
 }
 
 export function ExperienceTimeline({ items }: ExperienceTimelineProps) {
-  // Sort by start date specific logic if needed, currently relying on DB order or pre-sort
-  const sortedItems = [...items].sort((a, b) => 
+  const sortedItems = [...items].sort((a, b) =>
     new Date(b.content.startDate).getTime() - new Date(a.content.startDate).getTime()
   );
 
   return (
-    <section className="w-full py-10 md:py-24 px-4 bg-muted/30">
-        <div className="container px-2 sm:px-4 md:px-6">
-            <h2 className="text-2xl sm:text-3xl font-bold tracking-tighter mb-8 md:mb-12 text-center">Experience</h2>
-            <div className="relative border-l-2 border-gray-200 ml-2 sm:ml-3 md:ml-6 space-y-8 md:space-y-12">
-                {sortedItems.map((item, index) => (
-                    <motion.div
-                        key={item.SK}
-                        initial={{ opacity: 0, x: -20 }}
-                        whileInView={{ opacity: 1, x: 0 }}
-                        transition={{ duration: 0.5, delay: index * 0.1 }}
-                        className="mb-6 sm:mb-10 ml-4 sm:ml-6"
-                    >
-                        <span className="absolute flex items-center justify-center w-5 h-5 sm:w-6 sm:h-6 bg-blue-100 rounded-full -left-[11px] sm:-left-3 ring-4 sm:ring-8 ring-background">
-                             <Building2 className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-blue-800" />
-                        </span>
-                        <div className="p-3 sm:p-4 bg-background border rounded-lg shadow-sm hover:shadow-md transition-shadow">
-                            <div className="flex flex-col gap-1 sm:gap-0 sm:flex-row justify-between items-start sm:items-center mb-2">
-                                <h3 className="text-base sm:text-lg font-semibold text-gray-900">
-                                    {item.content.role} <span className="text-primary">@ {item.content.company}</span>
-                                </h3>
-                                <time className="text-xs sm:text-sm font-normal leading-none text-gray-400">
-                                    <div className="flex items-center">
-                                        <Calendar className="w-3 h-3 mr-1" />
-                                        {item.content.startDate} - {item.content.endDate}
-                                    </div>
-                                </time>
-                            </div>
-                            <p className="mb-3 sm:mb-4 text-sm sm:text-base font-normal text-gray-500">
-                                {item.content.description}
-                            </p>
-                            <div className="flex flex-wrap gap-1.5 sm:gap-2">
-                                {item.content.technologies?.map(tech => (
-                                    <span key={tech} className="bg-blue-100 text-blue-800 text-[10px] sm:text-xs font-medium px-2 py-0.5 sm:px-2.5 rounded">
-                                        {tech}
-                                    </span>
-                                ))}
-                            </div>
+    <section id="experience" className="w-full py-20 md:py-32 px-6 md:px-12 scroll-mt-20">
+      <div className="max-w-5xl mx-auto">
 
-                            {/* Key Deliverables Section */}
-                            {item.content.key_deliverables && item.content.key_deliverables.length > 0 && (
-                                <div className="mt-4 sm:mt-6 pt-3 sm:pt-4 border-t border-zinc-100">
-                                    <h4 className="text-xs sm:text-sm font-bold uppercase tracking-wider text-zinc-500 mb-3 sm:mb-4">Key Deliverables</h4>
-                                    <div className="grid gap-3 sm:gap-4">
-                                        {item.content.key_deliverables.map((project, idx) => (
-                                            <div key={idx} className="bg-zinc-50 rounded-lg p-3 sm:p-4 border border-zinc-100">
-                                                <h5 className="font-bold text-xs sm:text-sm mb-1 text-zinc-800">{project.title}</h5>
-                                                <p className="text-xs sm:text-sm text-zinc-600 mb-2 sm:mb-3">{project.description}</p>
-                                                <div className="flex flex-wrap gap-1">
-                                                    {project.technologies.map(tech => (
-                                                        <span key={tech} className="text-[9px] sm:text-[10px] uppercase font-semibold px-1.5 sm:px-2 py-0.5 rounded bg-white border border-zinc-200 text-zinc-600">
-                                                            {tech}
-                                                        </span>
-                                                    ))}
-                                                </div>
-                                            </div>
-                                        ))}
-                                    </div>
-                                </div>
-                            )}
-                        </div>
-                    </motion.div>
-                ))}
-            </div>
+        {/* Section header */}
+        <div className="mb-16">
+          <div className="flex items-center gap-3 mb-4">
+            <span className="font-mono text-[#22D3EE] text-sm">04.</span>
+            <div className="h-px flex-1 max-w-[60px] bg-[#22D3EE]/30" />
+          </div>
+          <h2 className="font-display font-bold text-4xl md:text-5xl text-[#F1F5F9] mb-4">
+            Experience
+          </h2>
+          <p className="text-[#94A3B8] text-lg max-w-2xl">
+            12 years of infrastructure work across enterprise, cloud-native, and startup environments.
+          </p>
         </div>
+
+        {/* Timeline */}
+        <div className="relative">
+          {/* Vertical line */}
+          <div
+            className="absolute left-0 top-0 bottom-0 w-px"
+            style={{ background: "linear-gradient(to bottom, #22D3EE, #1E293B 80%)" }}
+          />
+
+          <div className="space-y-12 pl-10">
+            {sortedItems.map((item, index) => (
+              <motion.div
+                key={item.SK}
+                initial={{ opacity: 0, x: -16 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true, margin: "-60px" }}
+                transition={{ duration: 0.5, delay: index * 0.08 }}
+                className="relative"
+              >
+                {/* Timeline dot */}
+                <div
+                  className="absolute -left-[41px] top-5 w-3 h-3 rounded-full border-2 border-[#22D3EE] z-10"
+                  style={{ background: "#0A0E17" }}
+                />
+
+                <div
+                  className="group rounded-xl border border-[#1E293B] p-6 md:p-8 card-hover-glow"
+                  style={{ background: "#1A1F2E" }}
+                >
+                  {/* Header */}
+                  <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 mb-4">
+                    <div>
+                      <h3 className="font-display font-bold text-xl text-[#F1F5F9]">
+                        {item.content.role}
+                      </h3>
+                      <span className="text-[#22D3EE] font-medium">@ {item.content.company}</span>
+                    </div>
+                    <div className="font-mono text-xs text-[#94A3B8] px-3 py-1.5 rounded border border-[#1E293B] self-start whitespace-nowrap" style={{ background: "#111827" }}>
+                      {item.content.startDate} → {item.content.endDate}
+                    </div>
+                  </div>
+
+                  {/* Description */}
+                  <p className="text-[#94A3B8] text-sm leading-relaxed mb-5">
+                    {item.content.description}
+                  </p>
+
+                  {/* Tech stack */}
+                  <div className="flex flex-wrap gap-2 mb-5">
+                    {item.content.technologies?.map((tech) => (
+                      <span
+                        key={tech}
+                        className="px-2.5 py-1 rounded font-mono text-xs text-[#94A3B8] border border-[#1E293B]"
+                        style={{ background: "#111827" }}
+                      >
+                        {tech}
+                      </span>
+                    ))}
+                  </div>
+
+                  {/* Key deliverables */}
+                  {item.content.key_deliverables && item.content.key_deliverables.length > 0 && (
+                    <div className="pt-5 border-t border-[#1E293B]">
+                      <div className="font-mono text-[10px] text-[#22D3EE] uppercase tracking-widest mb-4">
+                        Key Deliverables
+                      </div>
+                      <div className="grid sm:grid-cols-2 gap-3">
+                        {item.content.key_deliverables.map((deliverable, idx) => (
+                          <div
+                            key={idx}
+                            className="rounded-lg p-4 border border-[#1E293B]"
+                            style={{ background: "#111827" }}
+                          >
+                            <h4 className="font-semibold text-sm text-[#F1F5F9] mb-1.5">
+                              {deliverable.title}
+                            </h4>
+                            <p className="text-[#94A3B8] text-xs leading-relaxed mb-3">
+                              {deliverable.description}
+                            </p>
+                            <div className="flex flex-wrap gap-1.5">
+                              {deliverable.technologies.map((tech) => (
+                                <span
+                                  key={tech}
+                                  className="font-mono text-[10px] uppercase text-[#94A3B8] px-1.5 py-0.5 rounded border border-[#1E293B]"
+                                  style={{ background: "#0A0E17" }}
+                                >
+                                  {tech}
+                                </span>
+                              ))}
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </div>
     </section>
   );
 }

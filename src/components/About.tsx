@@ -1,37 +1,96 @@
+"use client";
+
+import { motion } from "framer-motion";
 
 interface AboutProps {
   bio: string;
 }
 
+const PHILOSOPHY = [
+  "Infrastructure should be boring — predictably reliable, not exciting to fix at 2am.",
+  "Automation is a force multiplier. Eliminate toil before it eliminates you.",
+  "Civic tools are infrastructure too. Power needs to be auditable and accountable.",
+];
+
 export function About({ bio }: AboutProps) {
-  // Simple math for years of experience (2014 - Present)
   const startYear = 2014;
-  const currentYear = new Date().getFullYear();
-  const yearsOfExperience = currentYear - startYear;
+  const yearsOfExperience = new Date().getFullYear() - startYear;
 
   return (
-    <section className="w-full py-12 md:py-24 lg:py-32 bg-zinc-50 flex flex-col items-center px-4">
-      <div className="container px-4 md:px-6 max-w-4xl">
-        <h2 className="text-2xl sm:text-3xl font-bold tracking-tighter mb-6 md:mb-8 text-center bg-clip-text text-transparent bg-gradient-to-r from-primary to-blue-600">
-            About Me
-        </h2>
+    <section className="w-full py-20 md:py-32 px-6 md:px-12" style={{ background: "#111827" }}>
+      <div className="max-w-5xl mx-auto">
 
-        <div className="flex flex-col md:flex-row gap-4 md:gap-8 items-center bg-background rounded-xl p-4 sm:p-6 md:p-8 shadow-sm border border-zinc-200">
-             {/* Left Column: Stats */}
-             <div className="flex-shrink-0 flex flex-row md:flex-col items-center justify-center gap-2 md:gap-0 p-4 md:p-6 bg-zinc-100 rounded-lg w-full md:w-auto md:min-w-[160px]">
-                 <span className="text-4xl sm:text-5xl md:text-6xl font-bold text-primary">{yearsOfExperience}+</span>
-                 <span className="text-xs sm:text-sm font-medium text-muted-foreground md:mt-2 uppercase tracking-widest text-center">Years of<br className="hidden md:block"/>Experience</span>
-             </div>
+        {/* Section header */}
+        <div className="mb-16">
+          <div className="flex items-center gap-3 mb-4">
+            <span className="font-mono text-[#22D3EE] text-sm">01.</span>
+            <div className="h-px flex-1 max-w-[60px] bg-[#22D3EE]/30" />
+          </div>
+          <h2 className="font-display font-bold text-4xl md:text-5xl text-[#F1F5F9] mb-4">
+            About
+          </h2>
+        </div>
 
-             {/* Right Column: Bio */}
-             <div className="flex-1 space-y-3 md:space-y-4">
-                 <p className="text-base sm:text-lg leading-relaxed text-zinc-600">
-                     {bio}
-                 </p>
-                 <p className="text-sm sm:text-base leading-relaxed text-zinc-500">
-                     I specialize in building robust CI/CD pipelines, optimizing cloud infrastructure (GCP & AWS), and automating everything that moves. My goal is always to reduce friction for development teams while maintaining the highest standards of security and reliability.
-                 </p>
-             </div>
+        <div className="grid md:grid-cols-[1fr_280px] gap-10 items-start">
+
+          {/* Bio */}
+          <div className="space-y-6">
+            <p className="text-[#94A3B8] text-lg leading-relaxed">
+              {bio}
+            </p>
+
+            {/* Engineering philosophy */}
+            <div
+              className="rounded-xl border border-[#1E293B] p-6"
+              style={{ background: "#1A1F2E" }}
+            >
+              <div className="font-mono text-[10px] text-[#22D3EE] uppercase tracking-widest mb-4">
+                Engineering Philosophy
+              </div>
+              <div className="space-y-3">
+                {PHILOSOPHY.map((point, i) => (
+                  <motion.div
+                    key={i}
+                    initial={{ opacity: 0, x: -8 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: i * 0.1 }}
+                    className="flex gap-3"
+                  >
+                    <span className="font-mono text-[#22D3EE] text-sm mt-0.5 flex-shrink-0">›</span>
+                    <p className="text-[#94A3B8] text-sm leading-relaxed">{point}</p>
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Stats sidebar */}
+          <div className="space-y-3">
+            {[
+              { value: `${yearsOfExperience}+`, label: "Years in the field" },
+              { value: "30%", label: "Cloud cost reduction" },
+              { value: "AWS + GCP", label: "Primary cloud platforms" },
+              { value: "IaC-first", label: "Infrastructure philosophy" },
+            ].map((stat, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 12 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.08 }}
+                className="rounded-lg border border-[#1E293B] p-4"
+                style={{ background: "#1A1F2E" }}
+              >
+                <div className="font-mono font-bold text-2xl text-[#22D3EE] leading-none mb-1">
+                  {stat.value}
+                </div>
+                <div className="font-mono text-[11px] text-[#94A3B8] uppercase tracking-widest">
+                  {stat.label}
+                </div>
+              </motion.div>
+            ))}
+          </div>
         </div>
       </div>
     </section>

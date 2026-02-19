@@ -1,6 +1,7 @@
-'use client';
+"use client";
 
-import { BadgeCheck, Calendar, Eye, X } from "lucide-react";
+import { motion } from "framer-motion";
+import { ExternalLink, X } from "lucide-react";
 import { ContentItem, CertificationContent } from "@/lib/api";
 import { useState } from "react";
 
@@ -11,92 +12,100 @@ interface CertificationsProps {
 export function Certifications({ items }: CertificationsProps) {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
-  // Filter for active/featured certifications if needed, or sort by date
-  // Filter for active/featured certifications if needed, or sort by date
-  const sortedItems = [...items].sort((a, b) => {
-      // Sort by date descending (newest first)
-      // Assuming date string is comparable or ISO-like enough for localeCompare,
-      // but for "Jan 2025 - Jan 2028" vs "Expired", simple string compare might be tricky.
-      // However, usually SK is date-based or we rely on insertion order if not specified.
-      // Let's try to parse the date if possible or stick to SK if it has date info.
-      
-      // If SK contains date like YYYY-MM-DD, we can use it.
-      // Current seed data uses SK: "GCP_ACE_2025" etc.
-      // Let's try to extract year from SK or just rely on text for now as a simple step,
-      // but the `items` in prop might come in any order.
-      // Reverting to simple string compare of SK as a proxy if it helps, 
-      // but `b.SK.localeCompare(a.SK)` typically puts Z before A.
-      
-      // Better approach using properties if available, but for now let's stick to the plan:
-      return b.SK.localeCompare(a.SK);
-  });
+  const sortedItems = [...items].sort((a, b) => b.SK.localeCompare(a.SK));
 
   if (!sortedItems.length) return null;
 
   return (
-    <section id="certifications" className="py-12 md:py-20 px-4 md:px-8 bg-zinc-50">
-      <div className="max-w-6xl mx-auto">
-        <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-8 md:mb-12 flex items-center gap-2 sm:gap-3">
-          <BadgeCheck className="w-6 h-6 sm:w-8 sm:h-8 text-primary" />
-          Certifications
-        </h2>
+    <section id="certifications" className="w-full py-20 md:py-32 px-6 md:px-12 scroll-mt-20" style={{ background: "#111827" }}>
+      <div className="max-w-7xl mx-auto">
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
-          {sortedItems.map((item) => {
+        {/* Section header */}
+        <div className="mb-16">
+          <div className="flex items-center gap-3 mb-4">
+            <span className="font-mono text-[#22D3EE] text-sm">//</span>
+            <div className="h-px flex-1 max-w-[60px] bg-[#22D3EE]/30" />
+          </div>
+          <h2 className="font-display font-bold text-4xl md:text-5xl text-[#F1F5F9] mb-4">
+            Certifications
+          </h2>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+          {sortedItems.map((item, index) => {
             const cert = item.content;
             return (
-              <div
+              <motion.div
                 key={item.SK}
-                className="group relative flex flex-col bg-white rounded-xl p-4 sm:p-6 shadow-sm border border-zinc-200 hover:shadow-md transition-all duration-300"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-40px" }}
+                transition={{ duration: 0.4, delay: index * 0.07 }}
+                className="group rounded-xl border border-[#1E293B] p-6 card-hover-glow relative overflow-hidden"
+                style={{ background: "#1A1F2E" }}
               >
-                <div className="flex justify-between items-start mb-4">
-                    <div className="p-2 bg-zinc-100 rounded-lg">
-                        {/* Placeholder for logo if we had one, simplified to text char for now or generic icon */}
-                         <BadgeCheck className="w-6 h-6 text-zinc-600" />
-                    </div>
-                    {cert.active ? (
-                        <span className="px-2 py-1 text-xs font-medium rounded-full bg-green-100 text-green-700">
-                            Active
-                        </span>
-                    ) : (
-                         <span className="px-2 py-1 text-xs font-medium rounded-full bg-zinc-100 text-zinc-600">
-                            Expired
-                        </span>
-                    )}
+                {/* Active indicator accent */}
+                {cert.active && (
+                  <div
+                    className="absolute top-0 left-0 right-0 h-px"
+                    style={{ background: "linear-gradient(90deg, transparent, #10B981, transparent)" }}
+                  />
+                )}
+
+                {/* Header row */}
+                <div className="flex justify-between items-start mb-5">
+                  <div
+                    className="p-2.5 rounded-lg border border-[#1E293B]"
+                    style={{ background: "#111827" }}
+                  >
+                    {/* Shield-check icon in monochrome */}
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-5 h-5 text-[#94A3B8]" aria-hidden="true">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" />
+                    </svg>
+                  </div>
+                  <span
+                    className={`font-mono text-[10px] uppercase tracking-widest px-2 py-1 rounded ${
+                      cert.active
+                        ? "text-[#10B981] border border-[#10B981]/30"
+                        : "text-[#94A3B8] border border-[#1E293B]"
+                    }`}
+                    style={{ background: cert.active ? "rgba(16,185,129,0.08)" : "#111827" }}
+                  >
+                    {cert.active ? "Active" : "Expired"}
+                  </span>
                 </div>
 
-                <h3 className="text-xl font-bold mb-2 group-hover:text-primary transition-colors">
+                <h3 className="font-display font-semibold text-lg text-[#F1F5F9] mb-1 group-hover:text-[#22D3EE] transition-colors">
                   {cert.name}
                 </h3>
-                
-                <p className="text-sm text-zinc-500 font-medium mb-4">
-                    {cert.issuer}
+                <p className="font-mono text-xs text-[#94A3B8] mb-5">
+                  {cert.issuer}
                 </p>
 
-                <div className="mt-auto pt-4 border-t border-zinc-100 flex items-center justify-between text-sm">
-                   <div className="flex items-center text-zinc-500">
-                        <Calendar className="w-4 h-4 mr-2" />
-                        {cert.date}
-                   </div>
-                   
-                   {/* Verification Link */}
-                   <div className="flex gap-3">
-                     {cert.link && (
-                         <a href={cert.link} target="_blank" rel="noopener noreferrer" className="flex items-center text-primary hover:underline">
-                             Verify <BadgeCheck className="w-3 h-3 ml-1" />
-                         </a>
-                     )}
-                     {cert.imageUrl && (
-                         <button 
-                            onClick={() => setSelectedImage(cert.imageUrl!)}
-                            className="flex items-center text-indigo-500 hover:underline hover:text-indigo-600"
-                         >
-                             View <Eye className="w-3 h-3 ml-1" />
-                         </button>
-                     )}
-                   </div>
+                <div className="flex items-center justify-between pt-4 border-t border-[#1E293B]">
+                  <span className="font-mono text-[11px] text-[#94A3B8]">{cert.date}</span>
+                  <div className="flex gap-3">
+                    {cert.link && (
+                      <a
+                        href={cert.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1 font-mono text-[11px] text-[#22D3EE] hover:underline"
+                      >
+                        Verify <ExternalLink className="w-3 h-3" />
+                      </a>
+                    )}
+                    {cert.imageUrl && (
+                      <button
+                        onClick={() => setSelectedImage(cert.imageUrl!)}
+                        className="font-mono text-[11px] text-[#94A3B8] hover:text-[#F1F5F9] transition-colors"
+                      >
+                        View
+                      </button>
+                    )}
+                  </div>
                 </div>
-              </div>
+              </motion.div>
             );
           })}
         </div>
@@ -105,23 +114,24 @@ export function Certifications({ items }: CertificationsProps) {
       {/* Image Modal */}
       {selectedImage && (
         <div
-            className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/80 backdrop-blur-sm animate-in fade-in duration-200"
-            onClick={() => setSelectedImage(null)}
+          className="fixed inset-0 z-50 flex items-center justify-center p-4"
+          style={{ background: "rgba(10,14,23,0.9)", backdropFilter: "blur(8px)" }}
+          onClick={() => setSelectedImage(null)}
         >
-            <div className="relative max-w-[95vw] sm:max-w-4xl w-full max-h-[90vh] flex flex-col items-center">
-                <button
-                    onClick={() => setSelectedImage(null)}
-                    className="absolute top-2 right-2 sm:-top-10 sm:right-0 p-2 bg-black/50 sm:bg-transparent rounded-full text-white hover:text-gray-300 transition-colors z-10"
-                >
-                    <X className="w-6 h-6 sm:w-8 sm:h-8" />
-                </button>
-                <img
-                    src={selectedImage}
-                    alt="Certification"
-                    className="rounded-lg shadow-2xl max-w-full max-h-[85vh] object-contain bg-white"
-                    onClick={(e) => e.stopPropagation()}
-                />
-            </div>
+          <div className="relative max-w-4xl w-full" onClick={(e) => e.stopPropagation()}>
+            <button
+              onClick={() => setSelectedImage(null)}
+              className="absolute -top-12 right-0 p-2 text-[#94A3B8] hover:text-[#F1F5F9] transition-colors"
+            >
+              <X className="w-6 h-6" />
+            </button>
+            <img
+              src={selectedImage}
+              alt="Certification"
+              className="rounded-xl shadow-2xl max-w-full max-h-[85vh] object-contain mx-auto"
+              style={{ border: "1px solid #1E293B" }}
+            />
+          </div>
         </div>
       )}
     </section>

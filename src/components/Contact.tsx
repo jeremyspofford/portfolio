@@ -1,15 +1,11 @@
-import { Mail, MapPin, Github, Linkedin, Twitter } from "lucide-react";
+"use client";
+
+import { Mail, MapPin, Github, Linkedin } from "lucide-react";
 import { ProfileContent } from "@/lib/api";
 
-// GitLab icon (not available in lucide-react)
 function GitlabIcon({ className }: { className?: string }) {
   return (
-    <svg
-      viewBox="0 0 24 24"
-      fill="currentColor"
-      className={className}
-      aria-hidden="true"
-    >
+    <svg viewBox="0 0 24 24" fill="currentColor" className={className} aria-hidden="true">
       <path d="M22.65 14.39L12 22.13 1.35 14.39a.84.84 0 0 1-.3-.94l1.22-3.78 2.44-7.51A.42.42 0 0 1 4.82 2a.43.43 0 0 1 .58 0 .42.42 0 0 1 .11.18l2.44 7.49h8.1l2.44-7.51A.42.42 0 0 1 18.6 2a.43.43 0 0 1 .58 0 .42.42 0 0 1 .11.18l2.44 7.51L23 13.45a.84.84 0 0 1-.35.94z" />
     </svg>
   );
@@ -23,86 +19,113 @@ export function Contact({ profile }: ContactProps) {
   if (!profile) return null;
 
   return (
-    <section className="py-12 md:py-20 px-4 md:px-8 bg-white border-t border-zinc-100">
-      <div className="max-w-4xl mx-auto text-center">
-        <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 md:mb-6">Get In Touch</h2>
-        <p className="text-base sm:text-lg text-zinc-600 mb-8 md:mb-12 max-w-2xl mx-auto">
-          I&apos;m always open to discussing new opportunities, interesting projects, or just chatting about DevOps and Cloud architecture.
-        </p>
+    <section
+      id="contact"
+      className="w-full py-20 md:py-32 px-6 md:px-12 scroll-mt-20"
+      style={{ background: "#111827", borderTop: "1px solid #1E293B" }}
+    >
+      <div className="max-w-4xl mx-auto">
 
-        <div className="flex flex-col md:flex-row justify-center gap-4 md:gap-8 mb-8 md:mb-12">
-          <div className="flex items-center justify-center gap-3">
-            <div className="p-2.5 sm:p-3 bg-zinc-100 rounded-full">
-                <Mail className="w-5 h-5 sm:w-6 sm:h-6 text-primary" />
-            </div>
-            <div className="text-left">
-                <p className="text-xs sm:text-sm text-zinc-500">Email Me</p>
-                <a href={`mailto:${profile.email}`} className="text-sm sm:text-lg font-medium hover:text-primary transition-colors break-all">
-                    {profile.email}
-                </a>
-            </div>
+        {/* Section header */}
+        <div className="mb-16">
+          <div className="flex items-center gap-3 mb-4">
+            <span className="font-mono text-[#22D3EE] text-sm">05.</span>
+            <div className="h-px flex-1 max-w-[60px] bg-[#22D3EE]/30" />
           </div>
+          <h2 className="font-display font-bold text-4xl md:text-5xl text-[#F1F5F9] mb-4">
+            Let&apos;s talk
+          </h2>
+          <p className="text-[#94A3B8] text-lg max-w-xl">
+            Open to senior DevOps, platform engineering, and AI infrastructure roles.
+            Always down to discuss interesting problems.
+          </p>
+        </div>
 
-          <div className="flex items-center justify-center gap-3">
-             <div className="p-2.5 sm:p-3 bg-zinc-100 rounded-full">
-                <MapPin className="w-5 h-5 sm:w-6 sm:h-6 text-primary" />
+        <div className="grid md:grid-cols-2 gap-6">
+          {/* Email card */}
+          <a
+            href={`mailto:${profile.email}`}
+            className="group flex items-center gap-4 rounded-xl border border-[#1E293B] p-6 card-hover-glow"
+            style={{ background: "#1A1F2E" }}
+          >
+            <div
+              className="p-3 rounded-lg border border-[#1E293B] group-hover:border-[#22D3EE]/40 transition-colors"
+              style={{ background: "#111827" }}
+            >
+              <Mail className="w-5 h-5 text-[#94A3B8] group-hover:text-[#22D3EE] transition-colors" />
             </div>
-            <div className="text-left">
-                <p className="text-xs sm:text-sm text-zinc-500">Location</p>
-                <p className="text-sm sm:text-lg font-medium">{profile.location || "Remote"}</p>
+            <div>
+              <div className="font-mono text-[10px] text-[#94A3B8] uppercase tracking-widest mb-1">Email</div>
+              <div className="text-[#F1F5F9] font-medium text-sm group-hover:text-[#22D3EE] transition-colors break-all">
+                {profile.email}
+              </div>
+            </div>
+          </a>
+
+          {/* Location card */}
+          <div
+            className="flex items-center gap-4 rounded-xl border border-[#1E293B] p-6"
+            style={{ background: "#1A1F2E" }}
+          >
+            <div
+              className="p-3 rounded-lg border border-[#1E293B]"
+              style={{ background: "#111827" }}
+            >
+              <MapPin className="w-5 h-5 text-[#94A3B8]" />
+            </div>
+            <div>
+              <div className="font-mono text-[10px] text-[#94A3B8] uppercase tracking-widest mb-1">Location</div>
+              <div className="text-[#F1F5F9] font-medium text-sm">
+                {profile.location || "Remote"}
+              </div>
             </div>
           </div>
         </div>
 
-        <div className="flex justify-center gap-4 sm:gap-6">
-            {profile.socials.github && (
-                <a
-                    href={profile.socials.github}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label="GitHub Profile"
-                    className="p-3 bg-zinc-100 rounded-full hover:bg-zinc-200 transition-colors"
-                >
-                    <Github className="w-6 h-6" />
-                </a>
-            )}
-            {profile.socials.gitlab && (
-                <a
-                    href={profile.socials.gitlab}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label="GitLab Profile"
-                    className="p-3 bg-zinc-100 rounded-full hover:bg-zinc-200 transition-colors"
-                >
-                    <GitlabIcon className="w-6 h-6" />
-                </a>
-            )}
-            {profile.socials.linkedin && (
-                <a
-                    href={profile.socials.linkedin}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label="LinkedIn Profile"
-                    className="p-3 bg-zinc-100 rounded-full hover:bg-zinc-200 transition-colors"
-                >
-                    <Linkedin className="w-5 h-5" />
-                </a>
-            )}
-             {profile.socials.twitter && (
-                 <a
-                    href={profile.socials.twitter}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label="Twitter Profile"
-                    className="p-3 bg-zinc-100 rounded-full hover:bg-zinc-200 transition-colors"
-                >
-                    <Twitter className="w-5 h-5" />
-                </a>
-            )}
+        {/* Social links */}
+        <div className="flex items-center gap-4 mt-8">
+          {profile.socials?.github && (
+            <a
+              href={profile.socials.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="GitHub Profile"
+              className="p-3 rounded-lg border border-[#1E293B] text-[#94A3B8] hover:text-[#22D3EE] hover:border-[#22D3EE]/40 transition-colors"
+              style={{ background: "#1A1F2E" }}
+            >
+              <Github className="w-5 h-5" />
+            </a>
+          )}
+          {profile.socials?.gitlab && (
+            <a
+              href={profile.socials.gitlab}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="GitLab Profile"
+              className="p-3 rounded-lg border border-[#1E293B] text-[#94A3B8] hover:text-[#22D3EE] hover:border-[#22D3EE]/40 transition-colors"
+              style={{ background: "#1A1F2E" }}
+            >
+              <GitlabIcon className="w-5 h-5" />
+            </a>
+          )}
+          {profile.socials?.linkedin && (
+            <a
+              href={profile.socials.linkedin}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="LinkedIn Profile"
+              className="p-3 rounded-lg border border-[#1E293B] text-[#94A3B8] hover:text-[#22D3EE] hover:border-[#22D3EE]/40 transition-colors"
+              style={{ background: "#1A1F2E" }}
+            >
+              <Linkedin className="w-5 h-5" />
+            </a>
+          )}
         </div>
 
-        <div className="mt-10 sm:mt-16 pt-6 sm:pt-8 border-t border-zinc-100 text-xs sm:text-sm text-zinc-500">
-            © {new Date().getFullYear()} {profile.name}. All rights reserved. Built with Next.js, Tailwind, and AWS.
+        {/* Footer */}
+        <div className="mt-20 pt-8 border-t border-[#1E293B] flex flex-col sm:flex-row justify-between gap-3 text-xs font-mono text-[#94A3B8]">
+          <span>© {new Date().getFullYear()} {profile.name}</span>
+          <span>Built with Next.js · Deployed on AWS · Designed with intention</span>
         </div>
       </div>
     </section>
