@@ -12,21 +12,21 @@ interface HeroProps {
 
 const TERMINAL_LINES = [
   { prefix: "$ ", text: "terraform apply --auto-approve", delay: 40, color: "#22D3EE" },
-  { prefix: "", text: "Plan: 12 to add, 3 to change, 0 to destroy.", delay: 0, color: "#94A3B8" },
-  { prefix: "", text: "Apply complete! Resources: 12 added, 3 changed.", delay: 0, color: "#10B981" },
-  { prefix: "$ ", text: "kubectl rollout status deploy/api-gateway", delay: 40, color: "#22D3EE" },
-  { prefix: "", text: "Waiting for rollout to finish: 0 of 1 updated...", delay: 0, color: "#94A3B8" },
-  { prefix: "", text: "✓ deployment \"api-gateway\" successfully rolled out", delay: 0, color: "#10B981" },
-  { prefix: "$ ", text: "aws cloudwatch get-metric-statistics --metric-name EstimatedCharges", delay: 35, color: "#22D3EE" },
-  { prefix: "", text: "Monthly spend: $8,200 ↓ 30% — $3,600 saved this month", delay: 0, color: "#10B981" },
+  { prefix: "", text: "Apply complete! Resources: 12 added, 0 destroyed.", delay: 0, color: "#10B981" },
+  { prefix: "$ ", text: "kubectl rollout status deploy/reps-api", delay: 40, color: "#22D3EE" },
+  { prefix: "", text: "✓ deployment \"reps-api\" successfully rolled out", delay: 0, color: "#10B981" },
+  { prefix: "$ ", text: "pytest tests/ -q --tb=short", delay: 40, color: "#22D3EE" },
+  { prefix: "", text: "615 passed in 4.23s ─── 0 failures, 0 warnings", delay: 0, color: "#10B981" },
+  { prefix: "$ ", text: "curl -s https://reps.arialabs.ai/api/stats | jq", delay: 35, color: "#22D3EE" },
+  { prefix: "", text: '{ "representatives": 535, "votes_tracked": 48291 }', delay: 0, color: "#94A3B8" },
   { prefix: "$ ", text: "docker compose up --build -d", delay: 40, color: "#22D3EE" },
   { prefix: "", text: "[+] Running 5/5  ✓ api ✓ worker ✓ db ✓ cache ✓ proxy", delay: 0, color: "#10B981" },
 ];
 
 const STAT_ITEMS = [
   { value: "12+", label: "Yrs experience" },
-  { value: "30%", label: "Cloud savings" },
-  { value: "5+", label: "Civic tools shipped" },
+  { value: "535", label: "Reps tracked" },
+  { value: "615", label: "Tests green" },
   { value: "IaC", label: "Everything as code" },
 ];
 
@@ -105,14 +105,14 @@ export function Hero({ profile, certifications }: HeroProps) {
             {/* Status badge */}
             <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-[#22D3EE]/30 bg-[#22D3EE]/5 text-xs font-mono text-[#22D3EE]">
               <span className="w-1.5 h-1.5 rounded-full bg-[#10B981] animate-pulse inline-block" />
-              Available for senior opportunities
+              Founder · Aria Labs &mdash; open to senior eng roles
             </div>
 
             {/* Main headline */}
             <div className="space-y-2">
               <h1 className="font-display font-bold text-[#F1F5F9] leading-[1.06] tracking-tight">
-                <span className="block text-5xl sm:text-6xl lg:text-[4.5rem] xl:text-[5rem]">Building</span>
-                <span className="block text-5xl sm:text-6xl lg:text-[4.5rem] xl:text-[5rem]">infrastructure</span>
+                <span className="block text-5xl sm:text-6xl lg:text-[4.5rem] xl:text-[5rem]">Building systems</span>
+                <span className="block text-5xl sm:text-6xl lg:text-[4.5rem] xl:text-[5rem]">that hold power</span>
                 <span
                   className="block text-5xl sm:text-6xl lg:text-[4.5rem] xl:text-[5rem]"
                   style={{
@@ -122,17 +122,17 @@ export function Hero({ profile, certifications }: HeroProps) {
                     backgroundClip: "text",
                   }}
                 >
-                  without drama.
+                  accountable.
                 </span>
               </h1>
             </div>
 
             {/* Positioning */}
             <p className="text-[#94A3B8] text-lg md:text-xl leading-relaxed max-w-xl">
-              Senior DevOps Engineer · 12+ years automating cloud infrastructure,
-              cutting costs, and shipping civic tools that make power accountable.
               Founder of{" "}
-              <span className="text-[#22D3EE] font-medium">Aria Labs</span>.
+              <span className="text-[#22D3EE] font-medium">Aria Labs</span>
+              {" "}— building civic tech that tracks Congress, surfaces public records,
+              and connects communities. 12+ years shipping infrastructure without drama.
             </p>
 
             {/* Stats row */}
@@ -263,7 +263,7 @@ export function Hero({ profile, certifications }: HeroProps) {
                   <div className="w-3 h-3 rounded-full" style={{ background: "#28C840" }} />
                 </div>
                 <div className="flex-1 text-center">
-                  <span className="text-[11px] font-mono text-[#4B5563]">jeremy@devops — zsh — 120×36</span>
+                  <span className="text-[11px] font-mono text-[#4B5563]">jeremy@aria-labs — zsh — 120×36</span>
                 </div>
               </div>
 
@@ -271,7 +271,7 @@ export function Hero({ profile, certifications }: HeroProps) {
               <div className="p-5 min-h-[380px] font-mono text-[13px] leading-relaxed overflow-hidden">
                 {/* Prompt line before animation */}
                 {visibleLines.length === 0 && currentTyping === 0 && phase === "typing" && typedText === "" && (
-                  <div className="text-[#4B5563]"># DevOps session initialized</div>
+                  <div className="text-[#4B5563]"># aria-labs production — session started</div>
                 )}
 
                 {/* Completed lines */}
@@ -343,7 +343,7 @@ export function Hero({ profile, certifications }: HeroProps) {
                 }}
               >
                 <span className="w-1.5 h-1.5 rounded-full bg-[#10B981] animate-pulse inline-block" />
-                Infra running · 99.9% uptime
+                arialabs.ai · 99.9% uptime
               </div>
             </div>
           </div>

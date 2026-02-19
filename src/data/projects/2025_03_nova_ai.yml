@@ -1,0 +1,14 @@
+PK: PROJECT
+SK: 2025-03-NOVA
+content:
+  title: Nova AI Platform
+  date: Mar 2025
+  description: Custom AI assistant with semantic memory powered by pgvector. Learns from every interaction. One persistent brain across Telegram, CLI, and Web — context never lost.
+  technologies:
+    - Python
+    - pgvector
+    - Claude API
+    - PostgreSQL
+    - Telegram Bot API
+    - Next.js
+  link: null

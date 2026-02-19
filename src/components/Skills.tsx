@@ -38,7 +38,7 @@ const SKILL_TIERS = [
     skills: [
       "GCP", "Azure DevOps", "Ansible", "Prometheus", "Grafana",
       "PostgreSQL", "Redis", "TypeScript", "Next.js", "Nginx",
-      "Datadog", "EKS", "GKE",
+      "Datadog", "EKS", "GKE", "LLM APIs", "pgvector", "Semantic Search",
     ],
   },
   {
@@ -50,7 +50,7 @@ const SKILL_TIERS = [
     borderColor: "rgba(71,85,105,0.18)",
     skills: [
       "Rust", "Go", "Pulumi", "Vault", "Consul",
-      "ArgoCD", "Istio", "ClickHouse", "Kafka", "dbt",
+      "ArgoCD", "Istio", "ClickHouse", "Kafka", "dbt", "RAG", "Fine-tuning",
     ],
   },
 ];

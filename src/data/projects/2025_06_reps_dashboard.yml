@@ -1,0 +1,14 @@
+PK: PROJECT
+SK: 2025-06-REPS
+content:
+  title: Reps Accountability Dashboard
+  date: Jun 2025
+  description: Tracks all 535 U.S. Congress members — voting records, campaign finance, known scandals, and bills sponsored. Democracy shouldn't be paywalled. 615 tests green.
+  technologies:
+    - Next.js
+    - PostgreSQL
+    - Python
+    - AWS
+    - Tailwind CSS
+    - OpenFEC API
+  link: https://reps.arialabs.ai

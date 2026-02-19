@@ -1,0 +1,13 @@
+PK: PROJECT
+SK: 2025-04-SUPPR
+content:
+  title: Suppr
+  date: Apr 2025
+  description: Social dining app connecting strangers through shared meals. Find your next dinner companion in your city. Built for real community, not engagement metrics.
+  technologies:
+    - React Native
+    - Node.js
+    - PostgreSQL
+    - AWS
+    - Expo
+  link: https://suppr.arialabs.ai

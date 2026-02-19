@@ -6,23 +6,50 @@ import { Menu, X } from 'lucide-react';
 import { useState, useEffect, useCallback } from 'react';
 
 const NAV_ITEMS = [
-  { label: 'Work', href: '/#projects' },
-  { label: 'Skills', href: '/#skills' },
-  { label: 'Experience', href: '/#experience' },
-  { label: 'Blog', href: '/blog' },
-  { label: 'Resume', href: '/resume' },
+  { label: 'Work', href: '/#projects', sectionId: 'projects' },
+  { label: 'Skills', href: '/#skills', sectionId: 'skills' },
+  { label: 'Experience', href: '/#experience', sectionId: 'experience' },
+  { label: 'Blog', href: '/blog', sectionId: null },
+  { label: 'Resume', href: '/resume', sectionId: null },
 ];
 
 export function Navbar() {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [activeSection, setActiveSection] = useState<string>('');
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  // Active section tracking via IntersectionObserver
+  useEffect(() => {
+    if (pathname !== '/') return;
+
+    const sectionIds = NAV_ITEMS.map(i => i.sectionId).filter(Boolean) as string[];
+    const observers: IntersectionObserver[] = [];
+
+    sectionIds.forEach(id => {
+      const el = document.getElementById(id);
+      if (!el) return;
+
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) setActiveSection(id);
+          });
+        },
+        { rootMargin: '-15% 0px -70% 0px', threshold: 0 }
+      );
+      observer.observe(el);
+      observers.push(observer);
+    });
+
+    return () => observers.forEach(obs => obs.disconnect());
+  }, [pathname]);
 
   const handleKeyDown = useCallback((e: KeyboardEvent) => {
     if (e.key === 'Escape' && isOpen) setIsOpen(false);
@@ -37,6 +64,12 @@ export function Navbar() {
     document.body.style.overflow = isOpen ? 'hidden' : '';
     return () => { document.body.style.overflow = ''; };
   }, [isOpen]);
+
+  const isNavItemActive = (item: typeof NAV_ITEMS[number]) => {
+    if (item.sectionId && pathname === '/') return activeSection === item.sectionId;
+    if (!item.sectionId) return pathname === item.href || pathname.startsWith(item.href + '/');
+    return false;
+  };
 
   return (
     <nav
@@ -62,15 +95,27 @@ export function Navbar() {
 
         {/* Desktop Nav */}
         <div className="hidden md:flex items-center gap-8">
-          {NAV_ITEMS.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className="font-mono text-xs text-[#94A3B8] hover:text-[#22D3EE] transition-colors tracking-wide uppercase"
-            >
-              {item.label}
-            </Link>
-          ))}
+          {NAV_ITEMS.map((item) => {
+            const active = isNavItemActive(item);
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                className="relative font-mono text-xs tracking-wide uppercase transition-colors pb-1"
+                style={{ color: active ? '#22D3EE' : '#94A3B8' }}
+                onMouseEnter={e => { if (!active) e.currentTarget.style.color = '#22D3EE'; }}
+                onMouseLeave={e => { e.currentTarget.style.color = active ? '#22D3EE' : '#94A3B8'; }}
+              >
+                {item.label}
+                {active && (
+                  <span
+                    className="absolute bottom-0 left-0 right-0 h-px rounded-full"
+                    style={{ background: '#22D3EE', opacity: 0.7 }}
+                  />
+                )}
+              </Link>
+            );
+          })}
           <Link
             href="/#contact"
             className="ml-2 inline-flex items-center h-8 px-4 rounded border border-[#22D3EE]/40 font-mono text-xs text-[#22D3EE] hover:bg-[#22D3EE]/10 transition-colors"
@@ -102,16 +147,24 @@ export function Navbar() {
           aria-label="Navigation menu"
         >
           <div className="flex flex-col space-y-1 pt-4">
-            {NAV_ITEMS.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                onClick={() => setIsOpen(false)}
-                className="px-4 py-4 font-mono text-sm text-[#94A3B8] hover:text-[#22D3EE] rounded-lg hover:bg-[#1A1F2E] transition-colors"
-              >
-                {item.label}
-              </Link>
-            ))}
+            {NAV_ITEMS.map((item) => {
+              const active = isNavItemActive(item);
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  onClick={() => setIsOpen(false)}
+                  className="px-4 py-4 font-mono text-sm rounded-lg transition-colors"
+                  style={{
+                    color: active ? '#22D3EE' : '#94A3B8',
+                    background: active ? 'rgba(34,211,238,0.05)' : 'transparent',
+                  }}
+                >
+                  {active && <span className="mr-2" style={{ color: '#22D3EE' }}>›</span>}
+                  {item.label}
+                </Link>
+              );
+            })}
             <Link
               href="/#contact"
               onClick={() => setIsOpen(false)}
