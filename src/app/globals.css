@@ -2,31 +2,31 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Force dark mode - nuclear override */
+/* Force dark mode */
 html, body {
   background-color: #0A0E17 !important;
   color: #F1F5F9 !important;
 }
 
-section {
-  background-color: #0A0E17;
-}
+/* Override light backgrounds */
+.bg-white { background-color: #0A0E17 !important; }
+.bg-gray-50, .bg-slate-50, .bg-gray-100, .bg-neutral-50 { background-color: #111827 !important; }
+.bg-gray-200, .bg-slate-200, .bg-slate-100 { background-color: #1A1F2E !important; }
 
-.bg-white, .bg-gray-50, .bg-slate-50, .bg-gray-100, .bg-neutral-50 {
-  background-color: #111827 !important;
-}
+/* Override dark-on-light text */
+.text-gray-900, .text-slate-900 { color: #F1F5F9 !important; }
+.text-gray-800, .text-slate-800 { color: #E2E8F0 !important; }
+.text-gray-700, .text-slate-700 { color: #CBD5E1 !important; }
+.text-gray-600, .text-slate-600 { color: #94A3B8 !important; }
+.text-gray-500, .text-slate-500 { color: #94A3B8 !important; }
+.text-black { color: #F1F5F9 !important; }
 
-.text-gray-900, .text-black, .text-slate-900 {
-  color: #F1F5F9 !important;
-}
+/* Fix borders */
+.border-gray-200, .border-slate-200 { border-color: #1E293B !important; }
+.border-gray-300, .border-slate-300 { border-color: #374151 !important; }
 
-.text-gray-700, .text-gray-800, .text-slate-700 {
-  color: #94A3B8 !important;
-}
-
-.text-gray-600, .text-gray-500, .text-slate-600, .text-slate-500 {
-  color: #94A3B8 !important;
-}
+/* Cards */
+.bg-card, [class*="bg-card"] { background-color: #1A1F2E !important; }
 
 @layer base {
   :root {
