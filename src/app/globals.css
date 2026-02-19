@@ -2,6 +2,32 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Force dark mode - nuclear override */
+html, body {
+  background-color: #0A0E17 !important;
+  color: #F1F5F9 !important;
+}
+
+section {
+  background-color: #0A0E17;
+}
+
+.bg-white, .bg-gray-50, .bg-slate-50, .bg-gray-100, .bg-neutral-50 {
+  background-color: #111827 !important;
+}
+
+.text-gray-900, .text-black, .text-slate-900 {
+  color: #F1F5F9 !important;
+}
+
+.text-gray-700, .text-gray-800, .text-slate-700 {
+  color: #94A3B8 !important;
+}
+
+.text-gray-600, .text-gray-500, .text-slate-600, .text-slate-500 {
+  color: #94A3B8 !important;
+}
+
 @layer base {
   :root {
     --bg-primary: #0A0E17;
