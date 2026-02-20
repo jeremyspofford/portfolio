@@ -114,7 +114,7 @@ export function ExperienceTimeline({ items }: ExperienceTimelineProps) {
             <div className="h-px flex-1 max-w-[60px] bg-[#22D3EE]/30" />
             <span className="font-mono text-[10px] text-[#8899B0] uppercase tracking-widest">experience --reverse-chron</span>
           </div>
-          <h2 className="font-display font-bold text-4xl md:text-5xl text-[#F1F5F9] mb-4">
+          <h2 className="font-display font-bold text-4xl md:text-5xl text-[#F1F5F9] mb-4" style={{ letterSpacing: "-0.03em" }}>
             Experience
           </h2>
           <p className="text-[#CBD5E1] text-lg max-w-2xl">

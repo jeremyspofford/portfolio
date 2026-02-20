@@ -386,7 +386,7 @@ export function Projects({ items }: ProjectsProps) {
                           <h3 className="font-display font-bold text-2xl md:text-3xl text-[#F1F5F9] group-hover:text-[#22D3EE] transition-colors mb-2">
                             {project.title}
                           </h3>
-                          <p className="text-[#CBD5E1] text-base leading-relaxed max-w-2xl">
+                          <p className="text-[#94A3B8] text-sm leading-relaxed max-w-2xl">
                             {project.description}
                           </p>
                         </div>
@@ -513,7 +513,7 @@ export function Projects({ items }: ProjectsProps) {
                       )}
                     </div>
 
-                    <p className="text-[#CBD5E1] text-sm leading-relaxed mb-4">
+                    <p className="text-[#94A3B8] text-sm leading-relaxed mb-4">
                       {project.description}
                     </p>
 
