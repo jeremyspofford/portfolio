@@ -543,13 +543,135 @@ function FeaturedCard({
   item,
   index,
   mockup,
+  flipped = false,
 }: {
   item: ContentItem<StandaloneProjectContent>;
   index: number;
   mockup: React.ReactNode;
+  flipped?: boolean;
 }) {
   const project = item.content;
   const meta = PROJECT_METADATA[project.title] || {};
+
+  const textContent = (
+    <div className="space-y-5">
+      <div className="flex items-start justify-between gap-4">
+        <div>
+          <div className="flex items-center gap-2 mb-2">
+            {meta.tag && (
+              <span
+                className="font-mono text-[10px] uppercase tracking-widest px-2 py-0.5 rounded border"
+                style={{
+                  color: meta.accentColor || '#22D3EE',
+                  borderColor: `${meta.accentColor || '#22D3EE'}33`,
+                  background: `${meta.accentColor || '#22D3EE'}0D`,
+                }}
+              >
+                {meta.tag}
+              </span>
+            )}
+          </div>
+          <h3
+            className="font-display font-bold text-2xl md:text-3xl text-[#F1F5F9] transition-colors mb-2"
+            style={{ ['--tw-text-opacity' as string]: 1 }}
+          >
+            <span className="group-hover:text-[var(--accent)]" style={{ ['--accent' as string]: meta.accentColor || '#22D3EE' } as React.CSSProperties}>
+              {project.title}
+            </span>
+          </h3>
+          <p className="text-[#94A3B8] text-sm leading-relaxed max-w-2xl">
+            {project.description}
+          </p>
+        </div>
+        <ArrowUpRight className="w-5 h-5 text-[#1E293B] group-hover:text-[#22D3EE] transition-colors flex-shrink-0 mt-1" />
+      </div>
+
+      {/* Problem/Solution */}
+      {meta.problem && (
+        <div className="grid sm:grid-cols-2 gap-4">
+          <div className="rounded-lg p-4 border border-[#3D4F6B]" style={{ background: "#111827" }}>
+            <div className="font-mono text-[10px] text-[#CBD5E1] uppercase tracking-widest mb-2">Problem</div>
+            <p className="text-[#CBD5E1] text-sm leading-relaxed">{meta.problem}</p>
+          </div>
+          <div
+            className="rounded-lg p-4 border"
+            style={{
+              background: `${meta.accentColor || '#22D3EE'}08`,
+              borderColor: `${meta.accentColor || '#22D3EE'}25`,
+            }}
+          >
+            <div
+              className="font-mono text-[10px] uppercase tracking-widest mb-2"
+              style={{ color: meta.accentColor || '#22D3EE' }}
+            >
+              Solution
+            </div>
+            <p className="text-[#CBD5E1] text-sm leading-relaxed">{meta.solution}</p>
+          </div>
+        </div>
+      )}
+
+      {/* Metric */}
+      {meta.metric && (
+        <div className="flex items-baseline gap-3">
+          <span className="font-mono font-bold text-4xl leading-none" style={{ color: meta.accentColor || '#22D3EE' }}>
+            {meta.metric}
+          </span>
+          <span className="font-mono text-xs text-[#CBD5E1] uppercase tracking-widest">{meta.metricLabel}</span>
+        </div>
+      )}
+
+      {/* Tech stack */}
+      <div className="flex flex-wrap gap-2">
+        {project.technologies?.map((tech) => (
+          <span
+            key={tech}
+            className="px-2.5 py-1 rounded font-mono text-xs text-[#CBD5E1] border border-[#3D4F6B]"
+            style={{ background: "#111827" }}
+          >
+            {tech}
+          </span>
+        ))}
+      </div>
+
+      {/* Links */}
+      <div className="flex items-center gap-4">
+        {project.link && (
+          <a
+            href={project.link}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-colors border"
+            style={{
+              background: `${meta.accentColor || '#22D3EE'}1A`,
+              borderColor: `${meta.accentColor || '#22D3EE'}4D`,
+              color: meta.accentColor || '#22D3EE',
+            }}
+          >
+            <ExternalLink className="w-3.5 h-3.5" />
+            Live site
+          </a>
+        )}
+        {meta.github && (
+          <a
+            href={meta.github}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 text-[#CBD5E1] text-sm font-medium hover:text-[#F1F5F9] transition-colors"
+          >
+            <Github className="w-4 h-4" />
+            View source
+          </a>
+        )}
+      </div>
+    </div>
+  );
+
+  const mockupContent = (
+    <div className="hidden lg:block" style={{ height: "340px" }}>
+      {mockup}
+    </div>
+  );
 
   return (
     <motion.article
@@ -567,128 +689,108 @@ function FeaturedCard({
       />
 
       <div className="p-6 md:p-8 lg:p-10">
-        <div className="grid lg:grid-cols-[1fr_360px] gap-6 lg:gap-10 items-start">
-
-          {/* Left: content */}
-          <div className="space-y-5">
-            <div className="flex items-start justify-between gap-4">
-              <div>
-                <div className="flex items-center gap-2 mb-2">
-                  {meta.tag && (
-                    <span
-                      className="font-mono text-[10px] uppercase tracking-widest px-2 py-0.5 rounded border"
-                      style={{
-                        color: meta.accentColor || '#22D3EE',
-                        borderColor: `${meta.accentColor || '#22D3EE'}33`,
-                        background: `${meta.accentColor || '#22D3EE'}0D`,
-                      }}
-                    >
-                      {meta.tag}
-                    </span>
-                  )}
-                </div>
-                <h3
-                  className="font-display font-bold text-2xl md:text-3xl text-[#F1F5F9] transition-colors mb-2"
-                  style={{ ['--tw-text-opacity' as string]: 1 }}
-                >
-                  <span className="group-hover:text-[var(--accent)]" style={{ ['--accent' as string]: meta.accentColor || '#22D3EE' } as React.CSSProperties}>
-                    {project.title}
-                  </span>
-                </h3>
-                <p className="text-[#94A3B8] text-sm leading-relaxed max-w-2xl">
-                  {project.description}
-                </p>
-              </div>
-              <ArrowUpRight className="w-5 h-5 text-[#1E293B] group-hover:text-[#22D3EE] transition-colors flex-shrink-0 mt-1" />
-            </div>
-
-            {/* Problem/Solution */}
-            {meta.problem && (
-              <div className="grid sm:grid-cols-2 gap-4">
-                <div className="rounded-lg p-4 border border-[#3D4F6B]" style={{ background: "#111827" }}>
-                  <div className="font-mono text-[10px] text-[#CBD5E1] uppercase tracking-widest mb-2">Problem</div>
-                  <p className="text-[#CBD5E1] text-sm leading-relaxed">{meta.problem}</p>
-                </div>
-                <div
-                  className="rounded-lg p-4 border"
-                  style={{
-                    background: `${meta.accentColor || '#22D3EE'}08`,
-                    borderColor: `${meta.accentColor || '#22D3EE'}25`,
-                  }}
-                >
-                  <div
-                    className="font-mono text-[10px] uppercase tracking-widest mb-2"
-                    style={{ color: meta.accentColor || '#22D3EE' }}
-                  >
-                    Solution
-                  </div>
-                  <p className="text-[#CBD5E1] text-sm leading-relaxed">{meta.solution}</p>
-                </div>
-              </div>
-            )}
-
-            {/* Metric */}
-            {meta.metric && (
-              <div className="flex items-baseline gap-3">
-                <span className="font-mono font-bold text-4xl leading-none" style={{ color: meta.accentColor || '#22D3EE' }}>
-                  {meta.metric}
-                </span>
-                <span className="font-mono text-xs text-[#CBD5E1] uppercase tracking-widest">{meta.metricLabel}</span>
-              </div>
-            )}
-
-            {/* Tech stack */}
-            <div className="flex flex-wrap gap-2">
-              {project.technologies?.map((tech) => (
-                <span
-                  key={tech}
-                  className="px-2.5 py-1 rounded font-mono text-xs text-[#CBD5E1] border border-[#3D4F6B]"
-                  style={{ background: "#111827" }}
-                >
-                  {tech}
-                </span>
-              ))}
-            </div>
-
-            {/* Links */}
-            <div className="flex items-center gap-4">
-              {project.link && (
-                <a
-                  href={project.link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-colors border"
-                  style={{
-                    background: `${meta.accentColor || '#22D3EE'}1A`,
-                    borderColor: `${meta.accentColor || '#22D3EE'}4D`,
-                    color: meta.accentColor || '#22D3EE',
-                  }}
-                >
-                  <ExternalLink className="w-3.5 h-3.5" />
-                  Live site
-                </a>
-              )}
-              {meta.github && (
-                <a
-                  href={meta.github}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 text-[#CBD5E1] text-sm font-medium hover:text-[#F1F5F9] transition-colors"
-                >
-                  <Github className="w-4 h-4" />
-                  View source
-                </a>
-              )}
-            </div>
+        {flipped ? (
+          <div className="grid lg:grid-cols-[360px_1fr] gap-6 lg:gap-10 items-start">
+            {mockupContent}
+            {textContent}
           </div>
-
-          {/* Right: visual mockup */}
-          <div className="hidden lg:block" style={{ height: "340px" }}>
-            {mockup}
+        ) : (
+          <div className="grid lg:grid-cols-[1fr_360px] gap-6 lg:gap-10 items-start">
+            {textContent}
+            {mockupContent}
           </div>
-        </div>
+        )}
       </div>
     </motion.article>
+  );
+}
+
+/** Nova AI Platform terminal mockup */
+function NovaMockup() {
+  return (
+    <div
+      className="rounded-xl overflow-hidden w-full h-full flex flex-col font-mono text-[12px]"
+      style={{
+        background: "#080C12",
+        border: "1px solid #1E293B",
+        boxShadow: "0 0 0 1px rgba(34,211,238,0.06), 0 12px 40px rgba(0,0,0,0.5)",
+      }}
+    >
+      {/* Title bar */}
+      <div
+        className="flex items-center gap-2 px-3 py-2.5 border-b flex-shrink-0"
+        style={{ background: "#0D1117", borderColor: "#1E293B" }}
+      >
+        <div className="flex gap-1.5">
+          <div className="w-2.5 h-2.5 rounded-full" style={{ background: "#FF5F57" }} />
+          <div className="w-2.5 h-2.5 rounded-full" style={{ background: "#FEBC2E" }} />
+          <div className="w-2.5 h-2.5 rounded-full" style={{ background: "#28C840" }} />
+        </div>
+        <span className="text-[11px] font-mono text-[#4B5563] ml-2">nova-ai-platform — status</span>
+      </div>
+
+      {/* Body */}
+      <div className="flex-1 p-4 space-y-2 leading-relaxed" style={{ color: "#94A3B8" }}>
+        {/* Box top */}
+        <div style={{ color: "#22D3EE" }}>┌─ nova-ai-platform ────────────────────┐</div>
+        <div>
+          <span style={{ color: "#22D3EE" }}>│</span>
+          {" "}Channels:{" "}
+          <span style={{ color: "#10B981" }}>Telegram ✓</span>{" "}
+          <span style={{ color: "#10B981" }}>Discord ✓</span>{" "}
+          <span style={{ color: "#10B981" }}>CLI ✓</span>
+          {"            "}
+          <span style={{ color: "#22D3EE" }}>│</span>
+        </div>
+        <div>
+          <span style={{ color: "#22D3EE" }}>│</span>
+          {" "}Memory:{" "}
+          <span style={{ color: "#F1F5F9" }}>2,847</span>{" "}
+          <span>facts indexed</span>
+          {"              "}
+          <span style={{ color: "#22D3EE" }}>│</span>
+        </div>
+        <div>
+          <span style={{ color: "#22D3EE" }}>│</span>
+          {" "}Uptime:{" "}
+          <span style={{ color: "#10B981" }}>99.7%</span>
+          {" (30d)"}
+          {"                      "}
+          <span style={{ color: "#22D3EE" }}>│</span>
+        </div>
+        <div>
+          <span style={{ color: "#22D3EE" }}>│</span>
+          {" "}Active conversations:{" "}
+          <span style={{ color: "#F59E0B" }}>3</span>
+          {"               "}
+          <span style={{ color: "#22D3EE" }}>│</span>
+        </div>
+        <div style={{ color: "#22D3EE" }}>└───────────────────────────────────────┘</div>
+        <div className="mt-2" style={{ color: "#22D3EE" }}>
+          <span>$ </span>
+          <span style={{ color: "#F1F5F9" }}>nova status --verbose</span>
+        </div>
+        <div style={{ color: "#10B981" }}>✓ pgvector memory: online</div>
+        <div style={{ color: "#10B981" }}>✓ Semantic search: ready</div>
+        <div style={{ color: "#10B981" }}>✓ All channels: healthy</div>
+        <div className="mt-1" style={{ color: "#22D3EE" }}>
+          <span>$ </span>
+          <span
+            className="inline-block w-[2px] h-[1em] align-text-bottom"
+            style={{ background: "#22D3EE", animation: "blink 1.2s step-end infinite" }}
+          />
+        </div>
+      </div>
+
+      {/* Status bar */}
+      <div
+        className="px-4 py-2 border-t flex items-center justify-between"
+        style={{ background: "#22D3EE", borderColor: "#22D3EE" }}
+      >
+        <span className="font-mono text-[11px] font-bold" style={{ color: "#0A0E17" }}>NORMAL</span>
+        <span className="font-mono text-[11px]" style={{ color: "#0A0E17", opacity: 0.8 }}>nova  utf-8</span>
+      </div>
+    </div>
   );
 }
 
@@ -709,83 +811,94 @@ function NovaCard({ item }: { item: ContentItem<StandaloneProjectContent> }) {
     >
       <div className="absolute top-0 left-0 right-0 h-px" style={{ background: "linear-gradient(90deg, transparent, #22D3EE, transparent)" }} />
 
-      <div className="p-6 md:p-8">
-        <div className="flex items-start justify-between gap-4 mb-4">
-          <div>
-            <div className="flex items-center gap-2 mb-2">
-              {meta.tag && (
-                <span className="font-mono text-[10px] text-[#22D3EE] uppercase tracking-widest px-2 py-0.5 rounded border border-[#22D3EE]/20 bg-[#22D3EE]/05">
-                  {meta.tag}
-                </span>
+      <div className="p-6 md:p-8 lg:p-10">
+        <div className="grid lg:grid-cols-[1fr_360px] gap-6 lg:gap-10 items-start">
+
+          {/* Left: content */}
+          <div className="space-y-5">
+            <div className="flex items-start justify-between gap-4">
+              <div>
+                <div className="flex items-center gap-2 mb-2">
+                  {meta.tag && (
+                    <span className="font-mono text-[10px] text-[#22D3EE] uppercase tracking-widest px-2 py-0.5 rounded border border-[#22D3EE]/20 bg-[#22D3EE]/05">
+                      {meta.tag}
+                    </span>
+                  )}
+                </div>
+                <h3 className="font-display font-bold text-2xl md:text-3xl text-[#F1F5F9] group-hover:text-[#22D3EE] transition-colors mb-2">
+                  {project.title}
+                </h3>
+                <p className="text-[#94A3B8] text-sm leading-relaxed max-w-2xl">
+                  {project.description}
+                </p>
+              </div>
+              {meta.metric && (
+                <div className="text-right flex-shrink-0">
+                  <div className="font-mono font-bold text-4xl leading-none" style={{ color: "#22D3EE" }}>
+                    {meta.metric}
+                  </div>
+                  <div className="font-mono text-[10px] text-[#CBD5E1] uppercase tracking-widest mt-1">
+                    {meta.metricLabel}
+                  </div>
+                </div>
               )}
             </div>
-            <h3 className="font-display font-bold text-2xl text-[#F1F5F9] group-hover:text-[#22D3EE] transition-colors mb-2">
-              {project.title}
-            </h3>
-            <p className="text-[#94A3B8] text-sm leading-relaxed max-w-2xl">
-              {project.description}
-            </p>
-          </div>
-          {meta.metric && (
-            <div className="text-right flex-shrink-0">
-              <div className="font-mono font-bold text-4xl leading-none" style={{ color: "#22D3EE" }}>
-                {meta.metric}
+
+            {meta.problem && (
+              <div className="grid sm:grid-cols-2 gap-4">
+                <div className="rounded-lg p-3 border border-[#3D4F6B]" style={{ background: "#111827" }}>
+                  <div className="font-mono text-[10px] text-[#CBD5E1] uppercase tracking-widest mb-1.5">Problem</div>
+                  <p className="text-[#CBD5E1] text-sm leading-relaxed">{meta.problem}</p>
+                </div>
+                <div className="rounded-lg p-3 border border-[#22D3EE]/15" style={{ background: "rgba(34,211,238,0.03)" }}>
+                  <div className="font-mono text-[10px] text-[#22D3EE] uppercase tracking-widest mb-1.5">Solution</div>
+                  <p className="text-[#CBD5E1] text-sm leading-relaxed">{meta.solution}</p>
+                </div>
               </div>
-              <div className="font-mono text-[10px] text-[#CBD5E1] uppercase tracking-widest mt-1">
-                {meta.metricLabel}
-              </div>
-            </div>
-          )}
-        </div>
+            )}
 
-        {meta.problem && (
-          <div className="grid sm:grid-cols-2 gap-4 mb-5">
-            <div className="rounded-lg p-3 border border-[#3D4F6B]" style={{ background: "#111827" }}>
-              <div className="font-mono text-[10px] text-[#CBD5E1] uppercase tracking-widest mb-1.5">Problem</div>
-              <p className="text-[#CBD5E1] text-sm leading-relaxed">{meta.problem}</p>
+            <div className="flex flex-wrap gap-2">
+              {project.technologies?.map((tech) => (
+                <span
+                  key={tech}
+                  className="px-2.5 py-1 rounded font-mono text-xs text-[#CBD5E1] border border-[#3D4F6B]"
+                  style={{ background: "#111827" }}
+                >
+                  {tech}
+                </span>
+              ))}
             </div>
-            <div className="rounded-lg p-3 border border-[#22D3EE]/15" style={{ background: "rgba(34,211,238,0.03)" }}>
-              <div className="font-mono text-[10px] text-[#22D3EE] uppercase tracking-widest mb-1.5">Solution</div>
-              <p className="text-[#CBD5E1] text-sm leading-relaxed">{meta.solution}</p>
+
+            <div className="flex items-center gap-4">
+              {project.link && (
+                <a
+                  href={project.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-[#22D3EE]/10 border border-[#22D3EE]/30 text-[#22D3EE] text-sm font-medium hover:bg-[#22D3EE]/20 transition-colors"
+                >
+                  <ExternalLink className="w-3.5 h-3.5" />
+                  Live site
+                </a>
+              )}
+              {meta.github && (
+                <a
+                  href={meta.github}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 text-[#CBD5E1] text-sm font-medium hover:text-[#F1F5F9] transition-colors"
+                >
+                  <Github className="w-4 h-4" />
+                  View source
+                </a>
+              )}
             </div>
           </div>
-        )}
 
-        <div className="flex flex-wrap gap-2 mb-5">
-          {project.technologies?.map((tech) => (
-            <span
-              key={tech}
-              className="px-2.5 py-1 rounded font-mono text-xs text-[#CBD5E1] border border-[#3D4F6B]"
-              style={{ background: "#111827" }}
-            >
-              {tech}
-            </span>
-          ))}
-        </div>
-
-        <div className="flex items-center gap-4">
-          {project.link && (
-            <a
-              href={project.link}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-[#22D3EE]/10 border border-[#22D3EE]/30 text-[#22D3EE] text-sm font-medium hover:bg-[#22D3EE]/20 transition-colors"
-            >
-              <ExternalLink className="w-3.5 h-3.5" />
-              Live site
-            </a>
-          )}
-          {meta.github && (
-            <a
-              href={meta.github}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 text-[#CBD5E1] text-sm font-medium hover:text-[#F1F5F9] transition-colors"
-            >
-              <Github className="w-4 h-4" />
-              View source
-            </a>
-          )}
+          {/* Right: Nova terminal mockup */}
+          <div className="hidden lg:block" style={{ height: "340px" }}>
+            <NovaMockup />
+          </div>
         </div>
       </div>
     </motion.article>
@@ -863,6 +976,7 @@ export function Projects({ items }: ProjectsProps) {
               item={item}
               index={index}
               mockup={MOCKUPS[item.content.title]}
+              flipped={item.content.title === "Epstein Files Explorer"}
             />
           ))}
         </div>

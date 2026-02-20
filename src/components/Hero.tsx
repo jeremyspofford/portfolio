@@ -38,18 +38,27 @@ const LINE_COLORS: Record<LineType, string> = {
 };
 
 function useTerminalAnimation() {
-  const [typedCommand, setTypedCommand] = useState('');
-  const [outputLines, setOutputLines] = useState<TermLine[]>([]);
-  const [phase, setPhase] = useState<'typing' | 'streaming' | 'idle' | 'restart-pause'>('typing');
+  // Pre-populate with first command so visitors never see a black void
+  const [typedCommand, setTypedCommand] = useState(COMMAND);
+  const [outputLines, setOutputLines] = useState<TermLine[]>(OUTPUT_LINES);
+  const [phase, setPhase] = useState<'typing' | 'streaming' | 'idle' | 'restart-pause'>('idle');
   const cycleRef = useRef(0);
 
   useEffect(() => {
     let cancelled = false;
 
     async function runAnimation() {
-      // Small initial pause
-      await delay(400);
-      if (cancelled) return;
+      if (cycleRef.current === 0) {
+        // First load: content pre-populated — wait 3s then clear and start loop
+        await delay(3000);
+        if (cancelled) return;
+        setTypedCommand('');
+        setOutputLines([]);
+      } else {
+        // Subsequent loops: small pause before retyping
+        await delay(400);
+        if (cancelled) return;
+      }
 
       // Phase 1: Type command char by char at 30ms
       setTypedCommand('');
@@ -152,7 +161,7 @@ export function Hero({ profile, certifications: _certifications }: HeroProps) {
             {/* Single sentence — left-aligned */}
             <p className="text-[#CBD5E1] text-xl leading-relaxed max-w-2xl text-left">
               I build civic tech that holds power{" "}
-              <span style={{ color: "#F59E0B", fontWeight: 600 }}>accountable</span>
+              <span style={{ color: "#F59E0B", fontWeight: 600, fontStyle: "italic", letterSpacing: "0.02em" }}>accountable</span>
               {" "}— tracking Congress and surfacing public records, then shipping it to production without drama.
             </p>
 
