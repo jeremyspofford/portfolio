@@ -81,7 +81,7 @@ function HeroProjectCard({ item }: { item: ContentItem<StandaloneProjectContent>
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-60px" }}
       transition={{ duration: 0.6 }}
-      className="group relative rounded-2xl border border-[#22D3EE]/20 overflow-hidden"
+      className="group relative rounded-2xl border border-[#22D3EE]/20 overflow-hidden card-hover-glow"
       style={{ background: "#1A2340" }}
     >
       {/* Top accent — stronger cyan line */}
@@ -301,7 +301,7 @@ export function Projects({ items }: ProjectsProps) {
   );
 
   return (
-    <section id="projects" className="w-full py-20 md:py-32 px-6 md:px-12" style={{ background: "#0A0E17" }}>
+    <section id="projects" className="w-full py-12 md:py-16 px-6 md:px-12" style={{ background: "#0A0E17" }}>
       <div className="max-w-7xl mx-auto">
 
         {/* Section header */}

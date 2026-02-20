@@ -21,13 +21,13 @@ export function Contact({ profile }: ContactProps) {
   return (
     <section
       id="contact"
-      className="w-full py-20 md:py-32 px-6 md:px-12 scroll-mt-20"
+      className="w-full py-12 md:py-16 px-6 md:px-12 scroll-mt-20"
       style={{ background: "#182240", borderTop: "1px solid #1E293B" }}
     >
       <div className="max-w-4xl mx-auto">
 
         {/* Section header */}
-        <div className="mb-16">
+        <div className="mb-10">
           <div className="flex items-center gap-3 mb-4">
             <span className="font-mono text-[#22D3EE] text-sm">04.</span>
             <div className="h-px flex-1 max-w-[60px] bg-[#22D3EE]/30" />
@@ -123,7 +123,7 @@ export function Contact({ profile }: ContactProps) {
         </div>
 
         {/* Footer */}
-        <div className="mt-20 pt-8 border-t border-[#3D4F6B] flex flex-col sm:flex-row justify-between gap-3 text-xs font-mono text-[#CBD5E1]">
+        <div className="mt-12 pt-8 border-t border-[#3D4F6B] flex flex-col sm:flex-row justify-between gap-3 text-xs font-mono text-[#CBD5E1]">
           <span>© {new Date().getFullYear()} {profile.name}</span>
           <span>Built with Next.js · Deployed on Cloudflare Pages · Designed with intention</span>
         </div>

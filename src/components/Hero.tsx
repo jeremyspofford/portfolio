@@ -23,13 +23,6 @@ const TERMINAL_LINES = [
   { prefix: "", text: "[+] Running 5/5  ✓ api ✓ worker ✓ db ✓ cache ✓ proxy", delay: 0, color: "#10B981" },
 ];
 
-const STAT_ITEMS = [
-  { value: "12+", label: "Yrs experience" },
-  { value: "535", label: "Reps tracked" },
-  { value: "615", label: "Tests green" },
-  { value: "IaC", label: "Everything as code" },
-];
-
 export function Hero({ profile, certifications }: HeroProps) {
   const [visibleLines, setVisibleLines] = useState<number[]>([]);
   const [currentTyping, setCurrentTyping] = useState<number>(0);
@@ -135,22 +128,23 @@ export function Hero({ profile, certifications }: HeroProps) {
               and connects communities. 12+ years shipping infrastructure without drama.
             </p>
 
-            {/* Stats row */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-1">
-              {STAT_ITEMS.map((stat) => (
-                <div
-                  key={stat.label}
-                  className="rounded-lg border border-[#1E293B] p-3"
-                  style={{ background: "#1F2B45" }}
-                >
-                  <div className="font-mono text-2xl font-bold text-[#22D3EE] leading-none mb-1">
-                    {stat.value}
-                  </div>
-                  <div className="text-[10px] text-[#94A3B8] uppercase tracking-wider font-mono leading-tight">
-                    {stat.label}
-                  </div>
-                </div>
-              ))}
+            {/* Inline stats row */}
+            <div className="flex items-center gap-3 flex-wrap pt-1">
+              <span className="font-mono text-sm text-[#CBD5E1]">
+                <span className="text-[#22D3EE] font-bold">12+</span> years
+              </span>
+              <span className="text-[#3D4F6B] select-none">•</span>
+              <span className="font-mono text-sm text-[#CBD5E1]">
+                <span className="text-[#22D3EE] font-bold">50+</span> projects
+              </span>
+              <span className="text-[#3D4F6B] select-none">•</span>
+              <span className="font-mono text-sm text-[#CBD5E1]">
+                <span className="text-[#22D3EE] font-bold">3</span> clouds
+              </span>
+              <span className="text-[#3D4F6B] select-none">•</span>
+              <span className="font-mono text-sm text-[#CBD5E1]">
+                <span className="text-[#22D3EE] font-bold">IaC</span>-first
+              </span>
             </div>
 
             {/* CTA buttons */}

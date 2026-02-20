@@ -2,7 +2,6 @@
 
 import { motion, AnimatePresence } from 'framer-motion';
 import { useState } from 'react';
-import { ArrowUpRight } from 'lucide-react';
 
 interface ExperienceContent {
   company: string;
@@ -99,11 +98,17 @@ export function ExperienceTimeline({ items }: ExperienceTimelineProps) {
   if (!active) return null;
 
   return (
-    <section id="experience" className="w-full py-20 md:py-32 px-6 md:px-12 scroll-mt-20" style={{ background: "#0A0E17" }}>
+    <section id="experience" className="w-full py-12 md:py-16 px-6 md:px-12 scroll-mt-20" style={{ background: "#0A0E17" }}>
       <div className="max-w-5xl mx-auto">
 
         {/* Section header */}
-        <div className="mb-16">
+        <motion.div
+          className="mb-10"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-60px" }}
+          transition={{ duration: 0.5 }}
+        >
           <div className="flex items-center gap-3 mb-4">
             <span className="font-mono text-[#22D3EE] text-sm">03.</span>
             <div className="h-px flex-1 max-w-[60px] bg-[#22D3EE]/30" />
@@ -115,7 +120,7 @@ export function ExperienceTimeline({ items }: ExperienceTimelineProps) {
           <p className="text-[#CBD5E1] text-lg max-w-2xl">
             12 years of infrastructure work across enterprise, cloud-native, and startup environments.
           </p>
-        </div>
+        </motion.div>
 
         {/* Tab layout — company selector + detail panel */}
         <div className="grid md:grid-cols-[200px_1fr] lg:grid-cols-[240px_1fr] gap-0 rounded-2xl overflow-hidden border border-[#3D4F6B]">
@@ -188,13 +193,22 @@ export function ExperienceTimeline({ items }: ExperienceTimelineProps) {
                   </div>
                 </div>
 
-                {/* Description */}
-                <p className="text-[#CBD5E1] text-sm leading-relaxed mb-6">
-                  {active.content.description}
-                </p>
+                {/* Description — rendered as bullets by splitting on periods */}
+                <ul className="space-y-2 mb-6">
+                  {active.content.description
+                    .split(/\.\s+/)
+                    .filter(s => s.trim().length > 0)
+                    .slice(0, 3)
+                    .map((bullet, i) => (
+                      <li key={i} className="flex gap-2 text-[#CBD5E1] text-sm leading-relaxed">
+                        <span className="text-[#22D3EE] mt-0.5 flex-shrink-0">▸</span>
+                        <span>{bullet.replace(/\.$/, '')}.</span>
+                      </li>
+                    ))}
+                </ul>
 
                 {/* Tech stack */}
-                <div className="flex flex-wrap gap-2 mb-6">
+                <div className="flex flex-wrap gap-2">
                   {active.content.technologies?.map((tech) => (
                     <span
                       key={tech}
@@ -205,58 +219,6 @@ export function ExperienceTimeline({ items }: ExperienceTimelineProps) {
                     </span>
                   ))}
                 </div>
-
-                {/* Key deliverables — compact list */}
-                {active.content.key_deliverables && active.content.key_deliverables.length > 0 && (
-                  <div>
-                    <div className="font-mono text-[10px] text-[#22D3EE] uppercase tracking-widest mb-4">
-                      Key Deliverables
-                    </div>
-                    <div className="space-y-3">
-                      {active.content.key_deliverables.map((deliverable, idx) => (
-                        <div
-                          key={idx}
-                          className="flex gap-3"
-                        >
-                          {/* Left accent line */}
-                          <div className="w-px bg-[#1E293B] flex-shrink-0 mt-1 mb-1" />
-
-                          <div className="flex-1">
-                            <div className="flex items-start justify-between gap-2 mb-1">
-                              <h4 className="font-semibold text-sm text-[#F1F5F9]">
-                                {deliverable.title}
-                              </h4>
-                              {deliverable.link && (
-                                <a
-                                  href={deliverable.link}
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                  className="text-[#22D3EE] hover:text-[#06B6D4] flex-shrink-0 mt-0.5"
-                                >
-                                  <ArrowUpRight className="w-3.5 h-3.5" />
-                                </a>
-                              )}
-                            </div>
-                            <p className="text-[#CBD5E1] text-xs leading-relaxed mb-2">
-                              {deliverable.description}
-                            </p>
-                            <div className="flex flex-wrap gap-1.5">
-                              {deliverable.technologies.map((tech) => (
-                                <span
-                                  key={tech}
-                                  className="font-mono text-[10px] uppercase text-[#8899B0] px-1.5 py-0.5 rounded border border-[#3D4F6B]"
-                                  style={{ background: "#0A0E17" }}
-                                >
-                                  {tech}
-                                </span>
-                              ))}
-                            </div>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                )}
               </motion.div>
             </AnimatePresence>
           </div>

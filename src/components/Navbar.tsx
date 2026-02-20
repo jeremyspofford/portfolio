@@ -76,9 +76,10 @@ export function Navbar() {
       className="fixed top-0 w-full z-50 print:hidden transition-all duration-300"
       style={{
         background: scrolled
-          ? "rgba(10,14,23,0.95)"
-          : "rgba(10,14,23,0.6)",
-        backdropFilter: "blur(12px)",
+          ? "rgba(10,14,23,0.85)"
+          : "rgba(10,14,23,0.5)",
+        backdropFilter: "blur(16px)",
+        WebkitBackdropFilter: "blur(16px)",
         borderBottom: scrolled ? "1px solid #1E293B" : "1px solid transparent",
       }}
       role="navigation"
@@ -141,7 +142,7 @@ export function Navbar() {
         <div
           id="mobile-menu"
           className="md:hidden fixed inset-0 top-16 z-40 p-6"
-          style={{ background: "rgba(10,14,23,0.98)", backdropFilter: "blur(12px)" }}
+          style={{ background: "rgba(10,14,23,0.95)", backdropFilter: "blur(20px)", WebkitBackdropFilter: "blur(20px)" }}
           role="dialog"
           aria-modal="true"
           aria-label="Navigation menu"
