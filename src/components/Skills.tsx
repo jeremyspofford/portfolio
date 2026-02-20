@@ -1,7 +1,9 @@
 "use client";
 
 import { motion } from "framer-motion";
-import type { SkillContent } from '@/lib/api';
+import { ExternalLink } from "lucide-react";
+import type { SkillContent, CertificationContent } from '@/lib/api';
+import type { ContentItem } from '@/lib/api';
 
 interface SkillItem {
   PK: string;
@@ -11,6 +13,7 @@ interface SkillItem {
 
 interface SkillsProps {
   items: SkillItem[];
+  certifications?: ContentItem<CertificationContent>[];
 }
 
 // Static tier definitions — monochrome, compact
@@ -55,26 +58,20 @@ const SKILL_TIERS = [
   },
 ];
 
-export function Skills({ items }: SkillsProps) {
-  // Build a flat skill map from API data (for proficiency %)
-  const apiSkillMap: Record<string, number> = {};
-  items.forEach((item) => {
-    item.content.items.forEach((skill) => {
-      if (item.content.proficiency) {
-        apiSkillMap[skill] = item.content.proficiency;
-      }
-    });
-  });
+export function Skills({ items, certifications = [] }: SkillsProps) {
+  const activeCerts = certifications.filter(c => c.content.active);
+  const allCerts = [...certifications].sort((a, b) => b.SK.localeCompare(a.SK));
 
   return (
     <section id="skills" className="w-full py-20 md:py-32 px-6 md:px-12 scroll-mt-20" style={{ background: "#111827" }}>
       <div className="max-w-7xl mx-auto">
 
-        {/* Section header */}
+        {/* Section header — terminal style */}
         <div className="mb-16">
           <div className="flex items-center gap-3 mb-4">
             <span className="font-mono text-[#22D3EE] text-sm">02.</span>
             <div className="h-px flex-1 max-w-[60px] bg-[#22D3EE]/30" />
+            <span className="font-mono text-[10px] text-[#475569] uppercase tracking-widest">stack --honest</span>
           </div>
           <h2 className="font-display font-bold text-4xl md:text-5xl text-[#F1F5F9] mb-4">
             Stack
@@ -146,7 +143,7 @@ export function Skills({ items }: SkillsProps) {
           ))}
         </div>
 
-        {/* Quick-read summary bar */}
+        {/* Stats bar */}
         <motion.div
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
@@ -169,6 +166,95 @@ export function Skills({ items }: SkillsProps) {
             </div>
           ))}
         </motion.div>
+
+        {/* Certifications — integrated as badges */}
+        {allCerts.length > 0 && (
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.5 }}
+            className="mt-10"
+          >
+            {/* Divider with terminal label */}
+            <div className="flex items-center gap-3 mb-6">
+              <div className="h-px flex-1 bg-[#1E293B]" />
+              <span className="font-mono text-[10px] text-[#475569] uppercase tracking-widest px-3">
+                certifications --verified
+              </span>
+              <div className="h-px flex-1 bg-[#1E293B]" />
+            </div>
+
+            <div className="flex flex-wrap gap-4">
+              {allCerts.map((item, index) => {
+                const cert = item.content;
+                return (
+                  <motion.div
+                    key={item.SK}
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: 0.1 * index }}
+                    className="flex items-center gap-3 rounded-xl border px-4 py-3 card-hover-glow relative overflow-hidden"
+                    style={{
+                      background: "#1A1F2E",
+                      borderColor: cert.active ? "rgba(16,185,129,0.3)" : "#1E293B",
+                    }}
+                  >
+                    {/* Active accent line */}
+                    {cert.active && (
+                      <div
+                        className="absolute top-0 left-0 right-0 h-px"
+                        style={{ background: "linear-gradient(90deg, transparent, #10B981, transparent)" }}
+                      />
+                    )}
+
+                    {/* Shield icon */}
+                    <div
+                      className="p-2 rounded-lg border border-[#1E293B] flex-shrink-0"
+                      style={{ background: "#111827" }}
+                    >
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"
+                        className="w-4 h-4"
+                        style={{ color: cert.active ? "#10B981" : "#475569" }}
+                        aria-hidden="true"
+                      >
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" />
+                      </svg>
+                    </div>
+
+                    <div>
+                      <div className="font-display font-semibold text-sm text-[#F1F5F9] leading-tight">{cert.name}</div>
+                      <div className="flex items-center gap-2 mt-0.5">
+                        <span className="font-mono text-[10px] text-[#94A3B8]">{cert.issuer} · {cert.date}</span>
+                        <span
+                          className={`font-mono text-[9px] uppercase tracking-widest px-1.5 py-0.5 rounded border ${
+                            cert.active
+                              ? "text-[#10B981] border-[#10B981]/30 bg-[#10B981]/08"
+                              : "text-[#475569] border-[#475569]/30"
+                          }`}
+                        >
+                          {cert.active ? "Active" : "Expired"}
+                        </span>
+                      </div>
+                    </div>
+
+                    {cert.link && (
+                      <a
+                        href={cert.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="ml-2 flex-shrink-0 font-mono text-[10px] text-[#22D3EE] hover:underline flex items-center gap-0.5"
+                      >
+                        Verify <ExternalLink className="w-2.5 h-2.5 ml-0.5" />
+                      </a>
+                    )}
+                  </motion.div>
+                );
+              })}
+            </div>
+          </motion.div>
+        )}
       </div>
     </section>
   );

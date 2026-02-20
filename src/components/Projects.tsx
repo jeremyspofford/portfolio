@@ -1,6 +1,6 @@
 "use client";
 
-import { ExternalLink, Github, ArrowUpRight } from "lucide-react";
+import { ExternalLink, Github, ArrowUpRight, Terminal } from "lucide-react";
 import { ContentItem, StandaloneProjectContent } from "@/lib/api";
 import { motion } from "framer-motion";
 
@@ -17,6 +17,8 @@ const PROJECT_METADATA: Record<string, {
   github?: string;
   accentColor?: string;
   tag?: string;
+  isHero?: boolean;
+  terminalOutput?: string[];
 }> = {
   "Reps Accountability Dashboard": {
     metric: "535",
@@ -26,6 +28,18 @@ const PROJECT_METADATA: Record<string, {
     github: "https://github.com/jeremyspofford",
     accentColor: "#22D3EE",
     tag: "Aria Labs",
+    isHero: true,
+    terminalOutput: [
+      '$ curl -s https://reps.arialabs.ai/api/stats | jq',
+      '{',
+      '  "representatives": 535,',
+      '  "votes_tracked": 48291,',
+      '  "bills_indexed": 12847,',
+      '  "tests_passing": 615',
+      '}',
+      '$ pytest tests/ -q --tb=short',
+      '615 passed in 4.23s — 0 failures',
+    ],
   },
   "Epstein Files Explorer": {
     metric: "91%",
@@ -56,19 +70,235 @@ const PROJECT_METADATA: Record<string, {
   },
 };
 
+// Hero Project Card — full-width, dominant visual treatment
+function HeroProjectCard({ item }: { item: ContentItem<StandaloneProjectContent> }) {
+  const project = item.content;
+  const meta = PROJECT_METADATA[project.title] || {};
+
+  return (
+    <motion.article
+      initial={{ opacity: 0, y: 40 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-60px" }}
+      transition={{ duration: 0.6 }}
+      className="group relative rounded-2xl border border-[#22D3EE]/20 overflow-hidden"
+      style={{ background: "#0D1421" }}
+    >
+      {/* Top accent — stronger cyan line */}
+      <div
+        className="absolute top-0 left-0 right-0 h-[2px]"
+        style={{ background: "linear-gradient(90deg, transparent 0%, #22D3EE 30%, #06B6D4 70%, transparent 100%)" }}
+      />
+
+      {/* Ambient glow */}
+      <div
+        className="absolute top-0 right-0 w-[600px] h-[400px] pointer-events-none"
+        style={{ background: "radial-gradient(circle at 80% 20%, rgba(34,211,238,0.06) 0%, transparent 60%)" }}
+      />
+
+      <div className="relative p-8 md:p-12">
+        {/* Tag row */}
+        <div className="flex items-center gap-3 mb-6">
+          {meta.tag && (
+            <span className="font-mono text-[10px] text-[#22D3EE] uppercase tracking-widest px-2.5 py-1 rounded border border-[#22D3EE]/20 bg-[#22D3EE]/05">
+              {meta.tag}
+            </span>
+          )}
+          <span className="font-mono text-[10px] text-[#475569] uppercase tracking-widest">
+            featured project
+          </span>
+        </div>
+
+        {/* Two-column layout: content + terminal panel */}
+        <div className="grid lg:grid-cols-[1fr_420px] gap-8 lg:gap-12">
+
+          {/* Left: Full content */}
+          <div className="space-y-6">
+            <div>
+              <h3
+                className="font-display font-bold text-3xl md:text-4xl lg:text-5xl text-[#F1F5F9] mb-3 group-hover:text-[#22D3EE] transition-colors duration-300"
+              >
+                {project.title}
+              </h3>
+              <p className="text-[#94A3B8] text-lg leading-relaxed max-w-xl">
+                {project.description}
+              </p>
+            </div>
+
+            {/* Problem / Solution — asymmetric layout */}
+            {meta.problem && (
+              <div className="space-y-3">
+                <div className="flex gap-3">
+                  <div className="w-1 rounded-full bg-[#1E293B] flex-shrink-0" />
+                  <div>
+                    <div className="font-mono text-[10px] text-[#94A3B8] uppercase tracking-widest mb-1.5">Problem</div>
+                    <p className="text-[#94A3B8] text-sm leading-relaxed">{meta.problem}</p>
+                  </div>
+                </div>
+                <div className="flex gap-3">
+                  <div className="w-1 rounded-full flex-shrink-0" style={{ background: "#22D3EE" }} />
+                  <div>
+                    <div className="font-mono text-[10px] text-[#22D3EE] uppercase tracking-widest mb-1.5">Solution</div>
+                    <p className="text-[#94A3B8] text-sm leading-relaxed">{meta.solution}</p>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Key stat — prominent */}
+            {meta.metric && (
+              <div className="flex items-baseline gap-3">
+                <span
+                  className="font-mono font-bold text-6xl leading-none"
+                  style={{ color: "#22D3EE" }}
+                >
+                  {meta.metric}
+                </span>
+                <span className="font-mono text-sm text-[#94A3B8] uppercase tracking-widest">{meta.metricLabel}</span>
+              </div>
+            )}
+
+            {/* Tech stack */}
+            <div className="flex flex-wrap gap-2">
+              {project.technologies?.map((tech) => (
+                <span
+                  key={tech}
+                  className="px-2.5 py-1 rounded font-mono text-xs text-[#94A3B8] border border-[#1E293B]"
+                  style={{ background: "#111827" }}
+                >
+                  {tech}
+                </span>
+              ))}
+            </div>
+
+            {/* Links */}
+            <div className="flex items-center gap-4 pt-1">
+              {project.link && (
+                <a
+                  href={project.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-[#22D3EE] text-[#0A0E17] text-sm font-bold hover:bg-[#06B6D4] transition-colors"
+                >
+                  <ExternalLink className="w-3.5 h-3.5" />
+                  Live site
+                </a>
+              )}
+              {meta.github && (
+                <a
+                  href={meta.github}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 text-[#94A3B8] text-sm font-medium hover:text-[#F1F5F9] transition-colors"
+                >
+                  <Github className="w-4 h-4" />
+                  View source
+                </a>
+              )}
+            </div>
+          </div>
+
+          {/* Right: Terminal output panel */}
+          {meta.terminalOutput && (
+            <div className="hidden lg:block">
+              <div
+                className="rounded-xl overflow-hidden h-full"
+                style={{
+                  background: "#080C12",
+                  border: "1px solid #1E293B",
+                  boxShadow: "0 0 0 1px rgba(34,211,238,0.06), inset 0 0 40px rgba(0,0,0,0.4)",
+                }}
+              >
+                {/* Terminal title bar */}
+                <div
+                  className="flex items-center gap-2 px-4 py-2.5 border-b"
+                  style={{ background: "#0D1117", borderColor: "#1E293B" }}
+                >
+                  <div className="flex gap-1.5">
+                    <div className="w-2.5 h-2.5 rounded-full" style={{ background: "#FF5F57" }} />
+                    <div className="w-2.5 h-2.5 rounded-full" style={{ background: "#FEBC2E" }} />
+                    <div className="w-2.5 h-2.5 rounded-full" style={{ background: "#28C840" }} />
+                  </div>
+                  <div className="flex-1 text-center">
+                    <span className="text-[10px] font-mono text-[#4B5563]">reps-api — live stats</span>
+                  </div>
+                  <Terminal className="w-3.5 h-3.5 text-[#22D3EE]" />
+                </div>
+
+                {/* Terminal content */}
+                <div className="p-5 font-mono text-[12px] leading-relaxed">
+                  {meta.terminalOutput.map((line, i) => (
+                    <div
+                      key={i}
+                      className="leading-relaxed"
+                      style={{
+                        color: line.startsWith('$')
+                          ? "#22D3EE"
+                          : line.startsWith('{') || line.startsWith('}')
+                          ? "#94A3B8"
+                          : line.includes(':')
+                          ? "#94A3B8"
+                          : line.includes('passed')
+                          ? "#10B981"
+                          : "#F1F5F9",
+                      }}
+                    >
+                      {line.startsWith('$') ? (
+                        <>
+                          <span style={{ color: "#22D3EE" }}>$ </span>
+                          <span style={{ color: "#F1F5F9" }}>{line.slice(2)}</span>
+                        </>
+                      ) : (
+                        line
+                      )}
+                    </div>
+                  ))}
+                  {/* idle cursor */}
+                  <div className="mt-2 flex items-center" style={{ color: "#22D3EE" }}>
+                    <span>$ </span>
+                    <span
+                      className="inline-block w-[2px] h-[1em] ml-0.5 align-text-bottom cursor-blink"
+                      style={{ background: "#22D3EE" }}
+                    />
+                  </div>
+                </div>
+
+                {/* Status bar */}
+                <div
+                  className="px-4 py-2 border-t flex items-center justify-between"
+                  style={{ background: "#22D3EE", borderColor: "#22D3EE" }}
+                >
+                  <span className="font-mono text-[10px] font-bold" style={{ color: "#0A0E17" }}>LIVE</span>
+                  <span className="font-mono text-[10px]" style={{ color: "#0A0E17", opacity: 0.8 }}>reps.arialabs.ai</span>
+                  <span className="font-mono text-[10px]" style={{ color: "#0A0E17", opacity: 0.8 }}>json · utf-8</span>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+    </motion.article>
+  );
+}
+
 export function Projects({ items }: ProjectsProps) {
   const sortedItems = [...items].sort((a, b) => b.SK.localeCompare(a.SK));
 
   if (!sortedItems.length) return null;
 
-  // Aria Labs projects (featured, large cards)
-  const FEATURED_TITLES = ["Reps Accountability Dashboard", "Epstein Files Explorer", "Suppr"];
+  // Hero project — first/most prominent Aria Labs project
+  const HERO_TITLE = "Reps Accountability Dashboard";
+  const heroItem = sortedItems.find(item => item.content.title === HERO_TITLE);
+
+  // Featured (large cards) — other Aria Labs projects
+  const FEATURED_TITLES = ["Epstein Files Explorer", "Suppr"];
   const featuredItems = sortedItems.filter(item => FEATURED_TITLES.includes(item.content.title));
-  // Sort featured by the defined order
   featuredItems.sort((a, b) => FEATURED_TITLES.indexOf(a.content.title) - FEATURED_TITLES.indexOf(b.content.title));
 
-  // Rest: Nova + corporate DevOps projects
-  const remainingItems = sortedItems.filter(item => !FEATURED_TITLES.includes(item.content.title));
+  // Rest: Nova + corporate DevOps
+  const remainingItems = sortedItems.filter(item =>
+    item.content.title !== HERO_TITLE && !FEATURED_TITLES.includes(item.content.title)
+  );
 
   return (
     <section id="projects" className="w-full py-20 md:py-32 px-6 md:px-12" style={{ background: "#0A0E17" }}>
@@ -76,7 +306,7 @@ export function Projects({ items }: ProjectsProps) {
 
         {/* Section header */}
         <motion.div
-          className="mb-16"
+          className="mb-12"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-60px" }}
@@ -85,6 +315,7 @@ export function Projects({ items }: ProjectsProps) {
           <div className="flex items-center gap-3 mb-4">
             <span className="font-mono text-[#22D3EE] text-sm">01.</span>
             <div className="h-px flex-1 max-w-[60px] bg-[#22D3EE]/30" />
+            <span className="font-mono text-[10px] text-[#475569] uppercase tracking-widest">projects --featured</span>
           </div>
           <h2 className="font-display font-bold text-4xl md:text-5xl text-[#F1F5F9] mb-4">
             Projects
@@ -95,6 +326,13 @@ export function Projects({ items }: ProjectsProps) {
           </p>
         </motion.div>
 
+        {/* HERO project — full-width dominant card */}
+        {heroItem && (
+          <div className="mb-8">
+            <HeroProjectCard item={heroItem} />
+          </div>
+        )}
+
         {/* Aria Labs label */}
         <div className="flex items-center gap-3 mb-6">
           <span className="font-mono text-xs text-[#22D3EE] uppercase tracking-widest px-2.5 py-1 rounded border border-[#22D3EE]/30 bg-[#22D3EE]/05">
@@ -103,7 +341,7 @@ export function Projects({ items }: ProjectsProps) {
           <div className="h-px flex-1 bg-[#1E293B]" />
         </div>
 
-        {/* Featured large cards — Aria Labs projects */}
+        {/* Featured large cards — other Aria Labs projects */}
         <div className="space-y-6 mb-12">
           {featuredItems.map((item, index) => {
             const project = item.content;
@@ -238,7 +476,7 @@ export function Projects({ items }: ProjectsProps) {
           <>
             <div className="flex items-center gap-3 mb-6">
               <span className="font-mono text-xs text-[#475569] uppercase tracking-widest px-2.5 py-1 rounded border border-[#475569]/30">
-                Infrastructure & DevOps
+                Infrastructure &amp; DevOps
               </span>
               <div className="h-px flex-1 bg-[#1E293B]" />
             </div>

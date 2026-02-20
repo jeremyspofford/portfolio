@@ -2,7 +2,6 @@ import { Hero } from "@/components/Hero";
 import { ExperienceTimeline } from "@/components/ExperienceTimeline";
 import { Skills } from "@/components/Skills";
 import { Projects } from "@/components/Projects";
-import { Certifications } from "@/components/Certifications";
 import { Contact } from "@/components/Contact";
 import { fetchContent } from '@/lib/content';
 import {
@@ -40,18 +39,15 @@ export default async function Home() {
         <Projects items={projects} />
       </div>
 
-      {/* 3. Skills — compact tier list */}
-      <Skills items={skills} />
+      {/* 3. Skills — compact tier list + certifications integrated */}
+      <Skills items={skills} certifications={certifications} />
 
-      {/* 4. Experience — dark timeline */}
+      {/* 4. Experience — tabbed timeline */}
       <div style={{ background: "#0A0E17" }}>
         <ExperienceTimeline items={experience} />
       </div>
 
-      {/* 5. Certifications */}
-      <Certifications items={certifications} />
-
-      {/* 6. Contact */}
+      {/* 5. Contact */}
       <Contact profile={profile} />
     </div>
   );
