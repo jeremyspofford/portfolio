@@ -11,8 +11,8 @@ html, body {
 @layer base {
   :root {
     --bg-primary: #0A0E17;
-    --bg-secondary: #141C2F;
-    --bg-card: #1E2538;
+    --bg-secondary: #182240;
+    --bg-card: #1F2B45;
     --bg-light: #F8FAFC;
     --text-primary: #F1F5F9;
     --text-secondary: #94A3B8;

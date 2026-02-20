@@ -17,7 +17,7 @@ export function About({ bio }: AboutProps) {
   const yearsOfExperience = new Date().getFullYear() - startYear;
 
   return (
-    <section className="w-full py-20 md:py-32 px-6 md:px-12" style={{ background: "#141C2F" }}>
+    <section className="w-full py-20 md:py-32 px-6 md:px-12" style={{ background: "#182240" }}>
       <div className="max-w-5xl mx-auto">
 
         {/* Section header */}

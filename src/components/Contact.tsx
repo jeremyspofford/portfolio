@@ -22,7 +22,7 @@ export function Contact({ profile }: ContactProps) {
     <section
       id="contact"
       className="w-full py-20 md:py-32 px-6 md:px-12 scroll-mt-20"
-      style={{ background: "#141C2F", borderTop: "1px solid #1E293B" }}
+      style={{ background: "#182240", borderTop: "1px solid #1E293B" }}
     >
       <div className="max-w-4xl mx-auto">
 
@@ -35,7 +35,7 @@ export function Contact({ profile }: ContactProps) {
           <h2 className="font-display font-bold text-4xl md:text-5xl text-[#F1F5F9] mb-4">
             Let&apos;s talk
           </h2>
-          <p className="text-[#B0BEC5] text-lg max-w-xl">
+          <p className="text-[#CBD5E1] text-lg max-w-xl">
             Open to senior DevOps, platform engineering, and AI infrastructure roles.
             Always down to discuss interesting problems.
           </p>
@@ -45,17 +45,17 @@ export function Contact({ profile }: ContactProps) {
           {/* Email card */}
           <a
             href={`mailto:${profile.email}`}
-            className="group flex items-center gap-4 rounded-xl border border-[#2D3748] p-6 card-hover-glow"
-            style={{ background: "#1E2538" }}
+            className="group flex items-center gap-4 rounded-xl border border-[#3D4F6B] p-6 card-hover-glow"
+            style={{ background: "#1F2B45" }}
           >
             <div
-              className="p-3 rounded-lg border border-[#2D3748] group-hover:border-[#22D3EE]/40 transition-colors"
-              style={{ background: "#141C2F" }}
+              className="p-3 rounded-lg border border-[#3D4F6B] group-hover:border-[#22D3EE]/40 transition-colors"
+              style={{ background: "#182240" }}
             >
-              <Mail className="w-5 h-5 text-[#B0BEC5] group-hover:text-[#22D3EE] transition-colors" />
+              <Mail className="w-5 h-5 text-[#CBD5E1] group-hover:text-[#22D3EE] transition-colors" />
             </div>
             <div>
-              <div className="font-mono text-[10px] text-[#B0BEC5] uppercase tracking-widest mb-1">Email</div>
+              <div className="font-mono text-[10px] text-[#CBD5E1] uppercase tracking-widest mb-1">Email</div>
               <div className="text-[#F1F5F9] font-medium text-sm group-hover:text-[#22D3EE] transition-colors break-all">
                 {profile.email}
               </div>
@@ -64,17 +64,17 @@ export function Contact({ profile }: ContactProps) {
 
           {/* Location card */}
           <div
-            className="flex items-center gap-4 rounded-xl border border-[#2D3748] p-6"
-            style={{ background: "#1E2538" }}
+            className="flex items-center gap-4 rounded-xl border border-[#3D4F6B] p-6"
+            style={{ background: "#1F2B45" }}
           >
             <div
-              className="p-3 rounded-lg border border-[#2D3748]"
-              style={{ background: "#141C2F" }}
+              className="p-3 rounded-lg border border-[#3D4F6B]"
+              style={{ background: "#182240" }}
             >
-              <MapPin className="w-5 h-5 text-[#B0BEC5]" />
+              <MapPin className="w-5 h-5 text-[#CBD5E1]" />
             </div>
             <div>
-              <div className="font-mono text-[10px] text-[#B0BEC5] uppercase tracking-widest mb-1">Location</div>
+              <div className="font-mono text-[10px] text-[#CBD5E1] uppercase tracking-widest mb-1">Location</div>
               <div className="text-[#F1F5F9] font-medium text-sm">
                 {profile.location || "Remote"}
               </div>
@@ -90,8 +90,8 @@ export function Contact({ profile }: ContactProps) {
               target="_blank"
               rel="noopener noreferrer"
               aria-label="GitHub Profile"
-              className="p-3 rounded-lg border border-[#2D3748] text-[#B0BEC5] hover:text-[#22D3EE] hover:border-[#22D3EE]/40 transition-colors"
-              style={{ background: "#1E2538" }}
+              className="p-3 rounded-lg border border-[#3D4F6B] text-[#CBD5E1] hover:text-[#22D3EE] hover:border-[#22D3EE]/40 transition-colors"
+              style={{ background: "#1F2B45" }}
             >
               <Github className="w-5 h-5" />
             </a>
@@ -102,8 +102,8 @@ export function Contact({ profile }: ContactProps) {
               target="_blank"
               rel="noopener noreferrer"
               aria-label="GitLab Profile"
-              className="p-3 rounded-lg border border-[#2D3748] text-[#B0BEC5] hover:text-[#22D3EE] hover:border-[#22D3EE]/40 transition-colors"
-              style={{ background: "#1E2538" }}
+              className="p-3 rounded-lg border border-[#3D4F6B] text-[#CBD5E1] hover:text-[#22D3EE] hover:border-[#22D3EE]/40 transition-colors"
+              style={{ background: "#1F2B45" }}
             >
               <GitlabIcon className="w-5 h-5" />
             </a>
@@ -114,8 +114,8 @@ export function Contact({ profile }: ContactProps) {
               target="_blank"
               rel="noopener noreferrer"
               aria-label="LinkedIn Profile"
-              className="p-3 rounded-lg border border-[#2D3748] text-[#B0BEC5] hover:text-[#22D3EE] hover:border-[#22D3EE]/40 transition-colors"
-              style={{ background: "#1E2538" }}
+              className="p-3 rounded-lg border border-[#3D4F6B] text-[#CBD5E1] hover:text-[#22D3EE] hover:border-[#22D3EE]/40 transition-colors"
+              style={{ background: "#1F2B45" }}
             >
               <Linkedin className="w-5 h-5" />
             </a>
@@ -123,7 +123,7 @@ export function Contact({ profile }: ContactProps) {
         </div>
 
         {/* Footer */}
-        <div className="mt-20 pt-8 border-t border-[#2D3748] flex flex-col sm:flex-row justify-between gap-3 text-xs font-mono text-[#B0BEC5]">
+        <div className="mt-20 pt-8 border-t border-[#3D4F6B] flex flex-col sm:flex-row justify-between gap-3 text-xs font-mono text-[#CBD5E1]">
           <span>© {new Date().getFullYear()} {profile.name}</span>
           <span>Built with Next.js · Deployed on Cloudflare Pages · Designed with intention</span>
         </div>

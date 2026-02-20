@@ -82,7 +82,7 @@ function HeroProjectCard({ item }: { item: ContentItem<StandaloneProjectContent>
       viewport={{ once: true, margin: "-60px" }}
       transition={{ duration: 0.6 }}
       className="group relative rounded-2xl border border-[#22D3EE]/20 overflow-hidden"
-      style={{ background: "#131B2E" }}
+      style={{ background: "#1A2340" }}
     >
       {/* Top accent — stronger cyan line */}
       <div
@@ -120,7 +120,7 @@ function HeroProjectCard({ item }: { item: ContentItem<StandaloneProjectContent>
               >
                 {project.title}
               </h3>
-              <p className="text-[#B0BEC5] text-lg leading-relaxed max-w-xl">
+              <p className="text-[#CBD5E1] text-lg leading-relaxed max-w-xl">
                 {project.description}
               </p>
             </div>
@@ -131,15 +131,15 @@ function HeroProjectCard({ item }: { item: ContentItem<StandaloneProjectContent>
                 <div className="flex gap-3">
                   <div className="w-1 rounded-full bg-[#1E293B] flex-shrink-0" />
                   <div>
-                    <div className="font-mono text-[10px] text-[#B0BEC5] uppercase tracking-widest mb-1.5">Problem</div>
-                    <p className="text-[#B0BEC5] text-sm leading-relaxed">{meta.problem}</p>
+                    <div className="font-mono text-[10px] text-[#CBD5E1] uppercase tracking-widest mb-1.5">Problem</div>
+                    <p className="text-[#CBD5E1] text-sm leading-relaxed">{meta.problem}</p>
                   </div>
                 </div>
                 <div className="flex gap-3">
                   <div className="w-1 rounded-full flex-shrink-0" style={{ background: "#22D3EE" }} />
                   <div>
                     <div className="font-mono text-[10px] text-[#22D3EE] uppercase tracking-widest mb-1.5">Solution</div>
-                    <p className="text-[#B0BEC5] text-sm leading-relaxed">{meta.solution}</p>
+                    <p className="text-[#CBD5E1] text-sm leading-relaxed">{meta.solution}</p>
                   </div>
                 </div>
               </div>
@@ -154,7 +154,7 @@ function HeroProjectCard({ item }: { item: ContentItem<StandaloneProjectContent>
                 >
                   {meta.metric}
                 </span>
-                <span className="font-mono text-sm text-[#B0BEC5] uppercase tracking-widest">{meta.metricLabel}</span>
+                <span className="font-mono text-sm text-[#CBD5E1] uppercase tracking-widest">{meta.metricLabel}</span>
               </div>
             )}
 
@@ -163,7 +163,7 @@ function HeroProjectCard({ item }: { item: ContentItem<StandaloneProjectContent>
               {project.technologies?.map((tech) => (
                 <span
                   key={tech}
-                  className="px-2.5 py-1 rounded font-mono text-xs text-[#B0BEC5] border border-[#2D3748]"
+                  className="px-2.5 py-1 rounded font-mono text-xs text-[#CBD5E1] border border-[#3D4F6B]"
                   style={{ background: "#111827" }}
                 >
                   {tech}
@@ -189,7 +189,7 @@ function HeroProjectCard({ item }: { item: ContentItem<StandaloneProjectContent>
                   href={meta.github}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 text-[#B0BEC5] text-sm font-medium hover:text-[#F1F5F9] transition-colors"
+                  className="inline-flex items-center gap-2 text-[#CBD5E1] text-sm font-medium hover:text-[#F1F5F9] transition-colors"
                 >
                   <Github className="w-4 h-4" />
                   View source
@@ -204,7 +204,7 @@ function HeroProjectCard({ item }: { item: ContentItem<StandaloneProjectContent>
               <div
                 className="rounded-xl overflow-hidden h-full"
                 style={{
-                  background: "#0F1520",
+                  background: "#141E30",
                   border: "1px solid #1E293B",
                   boxShadow: "0 0 0 1px rgba(34,211,238,0.06), inset 0 0 40px rgba(0,0,0,0.4)",
                 }}
@@ -320,7 +320,7 @@ export function Projects({ items }: ProjectsProps) {
           <h2 className="font-display font-bold text-4xl md:text-5xl text-[#F1F5F9] mb-4">
             Projects
           </h2>
-          <p className="text-[#B0BEC5] text-lg max-w-2xl">
+          <p className="text-[#CBD5E1] text-lg max-w-2xl">
             Civic tools, AI platforms, and infrastructure built to matter.
             The stuff I&apos;m most proud of.
           </p>
@@ -354,8 +354,8 @@ export function Projects({ items }: ProjectsProps) {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-80px" }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="group relative rounded-2xl border border-[#2D3748] overflow-hidden card-hover-glow"
-                style={{ background: "#1E2538" }}
+                className="group relative rounded-2xl border border-[#3D4F6B] overflow-hidden card-hover-glow"
+                style={{ background: "#1F2B45" }}
               >
                 {/* Accent bar */}
                 <div
@@ -381,7 +381,7 @@ export function Projects({ items }: ProjectsProps) {
                           <h3 className="font-display font-bold text-2xl md:text-3xl text-[#F1F5F9] group-hover:text-[#22D3EE] transition-colors mb-2">
                             {project.title}
                           </h3>
-                          <p className="text-[#B0BEC5] text-base leading-relaxed max-w-2xl">
+                          <p className="text-[#CBD5E1] text-base leading-relaxed max-w-2xl">
                             {project.description}
                           </p>
                         </div>
@@ -391,13 +391,13 @@ export function Projects({ items }: ProjectsProps) {
                       {/* Problem/Solution */}
                       {meta.problem && (
                         <div className="grid sm:grid-cols-2 gap-4">
-                          <div className="rounded-lg p-4 border border-[#2D3748]" style={{ background: "#111827" }}>
-                            <div className="font-mono text-[10px] text-[#B0BEC5] uppercase tracking-widest mb-2">Problem</div>
-                            <p className="text-[#B0BEC5] text-sm leading-relaxed">{meta.problem}</p>
+                          <div className="rounded-lg p-4 border border-[#3D4F6B]" style={{ background: "#111827" }}>
+                            <div className="font-mono text-[10px] text-[#CBD5E1] uppercase tracking-widest mb-2">Problem</div>
+                            <p className="text-[#CBD5E1] text-sm leading-relaxed">{meta.problem}</p>
                           </div>
                           <div className="rounded-lg p-4 border border-[#22D3EE]/15" style={{ background: "rgba(34,211,238,0.03)" }}>
                             <div className="font-mono text-[10px] text-[#22D3EE] uppercase tracking-widest mb-2">Solution</div>
-                            <p className="text-[#B0BEC5] text-sm leading-relaxed">{meta.solution}</p>
+                            <p className="text-[#CBD5E1] text-sm leading-relaxed">{meta.solution}</p>
                           </div>
                         </div>
                       )}
@@ -407,7 +407,7 @@ export function Projects({ items }: ProjectsProps) {
                         {project.technologies?.map((tech) => (
                           <span
                             key={tech}
-                            className="px-2.5 py-1 rounded font-mono text-xs text-[#B0BEC5] border border-[#2D3748]"
+                            className="px-2.5 py-1 rounded font-mono text-xs text-[#CBD5E1] border border-[#3D4F6B]"
                             style={{ background: "#111827" }}
                           >
                             {tech}
@@ -433,7 +433,7 @@ export function Projects({ items }: ProjectsProps) {
                             href={meta.github}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="inline-flex items-center gap-2 text-[#B0BEC5] text-sm font-medium hover:text-[#F1F5F9] transition-colors"
+                            className="inline-flex items-center gap-2 text-[#CBD5E1] text-sm font-medium hover:text-[#F1F5F9] transition-colors"
                           >
                             <Github className="w-4 h-4" />
                             View source
@@ -454,11 +454,11 @@ export function Projects({ items }: ProjectsProps) {
                         >
                           {meta.metric}
                         </div>
-                        <div className="font-mono text-[11px] text-[#B0BEC5] uppercase tracking-widest">
+                        <div className="font-mono text-[11px] text-[#CBD5E1] uppercase tracking-widest">
                           {meta.metricLabel}
                         </div>
-                        <div className="mt-4 pt-4 border-t border-[#2D3748]">
-                          <div className="font-mono text-[10px] text-[#B0BEC5] uppercase tracking-widest">
+                        <div className="mt-4 pt-4 border-t border-[#3D4F6B]">
+                          <div className="font-mono text-[10px] text-[#CBD5E1] uppercase tracking-widest">
                             {project.date}
                           </div>
                         </div>
@@ -493,8 +493,8 @@ export function Projects({ items }: ProjectsProps) {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true, margin: "-60px" }}
                     transition={{ duration: 0.4, delay: index * 0.08 }}
-                    className="group relative rounded-xl border border-[#2D3748] p-6 card-hover-glow"
-                    style={{ background: "#1E2538" }}
+                    className="group relative rounded-xl border border-[#3D4F6B] p-6 card-hover-glow"
+                    style={{ background: "#1F2B45" }}
                   >
                     <div className="flex items-start justify-between mb-3">
                       <h3 className="font-display font-semibold text-xl text-[#F1F5F9] group-hover:text-[#22D3EE] transition-colors">
@@ -503,12 +503,12 @@ export function Projects({ items }: ProjectsProps) {
                       {meta.metric && (
                         <span className="font-mono text-lg font-bold text-[#22D3EE] ml-4 flex-shrink-0">
                           {meta.metric}
-                          <span className="text-[#B0BEC5] text-xs ml-1">{meta.metricLabel}</span>
+                          <span className="text-[#CBD5E1] text-xs ml-1">{meta.metricLabel}</span>
                         </span>
                       )}
                     </div>
 
-                    <p className="text-[#B0BEC5] text-sm leading-relaxed mb-4">
+                    <p className="text-[#CBD5E1] text-sm leading-relaxed mb-4">
                       {project.description}
                     </p>
 
@@ -516,7 +516,7 @@ export function Projects({ items }: ProjectsProps) {
                       {project.technologies?.slice(0, 5).map((tech) => (
                         <span
                           key={tech}
-                          className="px-2 py-0.5 rounded font-mono text-xs text-[#B0BEC5] border border-[#2D3748]"
+                          className="px-2 py-0.5 rounded font-mono text-xs text-[#CBD5E1] border border-[#3D4F6B]"
                           style={{ background: "#111827" }}
                         >
                           {tech}
@@ -541,7 +541,7 @@ export function Projects({ items }: ProjectsProps) {
                           href={meta.github}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="inline-flex items-center gap-1.5 text-[#B0BEC5] text-xs font-medium hover:text-[#F1F5F9] transition-colors"
+                          className="inline-flex items-center gap-1.5 text-[#CBD5E1] text-xs font-medium hover:text-[#F1F5F9] transition-colors"
                         >
                           <Github className="w-3.5 h-3.5" />
                           Source
