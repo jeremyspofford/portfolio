@@ -109,15 +109,14 @@ export function ExperienceTimeline({ items }: ExperienceTimelineProps) {
           viewport={{ once: true, margin: "-60px" }}
           transition={{ duration: 0.5 }}
         >
-          <div className="flex items-center gap-3 mb-4">
-            <span className="font-mono text-[#22D3EE] text-sm">03.</span>
-            <div className="h-px flex-1 max-w-[60px] bg-[#22D3EE]/30" />
-            <span className="font-mono text-[10px] text-[#8899B0] uppercase tracking-widest">experience --reverse-chron</span>
+          <span className="font-mono text-xs text-[#F59E0B] tracking-widest uppercase mb-2 block">03 // experience</span>
+          <div className="flex items-center gap-3 mb-1">
+            <span className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ background: "#F59E0B" }} />
+            <h2 className="font-display font-bold text-4xl md:text-5xl text-[#F1F5F9]" style={{ letterSpacing: "-0.03em" }}>
+              Experience
+            </h2>
           </div>
-          <h2 className="font-display font-bold text-4xl md:text-5xl text-[#F1F5F9] mb-4" style={{ letterSpacing: "-0.03em" }}>
-            Experience
-          </h2>
-          <p className="text-[#CBD5E1] text-lg max-w-2xl">
+          <p className="text-[#CBD5E1] text-lg max-w-2xl mt-4 text-left">
             12 years of infrastructure work across enterprise, cloud-native, and startup environments.
           </p>
         </motion.div>

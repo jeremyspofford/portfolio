@@ -1,6 +1,6 @@
 "use client";
 
-import { Github, Linkedin, Mail, FileText } from 'lucide-react';
+import { FileText } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { ContentItem, CertificationContent, ProfileContent } from "@/lib/api";
@@ -23,12 +23,11 @@ const TERMINAL_LINES = [
   { prefix: "", text: "[+] Running 5/5  ✓ api ✓ worker ✓ db ✓ cache ✓ proxy", delay: 0, color: "#10B981" },
 ];
 
-export function Hero({ profile, certifications }: HeroProps) {
+export function Hero({ profile, certifications: _certifications }: HeroProps) {
   const [visibleLines, setVisibleLines] = useState<number[]>([]);
   const [currentTyping, setCurrentTyping] = useState<number>(0);
   const [typedText, setTypedText] = useState("");
   const [phase, setPhase] = useState<"typing" | "waiting" | "done">("typing");
-  const activeCerts = certifications.map(c => c.content).filter(c => c.active);
 
   useEffect(() => {
     if (currentTyping >= TERMINAL_LINES.length) {
@@ -95,58 +94,25 @@ export function Hero({ profile, certifications }: HeroProps) {
 
           {/* Left: Text content */}
           <div className="space-y-8">
-            {/* Status badge */}
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-[#22D3EE]/30 bg-[#22D3EE]/5 text-xs font-mono text-[#22D3EE]">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#10B981] animate-pulse inline-block" />
-              Founder · Aria Labs &mdash; open to senior eng roles
-            </div>
-
-            {/* Main headline */}
-            <div className="space-y-2">
-              <h1 className="font-display font-bold text-[#F1F5F9] leading-[1.06] tracking-tight">
-                <span className="block text-5xl sm:text-6xl lg:text-[4.5rem] xl:text-[5rem]">Building systems</span>
-                <span className="block text-5xl sm:text-6xl lg:text-[4.5rem] xl:text-[5rem]">that hold power</span>
-                <span
-                  className="block text-5xl sm:text-6xl lg:text-[4.5rem] xl:text-[5rem]"
-                  style={{
-                    background: "linear-gradient(135deg, #22D3EE 0%, #06B6D4 50%, #0EA5E9 100%)",
-                    WebkitBackgroundClip: "text",
-                    WebkitTextFillColor: "transparent",
-                    backgroundClip: "text",
-                  }}
-                >
-                  accountable.
-                </span>
+            {/* Name + title */}
+            <div className="space-y-3">
+              <h1 className="font-display font-bold text-5xl text-[#F1F5F9] leading-tight">
+                Jeremy Spofford
               </h1>
+              <p className="font-mono text-lg text-[#94A3B8]">
+                Senior DevOps Engineer · Founder of Aria Labs
+              </p>
             </div>
 
-            {/* Positioning */}
-            <p className="text-[#94A3B8] text-lg md:text-xl leading-relaxed max-w-xl">
-              Senior DevOps engineer turned founder. I build civic tech that tracks Congress and surfaces public records —
-              then ship it to production without drama.
+            {/* Single sentence — left-aligned */}
+            <p className="text-[#CBD5E1] text-xl leading-relaxed max-w-2xl text-left">
+              I build civic tech that holds power{" "}
+              <span style={{ color: "#F59E0B", fontWeight: 600 }}>accountable</span>
+              {" "}— tracking Congress and surfacing public records, then shipping it to production without drama.
             </p>
 
-            {/* Inline stats row */}
-            <div className="flex items-center gap-3 flex-wrap pt-1">
-              <span className="font-mono text-sm text-[#CBD5E1]">
-                <span className="text-[#22D3EE] font-bold">12+</span> years
-              </span>
-              <span className="text-[#3D4F6B] select-none">•</span>
-              <span className="font-mono text-sm text-[#CBD5E1]">
-                <span className="text-[#22D3EE] font-bold">50+</span> projects
-              </span>
-              <span className="text-[#3D4F6B] select-none">•</span>
-              <span className="font-mono text-sm text-[#CBD5E1]">
-                <span className="text-[#22D3EE] font-bold">3</span> clouds
-              </span>
-              <span className="text-[#3D4F6B] select-none">•</span>
-              <span className="font-mono text-sm text-[#CBD5E1]">
-                <span className="text-[#22D3EE] font-bold">IaC</span>-first
-              </span>
-            </div>
-
             {/* CTA buttons */}
-            <div className="flex flex-col sm:flex-row gap-3 pt-1">
+            <div className="flex flex-col sm:flex-row gap-3">
               <Link
                 href="#projects"
                 className="inline-flex items-center justify-center h-11 px-6 rounded-lg font-semibold font-display text-sm transition-all duration-200"
@@ -167,70 +133,6 @@ export function Hero({ profile, certifications }: HeroProps) {
                 <FileText className="mr-2 h-4 w-4" />
                 View Resume
               </Link>
-              <Link
-                href={`mailto:${profile.email}`}
-                className="inline-flex items-center justify-center h-11 px-6 rounded-lg border font-medium text-sm text-[#94A3B8] hover:text-[#22D3EE] hover:border-[#22D3EE]/50 transition-all duration-200"
-                style={{ borderColor: "#1E293B" }}
-              >
-                <Mail className="mr-2 h-4 w-4" />
-                Contact
-              </Link>
-            </div>
-
-            {/* Social links + cert chips */}
-            <div className="flex items-center gap-5 flex-wrap">
-              {profile.socials?.github && (
-                <a
-                  href={profile.socials.github}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-[#94A3B8] hover:text-[#22D3EE] transition-colors"
-                  aria-label="GitHub"
-                >
-                  <Github className="h-5 w-5" />
-                </a>
-              )}
-              {profile.socials?.linkedin && (
-                <a
-                  href={profile.socials.linkedin}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-[#94A3B8] hover:text-[#22D3EE] transition-colors"
-                  aria-label="LinkedIn"
-                >
-                  <Linkedin className="h-5 w-5" />
-                </a>
-              )}
-              {profile.socials?.gitlab && (
-                <a
-                  href={profile.socials.gitlab}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-[#94A3B8] hover:text-[#22D3EE] transition-colors"
-                  aria-label="GitLab"
-                >
-                  <svg viewBox="0 0 24 24" fill="currentColor" className="h-5 w-5" aria-hidden="true">
-                    <path d="M22.65 14.39L12 22.13 1.35 14.39a.84.84 0 0 1-.3-.94l1.22-3.78 2.44-7.51A.42.42 0 0 1 4.82 2a.43.43 0 0 1 .58 0 .42.42 0 0 1 .11.18l2.44 7.49h8.1l2.44-7.51A.42.42 0 0 1 18.6 2a.43.43 0 0 1 .58 0 .42.42 0 0 1 .11.18l2.44 7.51L23 13.45a.84.84 0 0 1-.35.94z" />
-                  </svg>
-                </a>
-              )}
-              {activeCerts.length > 0 && (
-                <div className="ml-1 flex items-center gap-2 border-l border-[#1E293B] pl-5">
-                  {activeCerts.slice(0, 2).map((cert) => (
-                    <span
-                      key={cert.name}
-                      className="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-mono border"
-                      style={{
-                        background: "rgba(16,185,129,0.08)",
-                        color: "#10B981",
-                        borderColor: "rgba(16,185,129,0.2)",
-                      }}
-                    >
-                      {cert.name.replace("Google Cloud ", "GCP ").replace("Certified ", "")}
-                    </span>
-                  ))}
-                </div>
-              )}
             </div>
           </div>
 
@@ -323,29 +225,8 @@ export function Hero({ profile, certifications }: HeroProps) {
                 </span>
               </div>
             </div>
-
-            {/* Below terminal: uptime badge */}
-            <div className="mt-4 flex items-center justify-end gap-4">
-              <div
-                className="flex items-center gap-2 px-3 py-1.5 rounded-full font-mono text-xs"
-                style={{
-                  background: "rgba(16,185,129,0.08)",
-                  border: "1px solid rgba(16,185,129,0.2)",
-                  color: "#10B981",
-                }}
-              >
-                <span className="w-1.5 h-1.5 rounded-full bg-[#10B981] animate-pulse inline-block" />
-                arialabs.ai · 99.9% uptime
-              </div>
-            </div>
           </div>
         </div>
-      </div>
-
-      {/* Scroll indicator */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-[#94A3B8]">
-        <span className="text-[10px] font-mono tracking-widest uppercase opacity-60">scroll</span>
-        <div className="w-px h-8 bg-gradient-to-b from-[#94A3B8]/60 to-transparent" />
       </div>
     </section>
   );

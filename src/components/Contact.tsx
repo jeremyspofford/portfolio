@@ -28,14 +28,11 @@ export function Contact({ profile }: ContactProps) {
 
         {/* Section header */}
         <div className="mb-10">
-          <div className="flex items-center gap-3 mb-4">
-            <span className="font-mono text-[#22D3EE] text-sm">04.</span>
-            <div className="h-px flex-1 max-w-[60px] bg-[#22D3EE]/30" />
-          </div>
+          <span className="font-mono text-xs text-[#F59E0B] tracking-widest uppercase mb-2 block">04 // contact</span>
           <h2 className="font-display font-bold text-4xl md:text-5xl text-[#F1F5F9] mb-4" style={{ letterSpacing: "-0.03em" }}>
             Let&apos;s talk
           </h2>
-          <p className="text-[#CBD5E1] text-lg max-w-xl">
+          <p className="text-[#CBD5E1] text-lg max-w-xl text-left">
             Open to senior DevOps, platform engineering, and AI infrastructure roles.
             Always down to discuss interesting problems.
           </p>

@@ -74,15 +74,11 @@ export function Skills({ items, certifications = [] }: SkillsProps) {
           viewport={{ once: true, margin: "-60px" }}
           transition={{ duration: 0.5 }}
         >
-          <div className="flex items-center gap-3 mb-4">
-            <span className="font-mono text-[#22D3EE] text-sm">02.</span>
-            <div className="h-px flex-1 max-w-[60px] bg-[#22D3EE]/30" />
-            <span className="font-mono text-[10px] text-[#475569] uppercase tracking-widest">stack --honest</span>
-          </div>
+          <span className="font-mono text-xs text-[#F59E0B] tracking-widest uppercase mb-2 block">02 // stack</span>
           <h2 className="font-display font-bold text-4xl md:text-5xl text-[#F1F5F9] mb-4" style={{ letterSpacing: "-0.03em" }}>
             Stack
           </h2>
-          <p className="text-[#CBD5E1] text-lg max-w-2xl">
+          <p className="text-[#CBD5E1] text-lg max-w-2xl text-left">
             12+ years deep. Here&apos;s an honest breakdown of what I can do at what level.
           </p>
         </motion.div>
@@ -204,14 +200,14 @@ export function Skills({ items, certifications = [] }: SkillsProps) {
                     className="flex items-center gap-3 rounded-xl border px-4 py-3 card-hover-glow relative overflow-hidden"
                     style={{
                       background: "#1F2B45",
-                      borderColor: cert.active ? "rgba(16,185,129,0.3)" : "#1E293B",
+                      borderColor: cert.active ? "rgba(245,158,11,0.3)" : "#1E293B",
                     }}
                   >
                     {/* Active accent line */}
                     {cert.active && (
                       <div
                         className="absolute top-0 left-0 right-0 h-px"
-                        style={{ background: "linear-gradient(90deg, transparent, #10B981, transparent)" }}
+                        style={{ background: "linear-gradient(90deg, transparent, #F59E0B, transparent)" }}
                       />
                     )}
 
@@ -222,7 +218,7 @@ export function Skills({ items, certifications = [] }: SkillsProps) {
                     >
                       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"
                         className="w-4 h-4"
-                        style={{ color: cert.active ? "#10B981" : "#475569" }}
+                        style={{ color: cert.active ? "#F59E0B" : "#475569" }}
                         aria-hidden="true"
                       >
                         <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" />
@@ -236,7 +232,7 @@ export function Skills({ items, certifications = [] }: SkillsProps) {
                         <span
                           className={`font-mono text-[9px] uppercase tracking-widest px-1.5 py-0.5 rounded border ${
                             cert.active
-                              ? "text-[#10B981] border-[#10B981]/30 bg-[#10B981]/08"
+                              ? "text-[#F59E0B] border-[#F59E0B]/30 bg-[#F59E0B]/08"
                               : "text-[#475569] border-[#475569]/30"
                           }`}
                         >

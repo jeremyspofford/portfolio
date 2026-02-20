@@ -317,15 +317,11 @@ export function Projects({ items }: ProjectsProps) {
           viewport={{ once: true, margin: "-60px" }}
           transition={{ duration: 0.5 }}
         >
-          <div className="flex items-center gap-3 mb-4">
-            <span className="font-mono text-[#22D3EE] text-sm">01.</span>
-            <div className="h-px flex-1 max-w-[60px] bg-[#22D3EE]/30" />
-            <span className="font-mono text-[10px] text-[#475569] uppercase tracking-widest">projects --featured</span>
-          </div>
+          <span className="font-mono text-xs text-[#F59E0B] tracking-widest uppercase mb-2 block">01 // projects</span>
           <h2 className="font-display font-bold text-4xl md:text-5xl text-[#F1F5F9] mb-4" style={{ letterSpacing: "-0.03em" }}>
             Projects
           </h2>
-          <p className="text-[#CBD5E1] text-lg max-w-2xl">
+          <p className="text-[#CBD5E1] text-lg max-w-2xl text-left">
             Civic tools, AI platforms, and infrastructure built to matter.
             The stuff I&apos;m most proud of.
           </p>
