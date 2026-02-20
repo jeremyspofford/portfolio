@@ -1,7 +1,7 @@
 "use client";
 
 import { FileText } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { ContentItem, CertificationContent, ProfileContent } from "@/lib/api";
 
@@ -10,54 +10,99 @@ interface HeroProps {
   certifications: ContentItem<CertificationContent>[];
 }
 
-const TERMINAL_LINES = [
-  { prefix: "$ ", text: "terraform apply --auto-approve", delay: 40, color: "#22D3EE" },
-  { prefix: "", text: "Apply complete! Resources: 12 added, 0 destroyed.", delay: 0, color: "#10B981" },
-  { prefix: "$ ", text: "kubectl rollout status deploy/reps-api", delay: 40, color: "#22D3EE" },
-  { prefix: "", text: "✓ deployment \"reps-api\" successfully rolled out", delay: 0, color: "#10B981" },
-  { prefix: "$ ", text: "pytest tests/ -q --tb=short", delay: 40, color: "#22D3EE" },
-  { prefix: "", text: "615 passed in 4.23s ─── 0 failures, 0 warnings", delay: 0, color: "#10B981" },
-  { prefix: "$ ", text: "curl -s https://reps.arialabs.ai/api/stats | jq", delay: 35, color: "#22D3EE" },
-  { prefix: "", text: '{ "representatives": 535, "votes_tracked": 48291 }', delay: 0, color: "#94A3B8" },
-  { prefix: "$ ", text: "docker compose up --build -d", delay: 40, color: "#22D3EE" },
-  { prefix: "", text: "[+] Running 5/5  ✓ api ✓ worker ✓ db ✓ cache ✓ proxy", delay: 0, color: "#10B981" },
+type LineType = 'command' | 'output-success' | 'output-info' | 'output-done';
+
+interface TermLine {
+  text: string;
+  type: LineType;
+}
+
+const COMMAND = '$ nova run --task "audit congressional votes"';
+
+const OUTPUT_LINES: TermLine[] = [
+  { text: '→ Connecting to congressional database...', type: 'output-info' },
+  { text: '→ Loading 535 representatives...', type: 'output-info' },
+  { text: '→ Analyzing voting patterns (119th Congress)...', type: 'output-info' },
+  { text: '→ Cross-referencing FEC financial data...', type: 'output-info' },
+  { text: '→ Scanning STOCK Act disclosures...', type: 'output-info' },
+  { text: '→ Running conflict-of-interest checks...', type: 'output-info' },
+  { text: '✓ Accountability report generated.', type: 'output-done' },
+  { text: '✓ Published to reps.arialabs.ai', type: 'output-done' },
 ];
 
-export function Hero({ profile, certifications: _certifications }: HeroProps) {
-  const [visibleLines, setVisibleLines] = useState<number[]>([]);
-  const [currentTyping, setCurrentTyping] = useState<number>(0);
-  const [typedText, setTypedText] = useState("");
-  const [phase, setPhase] = useState<"typing" | "waiting" | "done">("typing");
+const LINE_COLORS: Record<LineType, string> = {
+  'command': '#22D3EE',
+  'output-success': '#10B981',
+  'output-info': '#94A3B8',
+  'output-done': '#10B981',
+};
+
+function useTerminalAnimation() {
+  const [typedCommand, setTypedCommand] = useState('');
+  const [outputLines, setOutputLines] = useState<TermLine[]>([]);
+  const [phase, setPhase] = useState<'typing' | 'streaming' | 'idle' | 'restart-pause'>('typing');
+  const cycleRef = useRef(0);
 
   useEffect(() => {
-    if (currentTyping >= TERMINAL_LINES.length) {
-      setPhase("done");
-      return;
-    }
+    let cancelled = false;
 
-    const line = TERMINAL_LINES[currentTyping];
-    const fullText = line.prefix + line.text;
+    async function runAnimation() {
+      // Small initial pause
+      await delay(400);
+      if (cancelled) return;
 
-    if (phase === "typing") {
-      if (typedText.length < fullText.length) {
-        const charDelay = line.prefix && typedText.length < line.prefix.length ? 80 : (line.delay || 0);
-        const timer = setTimeout(() => {
-          setTypedText(fullText.slice(0, typedText.length + 1));
-        }, charDelay || 30);
-        return () => clearTimeout(timer);
-      } else {
-        setPhase("waiting");
-        const pauseTime = line.prefix ? 500 : 200;
-        const timer = setTimeout(() => {
-          setVisibleLines(prev => [...prev, currentTyping]);
-          setCurrentTyping(prev => prev + 1);
-          setTypedText("");
-          setPhase("typing");
-        }, pauseTime);
-        return () => clearTimeout(timer);
+      // Phase 1: Type command char by char at 30ms
+      setTypedCommand('');
+      setPhase('typing');
+      for (let i = 1; i <= COMMAND.length; i++) {
+        if (cancelled) return;
+        setTypedCommand(COMMAND.slice(0, i));
+        await delay(30);
       }
+
+      // Pause after command
+      await delay(500);
+      if (cancelled) return;
+
+      // Phase 2: Stream output lines one by one
+      setPhase('streaming');
+      setOutputLines([]);
+      for (const line of OUTPUT_LINES) {
+        if (cancelled) return;
+        await delay(100);
+        setOutputLines(prev => [...prev, line]);
+      }
+
+      // Wait 1s then show idle
+      await delay(1000);
+      if (cancelled) return;
+      setPhase('idle');
+
+      // After 3s pause, restart
+      await delay(3000);
+      if (cancelled) return;
+      setPhase('restart-pause');
+
+      // Reset and restart
+      setTypedCommand('');
+      setOutputLines([]);
+      cycleRef.current += 1;
     }
-  }, [currentTyping, typedText, phase]);
+
+    runAnimation();
+    return () => { cancelled = true; };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [cycleRef.current]);
+
+  return { typedCommand, outputLines, phase };
+}
+
+function delay(ms: number) {
+  return new Promise<void>(resolve => setTimeout(resolve, ms));
+}
+
+export function Hero({ profile, certifications: _certifications }: HeroProps) {
+  const { typedCommand, outputLines, phase } = useTerminalAnimation();
 
   if (!profile) return null;
 
@@ -157,50 +202,44 @@ export function Hero({ profile, certifications: _certifications }: HeroProps) {
                   <div className="w-3 h-3 rounded-full" style={{ background: "#28C840" }} />
                 </div>
                 <div className="flex-1 text-center">
-                  <span className="text-[11px] font-mono text-[#4B5563]">jeremy@aria-labs — zsh — 120×36</span>
+                  <span className="text-[11px] font-mono text-[#4B5563]">jeremy@aria-labs — nova — 120×36</span>
                 </div>
               </div>
 
               {/* Terminal body */}
-              <div className="p-5 min-h-[380px] font-mono text-[13px] leading-relaxed overflow-hidden">
-                {/* Prompt line before animation */}
-                {visibleLines.length === 0 && currentTyping === 0 && phase === "typing" && typedText === "" && (
-                  <div className="text-[#4B5563]"># aria-labs production — session started</div>
-                )}
+              <div className="p-5 min-h-[320px] font-mono text-[13px] leading-relaxed overflow-hidden">
+                {/* Initial comment before typing starts */}
+                <div className="text-[#4B5563] mb-2"># aria-labs production — nova agent</div>
 
-                {/* Completed lines */}
-                {visibleLines.map((lineIdx) => {
-                  const line = TERMINAL_LINES[lineIdx];
-                  return (
-                    <div key={lineIdx} className="leading-relaxed" style={{ color: line.color }}>
-                      {line.prefix && (
-                        <span style={{ color: "#22D3EE" }}>{line.prefix}</span>
-                      )}
-                      {line.text}
-                    </div>
-                  );
-                })}
-
-                {/* Currently typing line */}
-                {currentTyping < TERMINAL_LINES.length && (
-                  <div className="leading-relaxed" style={{ color: TERMINAL_LINES[currentTyping].color }}>
-                    {TERMINAL_LINES[currentTyping].prefix && typedText.startsWith(TERMINAL_LINES[currentTyping].prefix) ? (
-                      <>
-                        <span style={{ color: "#22D3EE" }}>{TERMINAL_LINES[currentTyping].prefix}</span>
-                        {typedText.slice(TERMINAL_LINES[currentTyping].prefix.length)}
-                      </>
-                    ) : (
-                      typedText
+                {/* The command being typed */}
+                {(typedCommand.length > 0 || phase === 'typing') && (
+                  <div className="leading-relaxed" style={{ color: LINE_COLORS['command'] }}>
+                    <span style={{ color: "#22D3EE" }}>$ </span>
+                    <span style={{ color: "#F1F5F9" }}>
+                      {typedCommand.startsWith('$ ') ? typedCommand.slice(2) : typedCommand}
+                    </span>
+                    {phase === 'typing' && (
+                      <span
+                        className="inline-block w-[2px] h-[1em] ml-0.5 align-text-bottom cursor-blink"
+                        style={{ background: "#22D3EE" }}
+                      />
                     )}
-                    <span
-                      className="inline-block w-[2px] h-[1em] ml-0.5 align-text-bottom cursor-blink"
-                      style={{ background: "#22D3EE" }}
-                    />
                   </div>
                 )}
 
-                {/* Done state — idle prompt */}
-                {phase === "done" && (
+                {/* Output lines, streamed in */}
+                {outputLines.map((line, i) => (
+                  <div
+                    key={i}
+                    className="leading-relaxed mt-0.5"
+                    style={{ color: LINE_COLORS[line.type] }}
+                  >
+                    {line.text}
+                  </div>
+                ))}
+
+                {/* Idle cursor */}
+                {phase === 'idle' && (
                   <div className="mt-2" style={{ color: "#22D3EE" }}>
                     <span>$ </span>
                     <span
@@ -221,7 +260,7 @@ export function Hero({ profile, certifications: _certifications }: HeroProps) {
                   jeremyspofford.dev
                 </span>
                 <span className="font-mono text-[11px]" style={{ color: "#0A0E17", opacity: 0.8 }}>
-                  bash  utf-8
+                  nova  utf-8
                 </span>
               </div>
             </div>
