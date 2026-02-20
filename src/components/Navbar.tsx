@@ -6,11 +6,11 @@ import { Menu, X } from 'lucide-react';
 import { useState, useEffect, useCallback } from 'react';
 
 const NAV_ITEMS = [
-  { label: 'Work', href: '/#projects', sectionId: 'projects' },
-  { label: 'Skills', href: '/#skills', sectionId: 'skills' },
-  { label: 'Experience', href: '/#experience', sectionId: 'experience' },
-  { label: 'Blog', href: '/blog', sectionId: null },
-  { label: 'Resume', href: '/resume', sectionId: null },
+  { label: 'Work', href: '/#projects', sectionId: 'projects', shortcut: 'p' },
+  { label: 'Skills', href: '/#skills', sectionId: 'skills', shortcut: 's' },
+  { label: 'Experience', href: '/#experience', sectionId: 'experience', shortcut: 'e' },
+  { label: 'Blog', href: '/blog', sectionId: null, shortcut: null },
+  { label: 'Resume', href: '/resume', sectionId: null, shortcut: null },
 ];
 
 export function Navbar() {
@@ -53,6 +53,17 @@ export function Navbar() {
 
   const handleKeyDown = useCallback((e: KeyboardEvent) => {
     if (e.key === 'Escape' && isOpen) setIsOpen(false);
+
+    // Skip if user is typing in an input/textarea
+    const tag = (e.target as HTMLElement)?.tagName?.toLowerCase();
+    if (tag === 'input' || tag === 'textarea' || (e.target as HTMLElement)?.isContentEditable) return;
+    if (e.metaKey || e.ctrlKey || e.altKey) return;
+
+    const shortcuts: Record<string, string> = { p: '/#projects', s: '/#skills', e: '/#experience', c: '/#contact' };
+    if (shortcuts[e.key]) {
+      e.preventDefault();
+      window.location.href = shortcuts[e.key];
+    }
   }, [isOpen]);
 
   useEffect(() => {
@@ -102,12 +113,17 @@ export function Navbar() {
               <Link
                 key={item.href}
                 href={item.href}
-                className="relative font-mono text-xs tracking-wide uppercase transition-colors pb-1"
+                className="relative inline-flex items-center gap-1.5 font-mono text-xs tracking-wide uppercase transition-colors pb-1"
                 style={{ color: active ? '#22D3EE' : '#94A3B8' }}
                 onMouseEnter={e => { if (!active) e.currentTarget.style.color = '#22D3EE'; }}
                 onMouseLeave={e => { e.currentTarget.style.color = active ? '#22D3EE' : '#94A3B8'; }}
               >
                 {item.label}
+                {item.shortcut && (
+                  <kbd className="ml-1 text-[10px] font-mono text-[#475569] border border-[#1E293B] rounded px-1 normal-case">
+                    {item.shortcut}
+                  </kbd>
+                )}
                 {active && (
                   <span
                     className="absolute bottom-0 left-0 right-0 h-px rounded-full"
@@ -119,9 +135,10 @@ export function Navbar() {
           })}
           <Link
             href="/#contact"
-            className="ml-2 inline-flex items-center h-8 px-4 rounded border border-[#22D3EE]/40 font-mono text-xs text-[#22D3EE] hover:bg-[#22D3EE]/10 transition-colors"
+            className="ml-2 inline-flex items-center gap-1.5 h-8 px-4 rounded border border-[#22D3EE]/40 font-mono text-xs text-[#22D3EE] hover:bg-[#22D3EE]/10 transition-colors"
           >
             Contact
+            <kbd className="text-[10px] font-mono text-[#22D3EE]/50 border border-[#22D3EE]/20 rounded px-1">c</kbd>
           </Link>
         </div>
 

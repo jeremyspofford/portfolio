@@ -114,7 +114,11 @@ export function ResumeClient({ profile, experience, education, skills, certifica
                   Work Experience
                 </h3>
                 <div className="space-y-8">
-                    {experience.map((item) => (
+                    {[...experience].sort((a, b) => {
+                      const dateA = a.content.startDate || '';
+                      const dateB = b.content.startDate || '';
+                      return dateB.localeCompare(dateA);
+                    }).map((item) => (
                       <div key={item.SK} className="group">
                         <div className="flex flex-col sm:flex-row sm:justify-between sm:items-baseline mb-2">
                           <h4 className="text-lg font-bold text-zinc-900">

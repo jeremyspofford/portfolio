@@ -122,10 +122,8 @@ export function Hero({ profile, certifications }: HeroProps) {
 
             {/* Positioning */}
             <p className="text-[#94A3B8] text-lg md:text-xl leading-relaxed max-w-xl">
-              Founder of{" "}
-              <span className="text-[#22D3EE] font-medium">Aria Labs</span>
-              {" "}— building civic tech that tracks Congress, surfaces public records,
-              and connects communities. 12+ years shipping infrastructure without drama.
+              Senior DevOps engineer turned founder. I build civic tech that tracks Congress and surfaces public records —
+              then ship it to production without drama.
             </p>
 
             {/* Inline stats row */}

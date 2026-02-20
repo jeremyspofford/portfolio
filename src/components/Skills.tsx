@@ -79,7 +79,7 @@ export function Skills({ items, certifications = [] }: SkillsProps) {
             <div className="h-px flex-1 max-w-[60px] bg-[#22D3EE]/30" />
             <span className="font-mono text-[10px] text-[#475569] uppercase tracking-widest">stack --honest</span>
           </div>
-          <h2 className="font-display font-bold text-4xl md:text-5xl text-[#F1F5F9] mb-4">
+          <h2 className="font-display font-bold text-4xl md:text-5xl text-[#F1F5F9] mb-4" style={{ letterSpacing: "-0.03em" }}>
             Stack
           </h2>
           <p className="text-[#CBD5E1] text-lg max-w-2xl">

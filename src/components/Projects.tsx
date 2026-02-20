@@ -301,8 +301,13 @@ export function Projects({ items }: ProjectsProps) {
   );
 
   return (
-    <section id="projects" className="w-full py-12 md:py-16 px-6 md:px-12" style={{ background: "#0A0E17" }}>
-      <div className="max-w-7xl mx-auto">
+    <section id="projects" className="relative w-full py-12 md:py-16 px-6 md:px-12" style={{ background: "#0A0E17" }}>
+      {/* Dot matrix background — subtle section texture */}
+      <div className="absolute inset-0 pointer-events-none opacity-30" style={{
+        backgroundImage: "radial-gradient(circle at 1px 1px, rgba(34,211,238,0.08) 1px, transparent 0)",
+        backgroundSize: "32px 32px"
+      }} />
+      <div className="relative z-10 max-w-7xl mx-auto">
 
         {/* Section header */}
         <motion.div
@@ -317,7 +322,7 @@ export function Projects({ items }: ProjectsProps) {
             <div className="h-px flex-1 max-w-[60px] bg-[#22D3EE]/30" />
             <span className="font-mono text-[10px] text-[#475569] uppercase tracking-widest">projects --featured</span>
           </div>
-          <h2 className="font-display font-bold text-4xl md:text-5xl text-[#F1F5F9] mb-4">
+          <h2 className="font-display font-bold text-4xl md:text-5xl text-[#F1F5F9] mb-4" style={{ letterSpacing: "-0.03em" }}>
             Projects
           </h2>
           <p className="text-[#CBD5E1] text-lg max-w-2xl">
