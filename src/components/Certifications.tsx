@@ -17,7 +17,7 @@ export function Certifications({ items }: CertificationsProps) {
   if (!sortedItems.length) return null;
 
   return (
-    <section id="certifications" className="w-full py-20 md:py-32 px-6 md:px-12 scroll-mt-20" style={{ background: "#111827" }}>
+    <section id="certifications" className="w-full py-20 md:py-32 px-6 md:px-12 scroll-mt-20" style={{ background: "#141C2F" }}>
       <div className="max-w-7xl mx-auto">
 
         {/* Section header */}
@@ -41,8 +41,8 @@ export function Certifications({ items }: CertificationsProps) {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-40px" }}
                 transition={{ duration: 0.4, delay: index * 0.07 }}
-                className="group rounded-xl border border-[#1E293B] p-6 card-hover-glow relative overflow-hidden"
-                style={{ background: "#1A1F2E" }}
+                className="group rounded-xl border border-[#2D3748] p-6 card-hover-glow relative overflow-hidden"
+                style={{ background: "#1E2538" }}
               >
                 {/* Active indicator accent */}
                 {cert.active && (
@@ -55,11 +55,11 @@ export function Certifications({ items }: CertificationsProps) {
                 {/* Header row */}
                 <div className="flex justify-between items-start mb-5">
                   <div
-                    className="p-2.5 rounded-lg border border-[#1E293B]"
-                    style={{ background: "#111827" }}
+                    className="p-2.5 rounded-lg border border-[#2D3748]"
+                    style={{ background: "#141C2F" }}
                   >
                     {/* Shield-check icon in monochrome */}
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-5 h-5 text-[#94A3B8]" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-5 h-5 text-[#B0BEC5]" aria-hidden="true">
                       <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" />
                     </svg>
                   </div>
@@ -67,7 +67,7 @@ export function Certifications({ items }: CertificationsProps) {
                     className={`font-mono text-[10px] uppercase tracking-widest px-2 py-1 rounded ${
                       cert.active
                         ? "text-[#10B981] border border-[#10B981]/30"
-                        : "text-[#94A3B8] border border-[#1E293B]"
+                        : "text-[#B0BEC5] border border-[#2D3748]"
                     }`}
                     style={{ background: cert.active ? "rgba(16,185,129,0.08)" : "#111827" }}
                   >
@@ -78,12 +78,12 @@ export function Certifications({ items }: CertificationsProps) {
                 <h3 className="font-display font-semibold text-lg text-[#F1F5F9] mb-1 group-hover:text-[#22D3EE] transition-colors">
                   {cert.name}
                 </h3>
-                <p className="font-mono text-xs text-[#94A3B8] mb-5">
+                <p className="font-mono text-xs text-[#B0BEC5] mb-5">
                   {cert.issuer}
                 </p>
 
-                <div className="flex items-center justify-between pt-4 border-t border-[#1E293B]">
-                  <span className="font-mono text-[11px] text-[#94A3B8]">{cert.date}</span>
+                <div className="flex items-center justify-between pt-4 border-t border-[#2D3748]">
+                  <span className="font-mono text-[11px] text-[#B0BEC5]">{cert.date}</span>
                   <div className="flex gap-3">
                     {cert.link && (
                       <a
@@ -98,7 +98,7 @@ export function Certifications({ items }: CertificationsProps) {
                     {cert.imageUrl && (
                       <button
                         onClick={() => setSelectedImage(cert.imageUrl!)}
-                        className="font-mono text-[11px] text-[#94A3B8] hover:text-[#F1F5F9] transition-colors"
+                        className="font-mono text-[11px] text-[#B0BEC5] hover:text-[#F1F5F9] transition-colors"
                       >
                         View
                       </button>
@@ -121,7 +121,7 @@ export function Certifications({ items }: CertificationsProps) {
           <div className="relative max-w-4xl w-full" onClick={(e) => e.stopPropagation()}>
             <button
               onClick={() => setSelectedImage(null)}
-              className="absolute -top-12 right-0 p-2 text-[#94A3B8] hover:text-[#F1F5F9] transition-colors"
+              className="absolute -top-12 right-0 p-2 text-[#B0BEC5] hover:text-[#F1F5F9] transition-colors"
             >
               <X className="w-6 h-6" />
             </button>

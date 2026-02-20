@@ -141,7 +141,7 @@ export function Hero({ profile, certifications }: HeroProps) {
                 <div
                   key={stat.label}
                   className="rounded-lg border border-[#1E293B] p-3"
-                  style={{ background: "#1A1F2E" }}
+                  style={{ background: "#1E2538" }}
                 >
                   <div className="font-mono text-2xl font-bold text-[#22D3EE] leading-none mb-1">
                     {stat.value}
@@ -170,7 +170,7 @@ export function Hero({ profile, certifications }: HeroProps) {
               <Link
                 href="/resume"
                 className="inline-flex items-center justify-center h-11 px-6 rounded-lg border font-medium text-sm transition-all duration-200 text-[#F1F5F9] hover:text-[#22D3EE] hover:border-[#22D3EE]/50"
-                style={{ borderColor: "#1E293B", background: "#1A1F2E" }}
+                style={{ borderColor: "#1E293B", background: "#1E2538" }}
               >
                 <FileText className="mr-2 h-4 w-4" />
                 View Resume

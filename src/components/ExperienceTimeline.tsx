@@ -112,18 +112,18 @@ export function ExperienceTimeline({ items }: ExperienceTimelineProps) {
           <h2 className="font-display font-bold text-4xl md:text-5xl text-[#F1F5F9] mb-4">
             Experience
           </h2>
-          <p className="text-[#94A3B8] text-lg max-w-2xl">
+          <p className="text-[#B0BEC5] text-lg max-w-2xl">
             12 years of infrastructure work across enterprise, cloud-native, and startup environments.
           </p>
         </div>
 
         {/* Tab layout — company selector + detail panel */}
-        <div className="grid md:grid-cols-[200px_1fr] lg:grid-cols-[240px_1fr] gap-0 rounded-2xl overflow-hidden border border-[#1E293B]">
+        <div className="grid md:grid-cols-[200px_1fr] lg:grid-cols-[240px_1fr] gap-0 rounded-2xl overflow-hidden border border-[#2D3748]">
 
           {/* Left: Company tabs */}
           <div
-            className="border-r border-[#1E293B] flex md:flex-col overflow-x-auto md:overflow-visible"
-            style={{ background: "#111827" }}
+            className="border-r border-[#2D3748] flex md:flex-col overflow-x-auto md:overflow-visible"
+            style={{ background: "#141C2F" }}
           >
             {/* Tab header label */}
             <div className="hidden md:block px-4 pt-4 pb-2">
@@ -136,7 +136,7 @@ export function ExperienceTimeline({ items }: ExperienceTimelineProps) {
                 <button
                   key={item.SK}
                   onClick={() => setActiveIndex(index)}
-                  className="relative text-left px-4 py-4 transition-all duration-200 flex-shrink-0 md:flex-shrink border-b border-[#1E293B] last:border-b-0 group"
+                  className="relative text-left px-4 py-4 transition-all duration-200 flex-shrink-0 md:flex-shrink border-b border-[#2D3748] last:border-b-0 group"
                   style={{
                     background: isActive ? "#1A1F2E" : "transparent",
                     borderLeft: isActive ? "2px solid #22D3EE" : "2px solid transparent",
@@ -162,7 +162,7 @@ export function ExperienceTimeline({ items }: ExperienceTimelineProps) {
           </div>
 
           {/* Right: Detail panel */}
-          <div style={{ background: "#1A1F2E" }}>
+          <div style={{ background: "#1E2538" }}>
             <AnimatePresence mode="wait">
               <motion.div
                 key={activeIndex}
@@ -180,8 +180,8 @@ export function ExperienceTimeline({ items }: ExperienceTimelineProps) {
                   <div className="flex items-center gap-3">
                     <span className="text-[#22D3EE] font-medium">@ {active.content.company}</span>
                     <div
-                      className="font-mono text-xs text-[#94A3B8] px-2.5 py-1 rounded border border-[#1E293B]"
-                      style={{ background: "#111827" }}
+                      className="font-mono text-xs text-[#B0BEC5] px-2.5 py-1 rounded border border-[#2D3748]"
+                      style={{ background: "#141C2F" }}
                     >
                       {active.content.startDate} → {active.content.endDate}
                     </div>
@@ -189,7 +189,7 @@ export function ExperienceTimeline({ items }: ExperienceTimelineProps) {
                 </div>
 
                 {/* Description */}
-                <p className="text-[#94A3B8] text-sm leading-relaxed mb-6">
+                <p className="text-[#B0BEC5] text-sm leading-relaxed mb-6">
                   {active.content.description}
                 </p>
 
@@ -198,8 +198,8 @@ export function ExperienceTimeline({ items }: ExperienceTimelineProps) {
                   {active.content.technologies?.map((tech) => (
                     <span
                       key={tech}
-                      className="px-2.5 py-1 rounded font-mono text-xs text-[#94A3B8] border border-[#1E293B]"
-                      style={{ background: "#111827" }}
+                      className="px-2.5 py-1 rounded font-mono text-xs text-[#B0BEC5] border border-[#2D3748]"
+                      style={{ background: "#141C2F" }}
                     >
                       {tech}
                     </span>
@@ -237,14 +237,14 @@ export function ExperienceTimeline({ items }: ExperienceTimelineProps) {
                                 </a>
                               )}
                             </div>
-                            <p className="text-[#94A3B8] text-xs leading-relaxed mb-2">
+                            <p className="text-[#B0BEC5] text-xs leading-relaxed mb-2">
                               {deliverable.description}
                             </p>
                             <div className="flex flex-wrap gap-1.5">
                               {deliverable.technologies.map((tech) => (
                                 <span
                                   key={tech}
-                                  className="font-mono text-[10px] uppercase text-[#475569] px-1.5 py-0.5 rounded border border-[#1E293B]"
+                                  className="font-mono text-[10px] uppercase text-[#475569] px-1.5 py-0.5 rounded border border-[#2D3748]"
                                   style={{ background: "#0A0E17" }}
                                 >
                                   {tech}

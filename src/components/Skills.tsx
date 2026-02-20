@@ -63,7 +63,7 @@ export function Skills({ items, certifications = [] }: SkillsProps) {
   const allCerts = [...certifications].sort((a, b) => b.SK.localeCompare(a.SK));
 
   return (
-    <section id="skills" className="w-full py-20 md:py-32 px-6 md:px-12 scroll-mt-20" style={{ background: "#111827" }}>
+    <section id="skills" className="w-full py-20 md:py-32 px-6 md:px-12 scroll-mt-20" style={{ background: "#141C2F" }}>
       <div className="max-w-7xl mx-auto">
 
         {/* Section header — terminal style */}
@@ -76,7 +76,7 @@ export function Skills({ items, certifications = [] }: SkillsProps) {
           <h2 className="font-display font-bold text-4xl md:text-5xl text-[#F1F5F9] mb-4">
             Stack
           </h2>
-          <p className="text-[#94A3B8] text-lg max-w-2xl">
+          <p className="text-[#B0BEC5] text-lg max-w-2xl">
             12+ years deep. Here&apos;s an honest breakdown of what I can do at what level.
           </p>
         </div>
@@ -92,7 +92,7 @@ export function Skills({ items, certifications = [] }: SkillsProps) {
               transition={{ duration: 0.4, delay: tierIndex * 0.1 }}
               className="rounded-xl border overflow-hidden"
               style={{
-                background: "#1A1F2E",
+                background: "#1E2538",
                 borderColor: tier.borderColor,
               }}
             >
@@ -158,11 +158,11 @@ export function Skills({ items, certifications = [] }: SkillsProps) {
           ].map((stat) => (
             <div
               key={stat.label}
-              className="rounded-xl border border-[#1E293B] p-4 text-center"
-              style={{ background: "#1A1F2E" }}
+              className="rounded-xl border border-[#2D3748] p-4 text-center"
+              style={{ background: "#1E2538" }}
             >
               <div className="font-mono font-bold text-xl text-[#22D3EE] mb-1">{stat.value}</div>
-              <div className="font-mono text-[11px] text-[#94A3B8] uppercase tracking-widest">{stat.label}</div>
+              <div className="font-mono text-[11px] text-[#B0BEC5] uppercase tracking-widest">{stat.label}</div>
             </div>
           ))}
         </motion.div>
@@ -197,7 +197,7 @@ export function Skills({ items, certifications = [] }: SkillsProps) {
                     transition={{ delay: 0.1 * index }}
                     className="flex items-center gap-3 rounded-xl border px-4 py-3 card-hover-glow relative overflow-hidden"
                     style={{
-                      background: "#1A1F2E",
+                      background: "#1E2538",
                       borderColor: cert.active ? "rgba(16,185,129,0.3)" : "#1E293B",
                     }}
                   >
@@ -211,8 +211,8 @@ export function Skills({ items, certifications = [] }: SkillsProps) {
 
                     {/* Shield icon */}
                     <div
-                      className="p-2 rounded-lg border border-[#1E293B] flex-shrink-0"
-                      style={{ background: "#111827" }}
+                      className="p-2 rounded-lg border border-[#2D3748] flex-shrink-0"
+                      style={{ background: "#141C2F" }}
                     >
                       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"
                         className="w-4 h-4"
@@ -226,7 +226,7 @@ export function Skills({ items, certifications = [] }: SkillsProps) {
                     <div>
                       <div className="font-display font-semibold text-sm text-[#F1F5F9] leading-tight">{cert.name}</div>
                       <div className="flex items-center gap-2 mt-0.5">
-                        <span className="font-mono text-[10px] text-[#94A3B8]">{cert.issuer} · {cert.date}</span>
+                        <span className="font-mono text-[10px] text-[#B0BEC5]">{cert.issuer} · {cert.date}</span>
                         <span
                           className={`font-mono text-[9px] uppercase tracking-widest px-1.5 py-0.5 rounded border ${
                             cert.active
