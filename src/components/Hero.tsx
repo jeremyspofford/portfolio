@@ -143,6 +143,8 @@ export function Hero({ profile, certifications: _certifications }: HeroProps) {
         }}
       />
 
+      {/* Hero glow */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[600px] rounded-full opacity-[0.08] blur-[120px] pointer-events-none" style={{ background: "radial-gradient(circle, rgba(34,211,238,0.3) 0%, transparent 70%)" }} />
       <div className="relative z-10 w-full max-w-7xl mx-auto px-6 md:px-12 py-24 md:py-32">
         <div className="grid lg:grid-cols-[1fr_500px] gap-10 lg:gap-16 items-center">
 
@@ -150,7 +152,7 @@ export function Hero({ profile, certifications: _certifications }: HeroProps) {
           <div className="space-y-8">
             {/* Name + title */}
             <div className="space-y-3">
-              <h1 className="font-display font-bold text-5xl text-[#F1F5F9] leading-tight">
+              <h1 className="font-display font-bold text-5xl md:text-6xl lg:text-7xl text-[#F1F5F9]" style={{ letterSpacing: '-0.04em', lineHeight: '0.95' }}>
                 Jeremy Spofford
               </h1>
               <p className="font-mono text-lg text-[#94A3B8]">

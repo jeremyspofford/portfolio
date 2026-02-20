@@ -413,7 +413,7 @@ function HeroProjectCard({ item }: { item: ContentItem<StandaloneProjectContent>
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-60px" }}
       transition={{ duration: 0.6 }}
-      className="group relative rounded-2xl border border-[#22D3EE]/20 overflow-hidden card-hover-glow"
+      className="group relative rounded-2xl border border-[#22D3EE]/20 overflow-hidden card-hover-glow card-depth"
       style={{ background: "#1A2340" }}
     >
       {/* Top accent — stronger cyan line */}
@@ -679,7 +679,7 @@ function FeaturedCard({
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-80px" }}
       transition={{ duration: 0.5, delay: index * 0.1 }}
-      className="group relative rounded-2xl border border-[#3D4F6B] overflow-hidden card-hover-glow"
+      className="group relative rounded-2xl border border-[#3D4F6B] overflow-hidden card-hover-glow card-depth"
       style={{ background: "#1F2B45" }}
     >
       {/* Accent bar */}
@@ -806,7 +806,7 @@ function NovaCard({ item }: { item: ContentItem<StandaloneProjectContent> }) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-60px" }}
       transition={{ duration: 0.5 }}
-      className="group relative rounded-2xl border border-[#3D4F6B] overflow-hidden card-hover-glow"
+      className="group relative rounded-2xl border border-[#3D4F6B] overflow-hidden card-hover-glow card-depth"
       style={{ background: "#1F2B45" }}
     >
       <div className="absolute top-0 left-0 right-0 h-px" style={{ background: "linear-gradient(90deg, transparent, #22D3EE, transparent)" }} />
