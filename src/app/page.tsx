@@ -3,6 +3,7 @@ import { ExperienceTimeline } from "@/components/ExperienceTimeline";
 import { Skills } from "@/components/Skills";
 import { Projects } from "@/components/Projects";
 import { Contact } from "@/components/Contact";
+import { Philosophy } from "@/components/Philosophy";
 import { fetchContent } from '@/lib/content';
 import {
   ProfileContent,
@@ -34,20 +35,23 @@ export default async function Home() {
       {/* 1. Hero — terminal + value proposition */}
       <Hero profile={profile} certifications={certifications} />
 
-      {/* 2. Projects — THE CENTERPIECE, immediately after hero */}
+      {/* 2. Projects — lead with proof */}
       <div style={{ background: "#0A0E17" }}>
         <Projects items={projects} />
       </div>
 
-      {/* 3. Skills — compact tier list + certifications integrated */}
+      {/* 3. Skills */}
       <Skills items={skills} certifications={certifications} />
 
-      {/* 4. Experience — tabbed timeline */}
+      {/* 4. Experience */}
       <div style={{ background: "#0A0E17" }}>
         <ExperienceTimeline items={experience} />
       </div>
 
-      {/* 5. Contact */}
+      {/* 5. How I Work — personality before the CTA */}
+      <Philosophy />
+
+      {/* 6. Contact */}
       <Contact profile={profile} />
     </div>
   );

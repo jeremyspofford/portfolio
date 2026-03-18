@@ -3,12 +3,18 @@ SK: 2025-03-NOVA
 content:
   title: Nova AI Platform
   date: Mar 2025
-  description: Custom AI assistant with semantic memory powered by pgvector. Learns from every interaction. One persistent brain across Telegram, CLI, and Web — context never lost.
+  description: "Self-directed autonomous AI platform — define a goal and Nova breaks it into subtasks, executes through a 5-agent pipeline with guardrails, and completes with minimal intervention. Brain-inspired Engram memory with spreading activation, Hebbian consolidation, and a PyTorch re-ranker that learns retrieval preferences."
   technologies:
     - Python
+    - FastAPI
+    - PyTorch
     - pgvector
-    - Claude API
     - PostgreSQL
-    - Telegram Bot API
-    - Next.js
+    - Redis
+    - Docker
+    - vLLM
+    - SGLang
+    - Ollama
+    - React
+    - TypeScript
   link: null

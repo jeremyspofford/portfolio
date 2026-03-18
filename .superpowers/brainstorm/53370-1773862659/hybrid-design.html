@@ -1,0 +1,1047 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portfolio Hybrid Design</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --black: #1a1a18;
+    --white: #fafaf8;
+    --cream: #f4f3ef;
+    --gray-50: #f0efeb;
+    --gray-100: #eae9e4;
+    --gray-200: #d5d4cf;
+    --gray-300: #b5b4af;
+    --gray-400: #8a8985;
+    --gray-500: #6b6a66;
+    --gray-600: #4a4946;
+    --gray-700: #2d2d2a;
+    --green: #16a34a;
+    --green-light: #dcfce7;
+    --amber: #d97706;
+    --amber-light: #fef9c3;
+    --violet: #7c3aed;
+  }
+  body {
+    background: var(--white);
+    color: var(--black);
+    font-family: 'Instrument Sans', -apple-system, sans-serif;
+    font-size: 15px;
+    line-height: 1.6;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+  .container { max-width: 1200px; margin: 0 auto; padding: 0 48px; }
+
+  /* ============ CONCEPT BANNER ============ */
+  .banner {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 300;
+    background: var(--black); color: var(--white); text-align: center;
+    padding: 8px; font-size: 12px; font-weight: 600;
+    font-family: 'Geist Mono', monospace;
+  }
+
+  /* ============ NAV ============ */
+  nav {
+    position: fixed; top: 32px; left: 0; right: 0; z-index: 100;
+    padding: 0 48px; height: 56px;
+    display: flex; align-items: center; justify-content: space-between;
+    background: rgba(250,250,248,0.85);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--gray-100);
+  }
+  .nav-logo {
+    font-family: 'Geist Mono', monospace;
+    font-size: 14px; color: var(--black);
+  }
+  .nav-logo .prefix { color: var(--green); }
+  .nav-links { display: flex; gap: 28px; align-items: center; }
+  .nav-links a {
+    font-family: 'Geist Mono', monospace; font-size: 12px;
+    text-transform: uppercase; letter-spacing: 0.5px;
+    color: var(--gray-400); text-decoration: none; transition: color 0.2s;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .nav-links a:hover, .nav-links a.active { color: var(--black); }
+  .nav-links a.active { position: relative; }
+  .nav-links a.active::after {
+    content: ''; position: absolute; bottom: -4px; left: 0; right: 0;
+    height: 1px; background: var(--black); opacity: 0.5;
+  }
+  .kbd {
+    font-size: 10px; padding: 1px 5px; border: 1px solid var(--gray-200);
+    border-radius: 3px; color: var(--gray-400);
+  }
+  .nav-contact {
+    font-family: 'Geist Mono', monospace; font-size: 12px;
+    padding: 6px 16px; border: 1px solid var(--gray-200);
+    border-radius: 6px; color: var(--gray-600); text-decoration: none;
+    transition: all 0.2s;
+  }
+  .nav-contact:hover { border-color: var(--black); color: var(--black); }
+
+  /* ============ HERO ============ */
+  .hero {
+    min-height: 100vh;
+    display: grid; grid-template-columns: 1fr 500px;
+    gap: 48px; align-items: center;
+    padding-top: 88px;
+  }
+  .hero-text { padding: 40px 0; }
+  .hero-label {
+    font-family: 'Geist Mono', monospace; font-size: 13px;
+    color: var(--gray-400); margin-bottom: 20px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .hero-label .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); }
+  .hero-name {
+    font-size: 72px; font-weight: 700; line-height: 0.95;
+    letter-spacing: -4px; color: var(--black); margin-bottom: 20px;
+  }
+  .hero-desc {
+    font-size: 19px; color: var(--gray-500); max-width: 480px;
+    line-height: 1.65; margin-bottom: 12px;
+  }
+  .hero-desc strong { color: var(--black); font-weight: 600; }
+  .hero-quote {
+    font-size: 15px; font-style: italic; color: var(--gray-400);
+    margin-bottom: 32px;
+  }
+  .hero-quote .attr { font-style: normal; font-weight: 500; color: var(--gray-500); }
+  .hero-ctas { display: flex; gap: 12px; }
+  .btn-dark {
+    background: var(--black); color: var(--white);
+    padding: 11px 24px; border-radius: 8px;
+    font-size: 14px; font-weight: 600; text-decoration: none;
+    display: inline-flex; align-items: center; gap: 6px;
+  }
+  .btn-outline {
+    border: 1px solid var(--gray-200); color: var(--gray-600);
+    padding: 11px 24px; border-radius: 8px;
+    font-size: 14px; font-weight: 500; text-decoration: none;
+    display: inline-flex; align-items: center; gap: 6px;
+  }
+
+  /* Terminal */
+  .terminal {
+    border-radius: 12px; overflow: hidden;
+    border: 1px solid var(--gray-200);
+    box-shadow: 0 24px 64px rgba(0,0,0,0.08), 0 0 0 1px rgba(0,0,0,0.03);
+    background: var(--black);
+  }
+  .term-titlebar {
+    background: #222220; padding: 12px 16px;
+    display: flex; align-items: center; gap: 8px;
+    border-bottom: 1px solid #333;
+  }
+  .term-dot { width: 10px; height: 10px; border-radius: 50%; }
+  .term-dot.red { background: #ff5f57; }
+  .term-dot.yellow { background: #febc2e; }
+  .term-dot.green { background: #28c840; }
+  .term-title {
+    flex: 1; text-align: center;
+    font-family: 'Geist Mono', monospace; font-size: 11px; color: #666;
+  }
+  .term-body {
+    padding: 20px; min-height: 320px;
+    font-family: 'Geist Mono', monospace; font-size: 13px;
+    line-height: 1.7; color: #ccc;
+  }
+  .term-comment { color: #555; }
+  .term-cmd { color: #e8e8e5; }
+  .term-cmd .prompt { color: var(--green); }
+  .term-info { color: #888; }
+  .term-info .arrow { color: #60a5fa; }
+  .term-success { color: #4ade80; }
+  .term-success .check { color: #4ade80; }
+  .term-statusbar {
+    padding: 6px 16px;
+    background: var(--green); color: var(--black);
+    font-family: 'Geist Mono', monospace; font-size: 11px; font-weight: 600;
+    display: flex; justify-content: space-between;
+  }
+
+  /* ============ SECTION SHARED ============ */
+  .section { padding: 100px 0; }
+  .section-header {
+    display: flex; align-items: center; gap: 12px; margin-bottom: 52px;
+  }
+  .section-tag {
+    font-family: 'Geist Mono', monospace; font-size: 12px;
+    color: var(--amber); font-weight: 600; letter-spacing: 1px;
+  }
+  .section-title { font-size: 36px; font-weight: 700; letter-spacing: -1.5px; }
+  .section-line { flex: 1; height: 1px; background: var(--gray-200); }
+  .section-desc {
+    font-size: 17px; color: var(--gray-500); margin-top: -36px; margin-bottom: 48px;
+    max-width: 600px;
+  }
+
+  /* ============ PROJECTS ============ */
+  .projects-grid { display: flex; flex-direction: column; gap: 24px; }
+
+  /* Hero project card — dark (contrast pop) */
+  .proj-hero {
+    background: var(--black); color: var(--white);
+    border-radius: 16px; overflow: hidden;
+    position: relative;
+  }
+  .proj-hero-accent {
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--green) 30%, #06d6a0 70%, transparent);
+  }
+  .proj-hero-inner {
+    padding: 40px 44px;
+    display: grid; grid-template-columns: 1fr 420px; gap: 40px;
+    align-items: start;
+  }
+  .proj-tag-row {
+    display: flex; align-items: center; gap: 12px; margin-bottom: 16px;
+  }
+  .proj-tag {
+    font-family: 'Geist Mono', monospace; font-size: 10px;
+    text-transform: uppercase; letter-spacing: 2px;
+    padding: 4px 10px; border-radius: 4px;
+  }
+  .proj-tag.live {
+    color: #4ade80; border: 1px solid rgba(74,222,128,0.25);
+    background: rgba(74,222,128,0.06);
+    display: flex; align-items: center; gap: 6px;
+  }
+  .proj-tag.live::before {
+    content: ''; width: 6px; height: 6px; border-radius: 50%;
+    background: #4ade80; box-shadow: 0 0 8px rgba(74,222,128,0.4);
+  }
+  .proj-tag.label { color: #666; }
+  .proj-name-h {
+    font-size: 32px; font-weight: 700; letter-spacing: -1px;
+    margin-bottom: 12px; color: #fff;
+  }
+  .proj-desc-h {
+    color: rgba(255,255,255,0.6); font-size: 15px; line-height: 1.65;
+    margin-bottom: 20px;
+  }
+  .proj-problems {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 24px;
+  }
+  .prob-box {
+    padding: 14px; border-radius: 8px;
+  }
+  .prob-box.problem {
+    background: rgba(255,255,255,0.04);
+    border-left: 2px solid #444;
+  }
+  .prob-box.solution {
+    background: rgba(74,222,128,0.04);
+    border-left: 2px solid #4ade80;
+  }
+  .prob-box .prob-label {
+    font-family: 'Geist Mono', monospace; font-size: 10px;
+    text-transform: uppercase; letter-spacing: 2px;
+    margin-bottom: 6px;
+  }
+  .prob-box.problem .prob-label { color: #666; }
+  .prob-box.solution .prob-label { color: #4ade80; }
+  .prob-box p { font-size: 13px; color: rgba(255,255,255,0.55); line-height: 1.5; }
+  .proj-metric-row {
+    display: flex; align-items: baseline; gap: 12px; margin-bottom: 20px;
+  }
+  .proj-metric-num {
+    font-family: 'Geist Mono', monospace; font-size: 48px;
+    font-weight: 700; color: #4ade80; letter-spacing: -2px;
+  }
+  .proj-metric-lbl {
+    font-family: 'Geist Mono', monospace; font-size: 12px;
+    color: rgba(255,255,255,0.4); text-transform: uppercase; letter-spacing: 1px;
+  }
+  .proj-tech-h { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 20px; }
+  .proj-tech-h span {
+    font-family: 'Geist Mono', monospace; font-size: 12px;
+    padding: 4px 10px; border-radius: 5px;
+    color: rgba(255,255,255,0.6); border: 1px solid rgba(255,255,255,0.1);
+    background: rgba(255,255,255,0.04);
+  }
+  .proj-links { display: flex; gap: 12px; }
+  .proj-link-primary {
+    background: #4ade80; color: var(--black);
+    padding: 8px 20px; border-radius: 6px;
+    font-size: 13px; font-weight: 600; text-decoration: none;
+    display: inline-flex; align-items: center; gap: 6px;
+  }
+  .proj-link-secondary {
+    color: rgba(255,255,255,0.6); font-size: 13px;
+    text-decoration: none; display: inline-flex; align-items: center; gap: 4px;
+    padding: 8px 0;
+  }
+  .proj-link-secondary:hover { color: #fff; }
+
+  /* Mockup container (right side of hero card) */
+  .mockup-browser {
+    border-radius: 10px; overflow: hidden;
+    border: 1px solid rgba(255,255,255,0.1);
+    background: rgba(255,255,255,0.03);
+  }
+  .mockup-chrome {
+    padding: 8px 12px; background: rgba(255,255,255,0.06);
+    display: flex; align-items: center; gap: 6px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .mockup-dot { width: 7px; height: 7px; border-radius: 50%; background: rgba(255,255,255,0.15); }
+  .mockup-url {
+    flex: 1; text-align: center;
+    font-family: 'Geist Mono', monospace; font-size: 10px; color: rgba(255,255,255,0.3);
+  }
+  .mockup-body { padding: 16px; min-height: 280px; }
+
+  /* Light mockup table for Reps */
+  .reps-mock {
+    background: #fafaf8; border-radius: 6px; overflow: hidden;
+  }
+  .reps-mock-header {
+    padding: 10px 14px; background: #f0efeb;
+    font-family: 'Geist Mono', monospace; font-size: 10px;
+    color: #6b6a66; text-transform: uppercase; letter-spacing: 1px;
+    display: flex; justify-content: space-between;
+  }
+  .reps-mock-row {
+    padding: 8px 14px; display: flex; justify-content: space-between;
+    align-items: center; border-bottom: 1px solid #eae9e4; font-size: 12px;
+  }
+  .reps-mock-row:last-child { border-bottom: none; }
+  .reps-name { color: #1a1a18; font-weight: 500; }
+  .reps-party { font-family: 'Geist Mono', monospace; font-size: 11px; color: #8a8985; }
+  .reps-grade {
+    padding: 2px 8px; border-radius: 3px; font-size: 11px; font-weight: 600;
+  }
+  .reps-grade.a { background: #dcfce7; color: #166534; }
+  .reps-grade.b { background: #dbeafe; color: #1e40af; }
+  .reps-grade.c { background: #fef9c3; color: #854d0e; }
+  .reps-grade.d { background: #fee2e2; color: #991b1b; }
+
+  /* Nova card (dark) */
+  .proj-nova {
+    background: var(--black); color: var(--white);
+    border-radius: 16px; overflow: hidden; position: relative;
+  }
+  .proj-nova-inner {
+    padding: 40px 44px;
+    display: grid; grid-template-columns: 1fr 380px; gap: 40px;
+  }
+  .nova-arch {
+    background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 10px; padding: 20px;
+    font-family: 'Geist Mono', monospace; font-size: 12px; line-height: 2;
+  }
+  .nova-svc {
+    display: flex; align-items: center; gap: 10px; padding: 2px 0;
+  }
+  .nova-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+  .nova-svc-name { color: rgba(255,255,255,0.85); font-weight: 600; }
+  .nova-svc-desc { color: rgba(255,255,255,0.35); }
+  .nova-header-label {
+    font-family: 'Geist Mono', monospace; font-size: 10px;
+    text-transform: uppercase; letter-spacing: 2px;
+    color: rgba(255,255,255,0.25); margin-bottom: 14px; font-weight: 600;
+  }
+
+  /* Light project cards */
+  .proj-row { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  .proj-card {
+    background: var(--cream); border: 1px solid var(--gray-100);
+    border-radius: 16px; padding: 32px; position: relative; overflow: hidden;
+    transition: all 0.25s;
+  }
+  .proj-card:hover {
+    border-color: var(--gray-300);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.06);
+    transform: translateY(-3px);
+  }
+  .proj-card .stripe {
+    position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  }
+  .proj-card .pc-tag {
+    font-family: 'Geist Mono', monospace; font-size: 11px; color: var(--gray-400);
+    text-transform: uppercase; letter-spacing: 2px; margin-bottom: 12px;
+  }
+  .proj-card .pc-name {
+    font-size: 22px; font-weight: 700; letter-spacing: -0.5px;
+    margin-bottom: 10px; color: var(--black);
+  }
+  .proj-card .pc-desc {
+    color: var(--gray-500); font-size: 14px; line-height: 1.6; margin-bottom: 20px;
+  }
+  .proj-card .pc-tech { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 16px; }
+  .proj-card .pc-tech span {
+    background: var(--white); color: var(--gray-600); padding: 4px 10px;
+    border-radius: 5px; font-size: 12px; font-family: 'Geist Mono', monospace;
+    border: 1px solid var(--gray-100);
+  }
+  .proj-card .pc-links { display: flex; gap: 12px; }
+  .proj-card .pc-links a {
+    font-size: 13px; font-weight: 600; text-decoration: none;
+    display: inline-flex; align-items: center; gap: 4px;
+  }
+  .proj-card .pc-links a.primary { color: var(--black); }
+  .proj-card .pc-links a.primary:hover { text-decoration: underline; }
+
+  /* Infra "Also shipped" cards */
+  .infra-label {
+    font-family: 'Geist Mono', monospace; font-size: 12px;
+    color: var(--gray-400); text-transform: uppercase; letter-spacing: 2px;
+    margin-bottom: 16px; margin-top: 8px;
+  }
+  .infra-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+  .infra-card {
+    background: var(--cream); border: 1px solid var(--gray-100);
+    border-radius: 12px; padding: 22px;
+  }
+  .infra-card h4 { font-size: 15px; font-weight: 700; margin-bottom: 6px; }
+  .infra-card p { font-size: 13px; color: var(--gray-500); line-height: 1.5; }
+  .infra-card .metric {
+    font-family: 'Geist Mono', monospace; font-size: 13px;
+    font-weight: 600; color: var(--green); margin-top: 10px;
+  }
+
+  /* ============ SKILLS ============ */
+  .section-alt {
+    background: var(--cream);
+    border-top: 1px solid var(--gray-100);
+    border-bottom: 1px solid var(--gray-100);
+  }
+  .skills-tiers { display: flex; flex-direction: column; gap: 16px; }
+  .tier-card {
+    border-radius: 12px; border: 1px solid var(--gray-200);
+    overflow: hidden; background: var(--white);
+  }
+  .tier-header {
+    display: flex; align-items: center; gap: 12px;
+    padding: 14px 20px; border-bottom: 1px solid var(--gray-100);
+  }
+  .tier-badge {
+    font-family: 'Geist Mono', monospace; font-size: 12px; font-weight: 700;
+    text-transform: uppercase; padding: 3px 10px; border-radius: 4px;
+  }
+  .tier-badge.expert { background: var(--black); color: var(--white); }
+  .tier-badge.proficient { background: var(--gray-200); color: var(--gray-700); }
+  .tier-badge.building { background: var(--green-light); color: var(--green); }
+  .tier-desc {
+    font-family: 'Geist Mono', monospace; font-size: 12px; color: var(--gray-400);
+  }
+  .tier-body { padding: 16px 20px; display: flex; flex-wrap: wrap; gap: 8px; }
+  .tier-tag {
+    padding: 6px 14px; border-radius: 6px; font-size: 13px; font-weight: 500;
+    border: 1px solid var(--gray-100);
+  }
+  .tier-tag.expert { background: var(--black); color: var(--white); border-color: var(--black); font-weight: 600; }
+  .tier-tag.proficient { background: var(--white); color: var(--gray-600); }
+  .tier-tag.building { background: var(--white); color: var(--gray-500); opacity: 0.7; }
+
+  .skills-bottom {
+    display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-top: 24px;
+  }
+  .stat-box {
+    background: var(--white); border: 1px solid var(--gray-100);
+    border-radius: 12px; padding: 20px; text-align: center;
+  }
+  .stat-box .val {
+    font-family: 'Geist Mono', monospace; font-size: 24px;
+    font-weight: 700; color: var(--black); letter-spacing: -1px;
+  }
+  .stat-box .lbl {
+    font-family: 'Geist Mono', monospace; font-size: 11px;
+    color: var(--gray-400); margin-top: 4px; text-transform: uppercase; letter-spacing: 0.5px;
+  }
+
+  .cert-row { display: flex; gap: 16px; margin-top: 16px; }
+  .cert-card {
+    display: flex; align-items: center; gap: 12px; padding: 14px 18px;
+    background: var(--white); border: 1px solid var(--gray-100);
+    border-radius: 12px; flex: 1;
+  }
+  .cert-icon {
+    width: 36px; height: 36px; border-radius: 8px; background: var(--green-light);
+    display: flex; align-items: center; justify-content: center; font-size: 16px;
+  }
+  .cert-name { font-size: 14px; font-weight: 600; }
+  .cert-status { font-family: 'Geist Mono', monospace; font-size: 12px; color: var(--green); font-weight: 500; }
+
+  /* ============ EXPERIENCE (Tab layout) ============ */
+  .exp-container {
+    border-radius: 16px; border: 1px solid var(--gray-200);
+    overflow: hidden;
+    display: grid; grid-template-columns: 240px 1fr;
+  }
+  .exp-tabs {
+    background: var(--cream); border-right: 1px solid var(--gray-200);
+    padding-top: 8px;
+  }
+  .exp-tabs-header {
+    font-family: 'Geist Mono', monospace; font-size: 10px;
+    color: var(--gray-400); padding: 8px 16px 6px; text-transform: uppercase;
+    letter-spacing: 1.5px;
+  }
+  .exp-tab {
+    display: block; width: 100%; padding: 16px 20px;
+    border: none; background: none; text-align: left;
+    cursor: pointer; border-left: 2px solid transparent;
+    transition: all 0.2s;
+  }
+  .exp-tab:hover { background: var(--gray-50); }
+  .exp-tab.active {
+    background: var(--white); border-left-color: var(--green);
+  }
+  .exp-tab .tab-company {
+    font-size: 14px; font-weight: 600; color: var(--black); display: block;
+  }
+  .exp-tab .tab-dates {
+    font-family: 'Geist Mono', monospace; font-size: 11px;
+    color: var(--gray-400); display: block; margin-top: 2px;
+  }
+  .exp-tab .tab-dates .current { color: var(--green); font-weight: 600; }
+  .exp-panel {
+    background: var(--white); padding: 36px 40px;
+  }
+  .exp-role { font-size: 24px; font-weight: 700; letter-spacing: -0.5px; margin-bottom: 4px; }
+  .exp-at {
+    font-size: 15px; color: var(--gray-500); margin-bottom: 4px;
+  }
+  .exp-at strong { color: var(--green); font-weight: 600; }
+  .exp-date-range {
+    font-family: 'Geist Mono', monospace; font-size: 12px;
+    color: var(--gray-400); margin-bottom: 20px;
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--cream); padding: 4px 10px; border-radius: 4px;
+  }
+  .exp-bullets { list-style: none; margin-bottom: 24px; }
+  .exp-bullets li {
+    display: flex; gap: 10px; padding: 6px 0;
+    font-size: 15px; color: var(--gray-600); line-height: 1.6;
+  }
+  .exp-bullets li::before {
+    content: '▸'; color: var(--green); font-weight: 700; flex-shrink: 0; margin-top: 1px;
+  }
+  .exp-techs { display: flex; gap: 6px; flex-wrap: wrap; }
+  .exp-techs span {
+    font-family: 'Geist Mono', monospace; font-size: 12px;
+    padding: 4px 10px; border-radius: 5px;
+    color: var(--gray-600); border: 1px solid var(--gray-100);
+    background: var(--cream);
+  }
+
+  /* ============ HOW I WORK ============ */
+  .phil-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .phil-card {
+    background: var(--cream); border: 1px solid var(--gray-100);
+    border-radius: 16px; padding: 32px;
+  }
+  .phil-icon {
+    width: 44px; height: 44px; border-radius: 10px;
+    background: var(--white); border: 1px solid var(--gray-100);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px; margin-bottom: 16px;
+  }
+  .phil-card h3 { font-size: 18px; font-weight: 700; margin-bottom: 8px; letter-spacing: -0.3px; }
+  .phil-card p { color: var(--gray-500); font-size: 14px; line-height: 1.6; }
+
+  /* ============ CONTACT ============ */
+  .contact-inner { display: flex; align-items: flex-start; gap: 56px; }
+  .contact-cta {
+    font-size: 48px; font-weight: 700; letter-spacing: -2.5px;
+    line-height: 1.05; flex: 1;
+  }
+  .contact-cta .faded { color: var(--gray-300); }
+  .contact-links { display: flex; flex-direction: column; gap: 10px; flex-shrink: 0; }
+  .contact-link {
+    display: flex; align-items: center; gap: 14px; padding: 16px 20px;
+    background: var(--cream); border: 1px solid var(--gray-100);
+    border-radius: 12px; color: var(--black); text-decoration: none;
+    font-size: 15px; transition: all 0.2s; min-width: 300px;
+  }
+  .contact-link:hover { border-color: var(--gray-300); transform: translateX(4px); }
+  .link-icon {
+    width: 36px; height: 36px; border-radius: 8px;
+    background: var(--white); border: 1px solid var(--gray-100);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Geist Mono', monospace; font-size: 13px; font-weight: 600; color: var(--gray-500);
+  }
+  .link-name { font-weight: 600; }
+  .link-detail { color: var(--gray-400); font-size: 13px; }
+
+  /* ============ FOOTER ============ */
+  footer {
+    padding: 32px 48px; border-top: 1px solid var(--gray-100);
+    display: flex; justify-content: space-between; align-items: center;
+    font-family: 'Geist Mono', monospace; font-size: 11px; color: var(--gray-300);
+  }
+</style>
+</head>
+<body>
+
+<div class="banner">HYBRID DESIGN — Current layout + new colors/content. Scroll all sections.</div>
+
+<!-- NAV (same structure as current site) -->
+<nav>
+  <div class="nav-logo"><span class="prefix">~/</span>jeremyspofford</div>
+  <div class="nav-links">
+    <a href="#" class="active">projects <span class="kbd">p</span></a>
+    <a href="#">stack <span class="kbd">s</span></a>
+    <a href="#">experience <span class="kbd">e</span></a>
+    <a href="#">blog</a>
+    <a href="#">resume</a>
+    <a href="#" class="nav-contact">contact <span class="kbd" style="margin-left:4px;">c</span></a>
+  </div>
+</nav>
+
+<!-- ============ HERO with Terminal ============ -->
+<section class="hero">
+  <div class="container" style="display:contents;">
+    <div style="padding-left:48px;">
+      <div class="hero-text">
+        <div class="hero-label"><span class="dot"></span> Senior DevOps Engineer · Aria Labs</div>
+        <h1 class="hero-name">Jeremy<br>Spofford</h1>
+        <p class="hero-desc">
+          12 years of making infrastructure <strong>boring on purpose</strong>. Now building the platform layer where DevOps meets AI.
+        </p>
+        <p class="hero-quote">
+          "Oh, that broke. That's okay — it's just part of engineering."
+          <span class="attr">— My <span id="kid-age">5</span>-year-old, who gets it.</span>
+        </p>
+        <div class="hero-ctas">
+          <a href="#" class="btn-dark">See my work ↓</a>
+          <a href="#" class="btn-outline">&#128196; View Resume</a>
+        </div>
+      </div>
+    </div>
+    <div style="display:flex;align-items:center;padding-right:48px;">
+      <div class="terminal" style="width:100%;">
+        <div class="term-titlebar">
+          <div class="term-dot red"></div>
+          <div class="term-dot yellow"></div>
+          <div class="term-dot green"></div>
+          <div class="term-title">jeremy@aria-labs — nova — 120×36</div>
+        </div>
+        <div class="term-body">
+          <div class="term-comment"># aria-labs production — nova agent</div>
+          <br>
+          <div class="term-cmd"><span class="prompt">$</span> nova run --task "audit congressional votes"</div>
+          <br>
+          <div class="term-info"><span class="arrow">→</span> Connecting to congressional database...</div>
+          <div class="term-info"><span class="arrow">→</span> Loading 535 representatives...</div>
+          <div class="term-info"><span class="arrow">→</span> Analyzing voting patterns (119th Congress)...</div>
+          <div class="term-info"><span class="arrow">→</span> Cross-referencing campaign finance data...</div>
+          <div class="term-info"><span class="arrow">→</span> Computing accountability grades...</div>
+          <br>
+          <div class="term-success"><span class="check">✓</span> Accountability report generated.</div>
+          <div class="term-success"><span class="check">✓</span> Published to reps.arialabs.ai</div>
+          <div class="term-success"><span class="check">✓</span> 615 tests passing. 0 failures.</div>
+          <br>
+          <div class="term-cmd"><span class="prompt">$</span> <span style="border-right:2px solid #4ade80;padding-right:2px;">&nbsp;</span></div>
+        </div>
+        <div class="term-statusbar">
+          <span>NORMAL</span>
+          <span>jeremyspofford.dev &nbsp;|&nbsp; nova &nbsp;|&nbsp; utf-8</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PROJECTS ============ -->
+<section class="section" style="background:var(--white);">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-tag">01 // projects</span>
+      <h2 class="section-title">Projects</h2>
+      <div class="section-line"></div>
+    </div>
+    <p class="section-desc">Civic tools, AI platforms, and infrastructure built to matter.</p>
+
+    <div class="projects-grid">
+
+      <!-- REPS — Hero dark card with mockup -->
+      <div class="proj-hero">
+        <div class="proj-hero-accent"></div>
+        <div class="proj-hero-inner">
+          <div>
+            <div class="proj-tag-row">
+              <span class="proj-tag live">reps.arialabs.ai</span>
+              <span class="proj-tag label">FEATURED PROJECT</span>
+            </div>
+            <div class="proj-name-h">Reps Accountability Dashboard</div>
+            <p class="proj-desc-h">Real-time dashboard tracking every U.S. Congress member. Votes, bills, campaign finance, known scandals. Democracy shouldn't be paywalled.</p>
+            <div class="proj-problems">
+              <div class="prob-box problem">
+                <div class="prob-label">Problem</div>
+                <p>Voting records and campaign finance buried across dozens of government sites — by design.</p>
+              </div>
+              <div class="prob-box solution">
+                <div class="prob-label">Solution</div>
+                <p>One dashboard. Every rep. Real-time. 615 tests. Open source.</p>
+              </div>
+            </div>
+            <div class="proj-metric-row">
+              <div class="proj-metric-num">535</div>
+              <div class="proj-metric-lbl">reps tracked</div>
+            </div>
+            <div class="proj-tech-h">
+              <span>Next.js</span><span>PostgreSQL</span><span>Python</span><span>AWS</span><span>OpenFEC</span><span>Tailwind</span>
+            </div>
+            <div class="proj-links">
+              <a href="https://reps.arialabs.ai" class="proj-link-primary">Visit Live Site →</a>
+              <a href="#" class="proj-link-secondary">GitHub ↗</a>
+            </div>
+          </div>
+          <div>
+            <div class="mockup-browser">
+              <div class="mockup-chrome">
+                <div class="mockup-dot"></div><div class="mockup-dot"></div><div class="mockup-dot"></div>
+                <div class="mockup-url">reps.arialabs.ai</div>
+              </div>
+              <div class="mockup-body">
+                <div class="reps-mock">
+                  <div class="reps-mock-header">
+                    <span>Representative</span><span>Grade</span>
+                  </div>
+                  <div class="reps-mock-row">
+                    <div><span class="reps-name">Sen. Warren</span> <span class="reps-party">(D-MA)</span></div>
+                    <span class="reps-grade a">A-</span>
+                  </div>
+                  <div class="reps-mock-row">
+                    <div><span class="reps-name">Rep. Jordan</span> <span class="reps-party">(R-OH)</span></div>
+                    <span class="reps-grade c">C-</span>
+                  </div>
+                  <div class="reps-mock-row">
+                    <div><span class="reps-name">Sen. Collins</span> <span class="reps-party">(R-ME)</span></div>
+                    <span class="reps-grade b">B+</span>
+                  </div>
+                  <div class="reps-mock-row">
+                    <div><span class="reps-name">Rep. Ocasio-Cortez</span> <span class="reps-party">(D-NY)</span></div>
+                    <span class="reps-grade a">A</span>
+                  </div>
+                  <div class="reps-mock-row">
+                    <div><span class="reps-name">Sen. Cruz</span> <span class="reps-party">(R-TX)</span></div>
+                    <span class="reps-grade d">D+</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- NOVA — Dark card with architecture diagram -->
+      <div class="proj-nova">
+        <div class="proj-nova-inner">
+          <div>
+            <div class="proj-tag-row">
+              <span class="proj-tag label" style="color:rgba(255,255,255,0.35);">AI INFRASTRUCTURE PLATFORM</span>
+            </div>
+            <div class="proj-name-h" style="font-size:28px;">Nova</div>
+            <p class="proj-desc-h">9-service AI platform with graph-based cognitive memory, multi-provider LLM routing, custom PyTorch re-ranker, and GPU-accelerated local inference. Not a wrapper — infrastructure.</p>
+            <div class="proj-tech-h">
+              <span>Python</span><span>PyTorch</span><span>pgvector</span><span>LiteLLM</span><span>vLLM</span><span>Docker</span><span>CUDA</span><span>Redis</span>
+            </div>
+            <div class="proj-links">
+              <a href="#" class="proj-link-secondary" style="color:rgba(255,255,255,0.5);">GitHub ↗</a>
+            </div>
+          </div>
+          <div>
+            <div class="nova-arch">
+              <div class="nova-header-label">9 Services</div>
+              <div class="nova-svc"><div class="nova-dot" style="background:#4ade80;"></div> <span class="nova-svc-name">Orchestrator</span> <span class="nova-svc-desc">— agent lifecycle, task queue</span></div>
+              <div class="nova-svc"><div class="nova-dot" style="background:#60a5fa;"></div> <span class="nova-svc-name">LLM Gateway</span> <span class="nova-svc-desc">— 10+ provider routing</span></div>
+              <div class="nova-svc"><div class="nova-dot" style="background:#c084fc;"></div> <span class="nova-svc-name">Engram Memory</span> <span class="nova-svc-desc">— graph + pgvector</span></div>
+              <div class="nova-svc"><div class="nova-dot" style="background:#fb923c;"></div> <span class="nova-svc-name">Neural Router</span> <span class="nova-svc-desc">— PyTorch re-ranker</span></div>
+              <div class="nova-svc"><div class="nova-dot" style="background:#f472b6;"></div> <span class="nova-svc-name">Cortex</span> <span class="nova-svc-desc">— autonomous agent loop</span></div>
+              <div class="nova-svc"><div class="nova-dot" style="background:#fbbf24;"></div> <span class="nova-svc-name">Chat API</span> <span class="nova-svc-desc">— WebSocket/SSE bridge</span></div>
+              <div class="nova-svc"><div class="nova-dot" style="background:#34d399;"></div> <span class="nova-svc-name">Chat Bridge</span> <span class="nova-svc-desc">— Telegram, Slack</span></div>
+              <div class="nova-svc"><div class="nova-dot" style="background:#a3a3a3;"></div> <span class="nova-svc-name">Dashboard</span> <span class="nova-svc-desc">— React admin UI</span></div>
+              <div class="nova-svc"><div class="nova-dot" style="background:#ef4444;"></div> <span class="nova-svc-name">Recovery</span> <span class="nova-svc-desc">— backup, crash-resilient</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Epstein + Suppr -->
+      <div class="proj-row">
+        <div class="proj-card">
+          <div class="stripe" style="background:linear-gradient(90deg,#d97706,#d97706 40%,transparent);"></div>
+          <div class="pc-tag">Epstein Files Explorer</div>
+          <div class="pc-name">Network Mapper</div>
+          <p class="pc-desc">Full-text search engine for court documents with connection graphs and a 70+ person network map. Victim privacy protections built in from day one.</p>
+          <div class="pc-tech"><span>Elasticsearch</span><span>Python</span><span>pgvector</span><span>Next.js</span></div>
+          <div class="pc-links"><a href="https://epstein.arialabs.ai" class="primary">Visit Site →</a></div>
+        </div>
+        <div class="proj-card">
+          <div class="stripe" style="background:linear-gradient(90deg,#7c3aed,#7c3aed 40%,transparent);"></div>
+          <div class="pc-tag">Suppr · 72h to MVP</div>
+          <div class="pc-name">Social Dining App</div>
+          <p class="pc-desc">Connecting people through shared meals. Built for real community — not engagement metrics.</p>
+          <div class="pc-tech"><span>React Native</span><span>Node.js</span><span>PostgreSQL</span><span>Expo</span></div>
+          <div class="pc-links"><a href="https://suppr.arialabs.ai" class="primary">Visit Site →</a></div>
+        </div>
+      </div>
+
+      <!-- Infra wins -->
+      <div>
+        <div class="infra-label">Also shipped at VividCloud</div>
+        <div class="infra-grid">
+          <div class="infra-card">
+            <h4>Cloud Cost Optimization</h4>
+            <p>Shared review-app resources, Cloud Run scale-to-zero, build pipeline cleanup</p>
+            <div class="metric">↓ 30% monthly GCP spend</div>
+          </div>
+          <div class="infra-card">
+            <h4>Dynamic Preview Envs</h4>
+            <p>PR-based staging tied to GitLab MRs with automatic teardown</p>
+            <div class="metric">Per-MR environments</div>
+          </div>
+          <div class="infra-card">
+            <h4>Cert Automation</h4>
+            <p>SSL renewal via GCP Secret Manager + Pub/Sub</p>
+            <div class="metric">Zero manual renewals</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SKILLS (tier card layout like current, new colors) ============ -->
+<section class="section section-alt">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-tag">02 // stack</span>
+      <h2 class="section-title">Stack</h2>
+      <div class="section-line"></div>
+    </div>
+    <p class="section-desc">12+ years deep. Here's an honest breakdown of what I can do at what level.</p>
+
+    <div class="skills-tiers">
+      <div class="tier-card">
+        <div class="tier-header">
+          <span class="tier-badge expert">Expert</span>
+          <span class="tier-desc">5+ years, production-grade</span>
+        </div>
+        <div class="tier-body">
+          <span class="tier-tag expert">Terraform</span>
+          <span class="tier-tag expert">Linux</span>
+          <span class="tier-tag expert">TypeScript</span>
+          <span class="tier-tag expert">CI/CD</span>
+          <span class="tier-tag expert">Docker</span>
+          <span class="tier-tag expert">Bash</span>
+          <span class="tier-tag expert">Git</span>
+          <span class="tier-tag expert">IaC</span>
+          <span class="tier-tag expert">IAM &amp; Security</span>
+          <span class="tier-tag expert">Networking</span>
+          <span class="tier-tag expert">Secrets Management</span>
+        </div>
+      </div>
+      <div class="tier-card">
+        <div class="tier-header">
+          <span class="tier-badge proficient">Proficient</span>
+          <span class="tier-desc">2-4 years, shipped</span>
+        </div>
+        <div class="tier-body">
+          <span class="tier-tag proficient">AWS</span>
+          <span class="tier-tag proficient">GCP</span>
+          <span class="tier-tag proficient">Python</span>
+          <span class="tier-tag proficient">Ansible</span>
+          <span class="tier-tag proficient">PostgreSQL</span>
+          <span class="tier-tag proficient">Redis</span>
+          <span class="tier-tag proficient">Datadog</span>
+          <span class="tier-tag proficient">PowerShell</span>
+        </div>
+      </div>
+      <div class="tier-card">
+        <div class="tier-header">
+          <span class="tier-badge building">Building Toward</span>
+          <span class="tier-desc">Active projects &amp; learning</span>
+        </div>
+        <div class="tier-body">
+          <span class="tier-tag building">pgvector</span>
+          <span class="tier-tag building">PyTorch</span>
+          <span class="tier-tag building">LLM APIs</span>
+          <span class="tier-tag building">vLLM / Local Inference</span>
+          <span class="tier-tag building">Prometheus</span>
+          <span class="tier-tag building">Grafana</span>
+          <span class="tier-tag building">AWS CDK</span>
+          <span class="tier-tag building">GitHub Actions</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="skills-bottom">
+      <div class="stat-box">
+        <div class="val">12+</div>
+        <div class="lbl">years shipping infra</div>
+      </div>
+      <div class="stat-box">
+        <div class="val">AWS + GCP</div>
+        <div class="lbl">primary platforms</div>
+      </div>
+      <div class="stat-box">
+        <div class="val">IaC-first</div>
+        <div class="lbl">philosophy</div>
+      </div>
+    </div>
+
+    <div class="cert-row">
+      <div class="cert-card">
+        <div class="cert-icon">&#x1f6e1;</div>
+        <div>
+          <div class="cert-name">GCP Associate Cloud Engineer</div>
+          <div class="cert-status">Active · expires Mar 2028</div>
+        </div>
+      </div>
+      <div class="cert-card">
+        <div class="cert-icon">&#x1f6e1;</div>
+        <div>
+          <div class="cert-name">AWS Cloud Practitioner</div>
+          <div class="cert-status">Active</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ EXPERIENCE (Tab layout like current site) ============ -->
+<section class="section">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-tag">03 // experience</span>
+      <h2 class="section-title">Experience</h2>
+      <div class="section-line"></div>
+    </div>
+    <p class="section-desc">12 years of infrastructure work across enterprise, cloud-native, and startup environments.</p>
+
+    <div class="exp-container">
+      <div class="exp-tabs">
+        <div class="exp-tabs-header">$ companies</div>
+        <button class="exp-tab active">
+          <span class="tab-company">VividCloud</span>
+          <span class="tab-dates"><span class="current">Present</span> · Nov 2022</span>
+        </button>
+        <button class="exp-tab">
+          <span class="tab-company">Tyler Technologies</span>
+          <span class="tab-dates">Jun 2019 — Jun 2021</span>
+        </button>
+        <button class="exp-tab">
+          <span class="tab-company">MMC (SE)</span>
+          <span class="tab-dates">2017 — 2019</span>
+        </button>
+        <button class="exp-tab">
+          <span class="tab-company">MMC (Desktop)</span>
+          <span class="tab-dates">2014 — 2017</span>
+        </button>
+      </div>
+      <div class="exp-panel">
+        <div class="exp-role">Senior DevOps Engineer</div>
+        <div class="exp-at">@ <strong>VividCloud</strong></div>
+        <div class="exp-date-range">Nov 2022 — Present</div>
+        <ul class="exp-bullets">
+          <li>Led cloud cost optimization resulting in 30% GCP reduction — shared review-app infra, Cloud Run scale-to-zero, build pipeline cleanup</li>
+          <li>Designed dynamic preview environments tied to GitLab MRs with automatic teardown</li>
+          <li>Automated SSL certificate lifecycle with GCP Secret Manager and Pub/Sub</li>
+          <li>Implemented AWS Cognito authentication with MFA and federated identity</li>
+          <li>Built Terraform documentation automation generating standardized READMEs with every commit</li>
+        </ul>
+        <div class="exp-techs">
+          <span>GCP</span><span>AWS</span><span>Terraform</span><span>GitLab CI</span><span>Cloud Run</span><span>Cognito</span><span>Pub/Sub</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ HOW I WORK ============ -->
+<section class="section section-alt">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-tag">04 // philosophy</span>
+      <h2 class="section-title">How I Work</h2>
+      <div class="section-line"></div>
+    </div>
+
+    <div class="phil-grid">
+      <div class="phil-card">
+        <div class="phil-icon">&#8634;</div>
+        <h3>Automate everything twice-done</h3>
+        <p>If I do it more than once, it gets automated. Manual is technical debt that compounds. Review-app infra, cert renewals, Terraform docs — all automated out of existence.</p>
+      </div>
+      <div class="phil-card">
+        <div class="phil-icon">&#9711;</div>
+        <h3>Boring is the goal</h3>
+        <p>Infrastructure should be predictably reliable, never exciting at 2am. The best systems are the ones nobody notices because they just work.</p>
+      </div>
+      <div class="phil-card">
+        <div class="phil-icon">&#9881;</div>
+        <h3>Hands-on by nature</h3>
+        <p>Finished basement, built a shed, dual-boot PC, gave an AI its own mini-PC with LAN wake access to my GPU desktop. I tinker because I need to understand how things work.</p>
+      </div>
+      <div class="phil-card">
+        <div class="phil-icon">&#9889;</div>
+        <h3>Ship, then refine</h3>
+        <p>72 hours to an MVP. 535 reps tracked. 9 microservices orchestrated. Shipping is a muscle — the portfolio is the proof.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CONTACT ============ -->
+<section class="section" style="padding-bottom:80px;">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-tag">05 // contact</span>
+      <h2 class="section-title">Let's talk</h2>
+      <div class="section-line"></div>
+    </div>
+    <p class="section-desc">Open to senior DevOps, platform engineering, and AI infrastructure roles. Always down to discuss interesting problems.</p>
+
+    <div class="contact-inner">
+      <div class="contact-cta">
+        Let's build<br>something<br><span class="faded">boring.</span>
+      </div>
+      <div class="contact-links">
+        <a href="mailto:JeremySpofford@gmail.com" class="contact-link">
+          <div class="link-icon">@</div>
+          <div><div class="link-name">Email</div><div class="link-detail">JeremySpofford@gmail.com</div></div>
+        </a>
+        <a href="#" class="contact-link">
+          <div class="link-icon">GH</div>
+          <div><div class="link-name">GitHub</div><div class="link-detail">View repositories</div></div>
+        </a>
+        <a href="#" class="contact-link">
+          <div class="link-icon">GL</div>
+          <div><div class="link-name">GitLab</div><div class="link-detail">View repositories</div></div>
+        </a>
+        <a href="#" class="contact-link">
+          <div class="link-icon">LI</div>
+          <div><div class="link-name">LinkedIn</div><div class="link-detail">Connect</div></div>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div>&copy; 2026 Jeremy Spofford</div>
+  <div>Built with Next.js · Deployed on Cloudflare Pages · Designed with intention</div>
+</footer>
+
+<script>
+  // Calculate kid's age from November 2020 birth
+  const born = new Date(2020, 10, 1); // November 2020
+  const now = new Date();
+  let age = now.getFullYear() - born.getFullYear();
+  if (now.getMonth() < born.getMonth()) age--;
+  document.getElementById('kid-age').textContent = age;
+</script>
+
+</body>
+</html>

@@ -3,8 +3,7 @@
     "version": "1.0.0",
     "private": true,
     "workspaces": [
-        "src",
-        "scripts"
+        "src"
     ],
     "scripts": {
         "dev": "npm run dev --workspace=src",

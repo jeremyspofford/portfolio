@@ -28,9 +28,9 @@ export function Contact({ profile }: ContactProps) {
 
         {/* Section header */}
         <div className="mb-10">
-          <span className="font-mono text-xs text-[#F59E0B] tracking-widest uppercase mb-2 block">04 // contact</span>
+          <span className="font-mono text-xs text-[#F59E0B] tracking-widest uppercase mb-2 block">05 // contact</span>
           <h2 className="font-display font-bold text-4xl md:text-5xl text-[#F1F5F9] mb-4" style={{ letterSpacing: "-0.03em" }}>
-            Let&apos;s talk
+            Let&apos;s build something <span className="italic text-[#94A3B8]">boring.</span>
           </h2>
           <p className="text-[#CBD5E1] text-lg max-w-xl text-left">
             Open to senior DevOps, platform engineering, and AI infrastructure roles.

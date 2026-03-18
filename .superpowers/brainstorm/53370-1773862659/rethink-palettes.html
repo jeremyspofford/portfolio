@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rethink — Full Color Environments</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Instrument Sans', sans-serif; overflow-x: hidden; }
+
+  .divider {
+    padding: 32px 48px 16px; background: #111;
+    font-family: 'Geist Mono', monospace;
+    display: flex; align-items: center; gap: 16px;
+    position: sticky; top: 0; z-index: 50;
+  }
+  .divider .badge { font-size: 13px; font-weight: 700; padding: 4px 12px; border-radius: 4px; color: #fff; }
+  .divider .label { font-size: 18px; font-weight: 700; color: #e8e8e5; font-family: 'Instrument Sans', sans-serif; }
+  .divider .hint { font-size: 12px; color: #666; margin-left: auto; font-family: 'Geist Mono', monospace; }
+
+  /* Shared structure */
+  .page { position: relative; overflow: hidden; }
+
+  .pg-nav {
+    padding: 14px 48px; display: flex; align-items: center;
+    justify-content: space-between;
+    font-family: 'Geist Mono', monospace;
+  }
+  .pg-nav .logo { font-size: 14px; font-weight: 600; }
+  .pg-nav .links { display: flex; gap: 24px; font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .pg-nav .status {
+    font-size: 11px; font-weight: 600; display: flex; align-items: center; gap: 6px;
+    padding: 4px 12px; border-radius: 16px;
+  }
+
+  .pg-hero {
+    padding: 72px 48px 56px;
+    display: grid; grid-template-columns: 1fr 480px; gap: 48px; align-items: center;
+    min-height: 88vh;
+  }
+  .h-label {
+    font-family: 'Geist Mono', monospace; font-size: 13px; margin-bottom: 16px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .h-label .dot { width: 7px; height: 7px; border-radius: 50%; }
+  .h-name { font-size: 68px; font-weight: 700; line-height: 0.95; letter-spacing: -3.5px; margin-bottom: 20px; }
+  .h-desc { font-size: 18px; line-height: 1.65; margin-bottom: 10px; max-width: 460px; }
+  .h-desc strong { font-weight: 700; }
+  .h-quote { font-size: 14px; font-style: italic; margin-bottom: 28px; }
+  .h-quote .attr { font-style: normal; font-weight: 500; }
+  .h-ctas { display: flex; gap: 12px; margin-bottom: 48px; }
+  .h-ctas a { padding: 11px 24px; border-radius: 8px; font-size: 14px; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; }
+  .h-stats { display: flex; gap: 48px; padding-top: 28px; }
+  .h-stats .num { font-size: 32px; font-weight: 700; letter-spacing: -1.5px; }
+  .h-stats .lbl { font-family: 'Geist Mono', monospace; font-size: 11px; margin-top: 3px; }
+
+  /* Terminal */
+  .trm { border-radius: 12px; overflow: hidden; width: 100%; }
+  .trm-bar {
+    padding: 10px 14px; display: flex; align-items: center; gap: 6px;
+    font-family: 'Geist Mono', monospace; font-size: 11px;
+  }
+  .trm-dot { width: 10px; height: 10px; border-radius: 50%; }
+  .trm-title { flex: 1; text-align: center; }
+  .trm-body {
+    padding: 20px; min-height: 300px;
+    font-family: 'Geist Mono', monospace; font-size: 13px; line-height: 1.8;
+  }
+  .trm-status {
+    padding: 5px 14px; font-family: 'Geist Mono', monospace;
+    font-size: 11px; font-weight: 600; display: flex; justify-content: space-between;
+  }
+
+  /* Cards */
+  .pg-cards {
+    padding: 16px 48px 56px; display: grid; grid-template-columns: 1fr 1fr; gap: 20px;
+  }
+  .pg-card {
+    border-radius: 14px; padding: 28px; position: relative; overflow: hidden;
+  }
+  .pg-card .stripe { position: absolute; top: 0; left: 0; right: 0; height: 3px; }
+  .pg-card .c-label {
+    font-family: 'Geist Mono', monospace; font-size: 11px;
+    text-transform: uppercase; letter-spacing: 2px; margin-bottom: 10px;
+  }
+  .pg-card h3 { font-size: 20px; font-weight: 700; letter-spacing: -0.3px; margin-bottom: 8px; }
+  .pg-card p { font-size: 13px; line-height: 1.5; margin-bottom: 16px; }
+  .pg-card .tags { display: flex; gap: 6px; flex-wrap: wrap; }
+  .pg-card .tags span {
+    font-family: 'Geist Mono', monospace; font-size: 11px;
+    padding: 3px 8px; border-radius: 4px;
+  }
+
+  /* Section label */
+  .pg-section-label {
+    padding: 0 48px; margin-bottom: 20px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .pg-section-label .tag {
+    font-family: 'Geist Mono', monospace; font-size: 12px; font-weight: 600;
+    letter-spacing: 1px;
+  }
+  .pg-section-label .title { font-size: 32px; font-weight: 700; letter-spacing: -1.5px; }
+  .pg-section-label .line { flex: 1; height: 1px; }
+
+  /* Noise overlay for texture */
+  .noise::after {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    background-size: 256px;
+    pointer-events: none;
+    opacity: 0.5;
+    z-index: 0;
+  }
+  .noise > * { position: relative; z-index: 1; }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- A: WARM PARCHMENT — like a workshop notebook   -->
+<!-- ═══════════════════════════════════════════════ -->
+<div class="divider">
+  <span class="badge" style="background:#b85c3c;">A</span>
+  <span class="label">Warm Parchment — workshop notebook feel</span>
+  <span class="hint">Scroll for all three ↓</span>
+</div>
+
+<div class="page noise" style="background:#ddd5c6;">
+  <div class="pg-nav" style="color:#3a3530; border-bottom:1px solid rgba(58,53,48,0.12);">
+    <div class="logo"><span style="color:#b85c3c;">~/</span>jeremyspofford</div>
+    <div class="links" style="color:#8a8078;">
+      <span style="color:#3a3530;">projects</span><span>stack</span><span>experience</span><span>blog</span>
+    </div>
+    <div class="status" style="color:#4a8a5a; background:rgba(74,138,90,0.12); border:1px solid rgba(74,138,90,0.2);">● Open to work</div>
+  </div>
+
+  <div class="pg-hero" style="color:#3a3530;">
+    <div>
+      <div class="h-label" style="color:#8a8078;"><div class="dot" style="background:#4a8a5a;"></div> Senior DevOps Engineer · Aria Labs</div>
+      <h1 class="h-name" style="color:#2a2520;">Jeremy<br>Spofford</h1>
+      <p class="h-desc" style="color:#6a6258;">12 years of making infrastructure <strong style="color:#2a2520;">boring on purpose</strong>. Now building the platform layer where DevOps meets AI.</p>
+      <p class="h-quote" style="color:#9a9088;">"Oh, that broke. That's okay — it's just part of engineering." <span class="attr" style="color:#6a6258;">— My 5-year-old, who gets it.</span></p>
+      <div class="h-ctas">
+        <a style="background:#3a3530; color:#e8e0d4;">See my work ↓</a>
+        <a style="border:1px solid rgba(58,53,48,0.25); color:#5a5248;">View Resume</a>
+      </div>
+      <div class="h-stats" style="border-top:1px solid rgba(58,53,48,0.15); color:#3a3530;">
+        <div><div class="num">30%</div><div class="lbl" style="color:#8a8078;">cloud cost reduction</div></div>
+        <div><div class="num">615</div><div class="lbl" style="color:#8a8078;">tests passing</div></div>
+        <div><div class="num">12+</div><div class="lbl" style="color:#8a8078;">years in production</div></div>
+        <div><div class="num">9</div><div class="lbl" style="color:#8a8078;">services in Nova</div></div>
+      </div>
+    </div>
+    <div>
+      <div class="trm" style="background:#2a2520; border:1px solid #3a352e; box-shadow: 0 20px 60px rgba(42,37,32,0.35);">
+        <div class="trm-bar" style="background:#322d27; border-bottom:1px solid #3a352e; color:#7a7268;">
+          <div class="trm-dot" style="background:#b85c3c;"></div>
+          <div class="trm-dot" style="background:#c8a040;"></div>
+          <div class="trm-dot" style="background:#4a8a5a;"></div>
+          <span class="trm-title">jeremy@aria-labs — nova — 120×36</span>
+        </div>
+        <div class="trm-body" style="color:#b0a898;">
+          <div style="color:#5a5248;"># aria-labs production — nova agent</div>
+          <br>
+          <div style="color:#d0c8b8;"><span style="color:#4a8a5a;">$</span> nova run --task "audit congressional votes"</div>
+          <br>
+          <div style="color:#7a7268;"><span style="color:#c8a040;">→</span> Connecting to congressional database...</div>
+          <div style="color:#7a7268;"><span style="color:#c8a040;">→</span> Loading 535 representatives...</div>
+          <div style="color:#7a7268;"><span style="color:#c8a040;">→</span> Analyzing voting patterns (119th Congress)...</div>
+          <div style="color:#7a7268;"><span style="color:#c8a040;">→</span> Cross-referencing campaign finance data...</div>
+          <div style="color:#7a7268;"><span style="color:#c8a040;">→</span> Computing accountability grades...</div>
+          <br>
+          <div style="color:#4a8a5a;">✓ Accountability report generated.</div>
+          <div style="color:#4a8a5a;">✓ Published to reps.arialabs.ai</div>
+          <div style="color:#4a8a5a;">✓ 615 tests passing. 0 failures.</div>
+          <br>
+          <div style="color:#d0c8b8;"><span style="color:#4a8a5a;">$</span> <span style="border-right:2px solid #b85c3c;">&nbsp;</span></div>
+        </div>
+        <div class="trm-status" style="background:#b85c3c; color:#e8e0d4;">
+          <span>NORMAL</span><span>jeremyspofford.dev | nova | utf-8</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="pg-section-label" style="color:#3a3530;">
+    <span class="tag" style="color:#b85c3c;">01 // projects</span>
+    <span class="title">Projects</span>
+    <div class="line" style="background:rgba(58,53,48,0.15);"></div>
+  </div>
+  <div class="pg-cards">
+    <div class="pg-card" style="background:#e8e0d4; border:1px solid rgba(58,53,48,0.1); color:#3a3530;">
+      <div class="stripe" style="background:linear-gradient(90deg,#4a8a5a,#4a8a5a 40%,transparent);"></div>
+      <div class="c-label" style="color:#8a8078;">Featured · Live</div>
+      <h3 style="color:#2a2520;">Reps Accountability Dashboard</h3>
+      <p style="color:#6a6258;">Real-time dashboard tracking every U.S. Congress member. 535 reps tracked. Democracy shouldn't be paywalled.</p>
+      <div class="tags"><span style="background:rgba(58,53,48,0.08); color:#6a6258;">Next.js</span><span style="background:rgba(58,53,48,0.08); color:#6a6258;">PostgreSQL</span><span style="background:rgba(58,53,48,0.08); color:#6a6258;">AWS</span></div>
+    </div>
+    <div class="pg-card" style="background:#e8e0d4; border:1px solid rgba(58,53,48,0.1); color:#3a3530;">
+      <div class="stripe" style="background:linear-gradient(90deg,#c8a040,#c8a040 40%,transparent);"></div>
+      <div class="c-label" style="color:#8a8078;">AI Infrastructure</div>
+      <h3 style="color:#2a2520;">Nova</h3>
+      <p style="color:#6a6258;">9-service AI platform. Graph memory, LLM routing, PyTorch re-ranker, GPU inference.</p>
+      <div class="tags"><span style="background:rgba(58,53,48,0.08); color:#6a6258;">Python</span><span style="background:rgba(58,53,48,0.08); color:#6a6258;">PyTorch</span><span style="background:rgba(58,53,48,0.08); color:#6a6258;">pgvector</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- B: WARM DARK — deep workshop, amber light      -->
+<!-- ═══════════════════════════════════════════════ -->
+<div class="divider">
+  <span class="badge" style="background:#c8874e;">B</span>
+  <span class="label">Warm Dark — deep workshop, amber light</span>
+</div>
+
+<div class="page noise" style="background:#1e1c18;">
+  <div class="pg-nav" style="color:#c8c0b0; border-bottom:1px solid rgba(200,192,176,0.08);">
+    <div class="logo"><span style="color:#c8874e;">~/</span>jeremyspofford</div>
+    <div class="links" style="color:#6a6458;">
+      <span style="color:#c8c0b0;">projects</span><span>stack</span><span>experience</span><span>blog</span>
+    </div>
+    <div class="status" style="color:#5aaa6a; background:rgba(90,170,106,0.1); border:1px solid rgba(90,170,106,0.2);">● Open to work</div>
+  </div>
+
+  <div class="pg-hero" style="color:#c8c0b0;">
+    <div>
+      <div class="h-label" style="color:#6a6458;"><div class="dot" style="background:#5aaa6a;"></div> Senior DevOps Engineer · Aria Labs</div>
+      <h1 class="h-name" style="color:#e8e0d0;">Jeremy<br>Spofford</h1>
+      <p class="h-desc" style="color:#8a8478;">12 years of making infrastructure <strong style="color:#e8e0d0;">boring on purpose</strong>. Now building the platform layer where DevOps meets AI.</p>
+      <p class="h-quote" style="color:#5a5448;">"Oh, that broke. That's okay — it's just part of engineering." <span class="attr" style="color:#7a7468;">— My 5-year-old, who gets it.</span></p>
+      <div class="h-ctas">
+        <a style="background:#c8874e; color:#1e1c18;">See my work ↓</a>
+        <a style="border:1px solid rgba(200,192,176,0.15); color:#8a8478;">View Resume</a>
+      </div>
+      <div class="h-stats" style="border-top:1px solid rgba(200,192,176,0.08); color:#c8c0b0;">
+        <div><div class="num" style="color:#e8e0d0;">30%</div><div class="lbl" style="color:#6a6458;">cloud cost reduction</div></div>
+        <div><div class="num" style="color:#e8e0d0;">615</div><div class="lbl" style="color:#6a6458;">tests passing</div></div>
+        <div><div class="num" style="color:#e8e0d0;">12+</div><div class="lbl" style="color:#6a6458;">years in production</div></div>
+        <div><div class="num" style="color:#e8e0d0;">9</div><div class="lbl" style="color:#6a6458;">services in Nova</div></div>
+      </div>
+    </div>
+    <div>
+      <div class="trm" style="background:#141210; border:1px solid #2a2822; box-shadow: 0 20px 60px rgba(0,0,0,0.5), 0 0 0 1px rgba(200,135,78,0.06);">
+        <div class="trm-bar" style="background:#1a1816; border-bottom:1px solid #2a2822; color:#5a5448;">
+          <div class="trm-dot" style="background:#c45a3c;"></div>
+          <div class="trm-dot" style="background:#c8a040;"></div>
+          <div class="trm-dot" style="background:#5aaa6a;"></div>
+          <span class="trm-title">jeremy@aria-labs — nova — 120×36</span>
+        </div>
+        <div class="trm-body" style="color:#908878;">
+          <div style="color:#4a4438;"># aria-labs production — nova agent</div>
+          <br>
+          <div style="color:#c8c0b0;"><span style="color:#5aaa6a;">$</span> nova run --task "audit congressional votes"</div>
+          <br>
+          <div style="color:#6a6458;"><span style="color:#c8874e;">→</span> Connecting to congressional database...</div>
+          <div style="color:#6a6458;"><span style="color:#c8874e;">→</span> Loading 535 representatives...</div>
+          <div style="color:#6a6458;"><span style="color:#c8874e;">→</span> Analyzing voting patterns (119th Congress)...</div>
+          <div style="color:#6a6458;"><span style="color:#c8874e;">→</span> Cross-referencing campaign finance data...</div>
+          <div style="color:#6a6458;"><span style="color:#c8874e;">→</span> Computing accountability grades...</div>
+          <br>
+          <div style="color:#5aaa6a;">✓ Accountability report generated.</div>
+          <div style="color:#5aaa6a;">✓ Published to reps.arialabs.ai</div>
+          <div style="color:#5aaa6a;">✓ 615 tests passing. 0 failures.</div>
+          <br>
+          <div style="color:#c8c0b0;"><span style="color:#5aaa6a;">$</span> <span style="border-right:2px solid #c8874e;">&nbsp;</span></div>
+        </div>
+        <div class="trm-status" style="background:#c8874e; color:#1e1c18;">
+          <span>NORMAL</span><span>jeremyspofford.dev | nova | utf-8</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="pg-section-label" style="color:#c8c0b0;">
+    <span class="tag" style="color:#c8874e;">01 // projects</span>
+    <span class="title" style="color:#e8e0d0;">Projects</span>
+    <div class="line" style="background:rgba(200,192,176,0.08);"></div>
+  </div>
+  <div class="pg-cards">
+    <div class="pg-card" style="background:#262420; border:1px solid rgba(200,192,176,0.06); color:#c8c0b0;">
+      <div class="stripe" style="background:linear-gradient(90deg,#5aaa6a,#5aaa6a 40%,transparent);"></div>
+      <div class="c-label" style="color:#6a6458;">Featured · Live</div>
+      <h3 style="color:#e8e0d0;">Reps Accountability Dashboard</h3>
+      <p style="color:#8a8478;">Real-time dashboard tracking every U.S. Congress member. 535 reps tracked. Democracy shouldn't be paywalled.</p>
+      <div class="tags"><span style="background:rgba(200,192,176,0.06); color:#8a8478;">Next.js</span><span style="background:rgba(200,192,176,0.06); color:#8a8478;">PostgreSQL</span><span style="background:rgba(200,192,176,0.06); color:#8a8478;">AWS</span></div>
+    </div>
+    <div class="pg-card" style="background:#262420; border:1px solid rgba(200,192,176,0.06); color:#c8c0b0;">
+      <div class="stripe" style="background:linear-gradient(90deg,#c8a040,#c8a040 40%,transparent);"></div>
+      <div class="c-label" style="color:#6a6458;">AI Infrastructure</div>
+      <h3 style="color:#e8e0d0;">Nova</h3>
+      <p style="color:#8a8478;">9-service AI platform. Graph memory, LLM routing, PyTorch re-ranker, GPU inference.</p>
+      <div class="tags"><span style="background:rgba(200,192,176,0.06); color:#8a8478;">Python</span><span style="background:rgba(200,192,176,0.06); color:#8a8478;">PyTorch</span><span style="background:rgba(200,192,176,0.06); color:#8a8478;">pgvector</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- C: CONCRETE MID-TONE — industrial, unexpected  -->
+<!-- ═══════════════════════════════════════════════ -->
+<div class="divider">
+  <span class="badge" style="background:#5a7a8a;">C</span>
+  <span class="label">Concrete Mid-Tone — industrial, unexpected</span>
+</div>
+
+<div class="page noise" style="background:#8a9294;">
+  <div class="pg-nav" style="color:#1a2028; border-bottom:1px solid rgba(26,32,40,0.1);">
+    <div class="logo"><span style="color:#d4a058;">~/</span>jeremyspofford</div>
+    <div class="links" style="color:#4a5560;">
+      <span style="color:#1a2028;">projects</span><span>stack</span><span>experience</span><span>blog</span>
+    </div>
+    <div class="status" style="color:#2a3c30; background:rgba(42,60,48,0.15); border:1px solid rgba(42,60,48,0.2);">● Open to work</div>
+  </div>
+
+  <div class="pg-hero" style="color:#1a2028;">
+    <div>
+      <div class="h-label" style="color:#4a5560;"><div class="dot" style="background:#4a9e6a;"></div> Senior DevOps Engineer · Aria Labs</div>
+      <h1 class="h-name" style="color:#f0f0ec;">Jeremy<br>Spofford</h1>
+      <p class="h-desc" style="color:#2a3438;">12 years of making infrastructure <strong style="color:#f0f0ec;">boring on purpose</strong>. Now building the platform layer where DevOps meets AI.</p>
+      <p class="h-quote" style="color:#5a6468;">"Oh, that broke. That's okay — it's just part of engineering." <span class="attr" style="color:#3a4448;">— My 5-year-old, who gets it.</span></p>
+      <div class="h-ctas">
+        <a style="background:#f0f0ec; color:#1a2028;">See my work ↓</a>
+        <a style="border:1px solid rgba(26,32,40,0.2); color:#2a3438;">View Resume</a>
+      </div>
+      <div class="h-stats" style="border-top:1px solid rgba(26,32,40,0.12); color:#1a2028;">
+        <div><div class="num" style="color:#f0f0ec;">30%</div><div class="lbl" style="color:#4a5560;">cloud cost reduction</div></div>
+        <div><div class="num" style="color:#f0f0ec;">615</div><div class="lbl" style="color:#4a5560;">tests passing</div></div>
+        <div><div class="num" style="color:#f0f0ec;">12+</div><div class="lbl" style="color:#4a5560;">years in production</div></div>
+        <div><div class="num" style="color:#f0f0ec;">9</div><div class="lbl" style="color:#4a5560;">services in Nova</div></div>
+      </div>
+    </div>
+    <div>
+      <div class="trm" style="background:#1a2028; border:1px solid #2a3438; box-shadow: 0 20px 60px rgba(26,32,40,0.4);">
+        <div class="trm-bar" style="background:#222a30; border-bottom:1px solid #2a3438; color:#5a6468;">
+          <div class="trm-dot" style="background:#d46a5a;"></div>
+          <div class="trm-dot" style="background:#d4a058;"></div>
+          <div class="trm-dot" style="background:#4a9e6a;"></div>
+          <span class="trm-title">jeremy@aria-labs — nova — 120×36</span>
+        </div>
+        <div class="trm-body" style="color:#8a9498;">
+          <div style="color:#3a4448;"># aria-labs production — nova agent</div>
+          <br>
+          <div style="color:#c8ccd0;"><span style="color:#4a9e6a;">$</span> nova run --task "audit congressional votes"</div>
+          <br>
+          <div style="color:#5a6468;"><span style="color:#d4a058;">→</span> Connecting to congressional database...</div>
+          <div style="color:#5a6468;"><span style="color:#d4a058;">→</span> Loading 535 representatives...</div>
+          <div style="color:#5a6468;"><span style="color:#d4a058;">→</span> Analyzing voting patterns (119th Congress)...</div>
+          <div style="color:#5a6468;"><span style="color:#d4a058;">→</span> Cross-referencing campaign finance data...</div>
+          <div style="color:#5a6468;"><span style="color:#d4a058;">→</span> Computing accountability grades...</div>
+          <br>
+          <div style="color:#4a9e6a;">✓ Accountability report generated.</div>
+          <div style="color:#4a9e6a;">✓ Published to reps.arialabs.ai</div>
+          <div style="color:#4a9e6a;">✓ 615 tests passing. 0 failures.</div>
+          <br>
+          <div style="color:#c8ccd0;"><span style="color:#4a9e6a;">$</span> <span style="border-right:2px solid #d4a058;">&nbsp;</span></div>
+        </div>
+        <div class="trm-status" style="background:#d4a058; color:#1a2028;">
+          <span>NORMAL</span><span>jeremyspofford.dev | nova | utf-8</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="pg-section-label" style="color:#1a2028;">
+    <span class="tag" style="color:#d4a058;">01 // projects</span>
+    <span class="title" style="color:#f0f0ec;">Projects</span>
+    <div class="line" style="background:rgba(26,32,40,0.12);"></div>
+  </div>
+  <div class="pg-cards">
+    <div class="pg-card" style="background:rgba(26,32,40,0.12); border:1px solid rgba(26,32,40,0.1); color:#1a2028;">
+      <div class="stripe" style="background:linear-gradient(90deg,#4a9e6a,#4a9e6a 40%,transparent);"></div>
+      <div class="c-label" style="color:#4a5560;">Featured · Live</div>
+      <h3 style="color:#f0f0ec;">Reps Accountability Dashboard</h3>
+      <p style="color:#2a3438;">Real-time dashboard tracking every U.S. Congress member. 535 reps tracked. Democracy shouldn't be paywalled.</p>
+      <div class="tags"><span style="background:rgba(26,32,40,0.1); color:#3a4448;">Next.js</span><span style="background:rgba(26,32,40,0.1); color:#3a4448;">PostgreSQL</span><span style="background:rgba(26,32,40,0.1); color:#3a4448;">AWS</span></div>
+    </div>
+    <div class="pg-card" style="background:rgba(26,32,40,0.12); border:1px solid rgba(26,32,40,0.1); color:#1a2028;">
+      <div class="stripe" style="background:linear-gradient(90deg,#d4a058,#d4a058 40%,transparent);"></div>
+      <div class="c-label" style="color:#4a5560;">AI Infrastructure</div>
+      <h3 style="color:#f0f0ec;">Nova</h3>
+      <p style="color:#2a3438;">9-service AI platform. Graph memory, LLM routing, PyTorch re-ranker, GPU inference.</p>
+      <div class="tags"><span style="background:rgba(26,32,40,0.1); color:#3a4448;">Python</span><span style="background:rgba(26,32,40,0.1); color:#3a4448;">PyTorch</span><span style="background:rgba(26,32,40,0.1); color:#3a4448;">pgvector</span></div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

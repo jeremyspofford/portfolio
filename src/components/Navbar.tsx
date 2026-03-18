@@ -9,6 +9,7 @@ const NAV_ITEMS = [
   { label: 'Work', href: '/#projects', sectionId: 'projects', shortcut: 'p' },
   { label: 'Skills', href: '/#skills', sectionId: 'skills', shortcut: 's' },
   { label: 'Experience', href: '/#experience', sectionId: 'experience', shortcut: 'e' },
+  { label: 'Philosophy', href: '/#philosophy', sectionId: 'philosophy', shortcut: null },
   { label: 'Blog', href: '/blog', sectionId: null, shortcut: null },
   { label: 'Resume', href: '/resume', sectionId: null, shortcut: null },
 ];

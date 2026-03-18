@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portfolio Redesign — Full Concept</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,200;0,9..40,400;0,9..40,500;0,9..40,700;0,9..40,800;1,9..40,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --black: #0a0a0a;
+    --white: #f5f5f3;
+    --gray-100: #e8e8e5;
+    --gray-200: #d0d0cc;
+    --gray-400: #8a8a85;
+    --gray-500: #6b6b66;
+    --gray-600: #4a4a46;
+    --gray-700: #2a2a27;
+    --gray-800: #1a1a18;
+    --gray-900: #111110;
+    --green: #4ade80;
+    --green-dim: #1a3a24;
+    --red: #ef4444;
+  }
+
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  .container { max-width: 1100px; margin: 0 auto; padding: 0 32px; }
+
+  /* ============ NAV ============ */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    padding: 16px 32px;
+    display: flex; align-items: center; justify-content: space-between;
+    background: rgba(10,10,10,0.8);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid transparent;
+  }
+  nav .logo {
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+    color: var(--gray-400);
+    letter-spacing: 1px;
+  }
+  nav .logo strong { color: var(--white); font-weight: 500; }
+  nav .links { display: flex; gap: 28px; }
+  nav .links a {
+    color: var(--gray-500);
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 400;
+    transition: color 0.2s;
+  }
+  nav .links a:hover { color: var(--white); }
+  nav .links a.active { color: var(--white); }
+  nav .status {
+    display: flex; align-items: center; gap: 6px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--green);
+  }
+  nav .status::before {
+    content: '';
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--green);
+    animation: pulse 2s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+
+  /* ============ HERO ============ */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-top: 80px;
+    position: relative;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: radial-gradient(ellipse 60% 40% at 50% 45%, rgba(255,255,255,0.015) 0%, transparent 100%);
+    pointer-events: none;
+  }
+  .hero-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    color: var(--gray-500);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 24px;
+  }
+  .hero-name {
+    font-family: 'DM Serif Display', serif;
+    font-size: 86px;
+    font-weight: 400;
+    line-height: 0.95;
+    letter-spacing: -3px;
+    color: var(--white);
+    margin-bottom: 24px;
+  }
+  .hero-name em {
+    font-style: italic;
+    color: var(--gray-200);
+  }
+  .hero-title {
+    font-size: 18px;
+    font-weight: 400;
+    color: var(--gray-400);
+    max-width: 520px;
+    line-height: 1.6;
+    margin-bottom: 40px;
+  }
+  .hero-title strong {
+    color: var(--white);
+    font-weight: 700;
+  }
+  .hero-stats {
+    display: flex;
+    gap: 48px;
+    padding-top: 32px;
+    border-top: 1px solid var(--gray-800);
+  }
+  .hero-stat .number {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 32px;
+    font-weight: 800;
+    color: var(--white);
+    letter-spacing: -1px;
+  }
+  .hero-stat .label {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--gray-500);
+    letter-spacing: 0.5px;
+    margin-top: 4px;
+  }
+  .hero-ctas {
+    display: flex; gap: 16px; margin-bottom: 48px;
+  }
+  .btn-primary {
+    background: var(--white);
+    color: var(--black);
+    padding: 10px 24px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+  .btn-primary:hover { background: var(--gray-100); transform: translateY(-1px); }
+  .btn-secondary {
+    background: transparent;
+    color: var(--gray-400);
+    padding: 10px 24px;
+    border: 1px solid var(--gray-700);
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+  .btn-secondary:hover { color: var(--white); border-color: var(--gray-500); }
+
+  /* ============ SECTION SHARED ============ */
+  .section { padding: 120px 0; }
+  .section-header {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    margin-bottom: 56px;
+  }
+  .section-number {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    color: var(--gray-600);
+  }
+  .section-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 42px;
+    font-weight: 400;
+    letter-spacing: -1px;
+  }
+  .section-line {
+    flex: 1;
+    height: 1px;
+    background: var(--gray-800);
+  }
+
+  /* ============ PROJECTS ============ */
+  .projects-grid { display: flex; flex-direction: column; gap: 24px; }
+
+  /* Hero project — light card (the contrast pop) */
+  .project-hero {
+    background: var(--white);
+    color: var(--black);
+    border-radius: 12px;
+    padding: 40px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    position: relative;
+    overflow: hidden;
+  }
+  .project-hero::after {
+    content: '';
+    position: absolute;
+    top: -1px; left: 60px; right: 60px;
+    height: 2px;
+    background: var(--green);
+    border-radius: 0 0 2px 2px;
+  }
+  .project-hero .project-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--gray-500);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .project-hero .project-label .live-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--green);
+  }
+  .project-hero .project-name {
+    font-family: 'DM Serif Display', serif;
+    font-size: 32px;
+    letter-spacing: -0.5px;
+    margin-bottom: 12px;
+    color: var(--black);
+  }
+  .project-hero .project-desc {
+    color: var(--gray-500);
+    font-size: 15px;
+    line-height: 1.6;
+    margin-bottom: 20px;
+  }
+  .project-hero .project-tech {
+    display: flex; gap: 6px; flex-wrap: wrap;
+  }
+  .project-hero .project-tech span {
+    background: var(--gray-100);
+    color: var(--gray-600);
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-family: 'DM Mono', monospace;
+  }
+  .project-hero .project-metric {
+    font-size: 48px;
+    font-weight: 800;
+    color: var(--black);
+    letter-spacing: -2px;
+    margin-bottom: 4px;
+  }
+  .project-hero .project-metric-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--gray-500);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  /* Secondary projects — dark cards */
+  .project-row { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  .project-card {
+    background: var(--gray-900);
+    border: 1px solid var(--gray-800);
+    border-radius: 12px;
+    padding: 32px;
+    transition: all 0.3s ease;
+    position: relative;
+  }
+  .project-card:hover {
+    border-color: var(--gray-600);
+    transform: translateY(-2px);
+  }
+  .project-card .project-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--gray-600);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 12px;
+  }
+  .project-card .project-name {
+    font-family: 'DM Serif Display', serif;
+    font-size: 24px;
+    letter-spacing: -0.5px;
+    margin-bottom: 8px;
+    color: var(--white);
+  }
+  .project-card .project-desc {
+    color: var(--gray-500);
+    font-size: 14px;
+    line-height: 1.5;
+    margin-bottom: 20px;
+  }
+  .project-card .project-tech {
+    display: flex; gap: 6px; flex-wrap: wrap;
+  }
+  .project-card .project-tech span {
+    background: var(--gray-800);
+    color: var(--gray-500);
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-family: 'DM Mono', monospace;
+  }
+  .project-card .accent-bar {
+    position: absolute;
+    top: -1px; left: 32px; width: 40px;
+    height: 2px;
+    border-radius: 0 0 2px 2px;
+  }
+
+  /* ============ SKILLS ============ */
+  .skills-content {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 64px;
+  }
+  .skill-group { margin-bottom: 36px; }
+  .skill-group-title {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--gray-500);
+    margin-bottom: 16px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--gray-800);
+  }
+  .skill-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+  .skill-tag {
+    padding: 6px 14px;
+    border-radius: 4px;
+    font-size: 13px;
+    font-weight: 500;
+    background: var(--gray-900);
+    color: var(--gray-200);
+    border: 1px solid var(--gray-800);
+  }
+  .skill-tag.expert {
+    background: var(--white);
+    color: var(--black);
+    border-color: var(--white);
+    font-weight: 700;
+  }
+  .skills-sidebar .sidebar-card {
+    background: var(--gray-900);
+    border: 1px solid var(--gray-800);
+    border-radius: 8px;
+    padding: 24px;
+    margin-bottom: 16px;
+  }
+  .sidebar-card .sidebar-value {
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--white);
+    letter-spacing: -1px;
+  }
+  .sidebar-card .sidebar-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--gray-500);
+    letter-spacing: 0.5px;
+    margin-top: 4px;
+  }
+  .cert-badge {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px;
+    background: var(--gray-900);
+    border: 1px solid var(--gray-800);
+    border-radius: 8px;
+    margin-top: 16px;
+  }
+  .cert-badge .cert-icon {
+    width: 32px; height: 32px;
+    border-radius: 6px;
+    background: var(--green-dim);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px;
+  }
+  .cert-badge .cert-info .cert-name {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--white);
+  }
+  .cert-badge .cert-info .cert-status {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--green);
+  }
+
+  /* ============ EXPERIENCE ============ */
+  .exp-timeline { position: relative; }
+  .exp-item {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 40px;
+    padding: 32px 0;
+    border-bottom: 1px solid var(--gray-800);
+    position: relative;
+  }
+  .exp-item:last-child { border-bottom: none; }
+  .exp-date {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    color: var(--gray-500);
+    letter-spacing: 0.5px;
+    padding-top: 4px;
+  }
+  .exp-date .current {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    color: var(--green);
+    font-weight: 500;
+  }
+  .exp-date .current::before {
+    content: '';
+    width: 5px; height: 5px;
+    border-radius: 50%;
+    background: var(--green);
+  }
+  .exp-role {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 4px;
+    letter-spacing: -0.3px;
+  }
+  .exp-company {
+    font-size: 15px;
+    color: var(--gray-400);
+    margin-bottom: 12px;
+  }
+  .exp-details {
+    color: var(--gray-500);
+    font-size: 14px;
+    line-height: 1.6;
+  }
+  .exp-highlight {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--gray-900);
+    border: 1px solid var(--gray-800);
+    border-radius: 4px;
+    padding: 4px 10px;
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    color: var(--white);
+    margin-top: 12px;
+  }
+
+  /* ============ CONTACT ============ */
+  .contact-content {
+    display: flex;
+    align-items: baseline;
+    gap: 40px;
+  }
+  .contact-cta {
+    font-family: 'DM Serif Display', serif;
+    font-size: 48px;
+    letter-spacing: -1.5px;
+    line-height: 1.1;
+    flex: 1;
+  }
+  .contact-cta em { font-style: italic; color: var(--gray-400); }
+  .contact-links {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .contact-link {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 20px;
+    background: var(--gray-900);
+    border: 1px solid var(--gray-800);
+    border-radius: 8px;
+    color: var(--white);
+    text-decoration: none;
+    font-size: 14px;
+    transition: all 0.2s;
+    min-width: 280px;
+  }
+  .contact-link:hover {
+    border-color: var(--gray-600);
+    transform: translateX(4px);
+  }
+  .contact-link .link-icon {
+    width: 32px; height: 32px;
+    border-radius: 6px;
+    background: var(--gray-800);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px;
+    color: var(--gray-400);
+  }
+
+  /* ============ FOOTER ============ */
+  footer {
+    padding: 32px;
+    border-top: 1px solid var(--gray-800);
+    text-align: center;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--gray-600);
+  }
+
+  /* ============ CONCEPT NOTE ============ */
+  .concept-note {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    background: var(--green);
+    color: var(--black);
+    text-align: center;
+    padding: 8px;
+    font-size: 12px;
+    font-weight: 600;
+    z-index: 200;
+    font-family: 'DM Mono', monospace;
+  }
+  nav { top: 30px; }
+  .hero { padding-top: 110px; }
+</style>
+</head>
+<body>
+
+<div class="concept-note">DESIGN CONCEPT — Not final. Scroll to see full page flow.</div>
+
+<!-- NAV -->
+<nav>
+  <div class="logo"><strong>JS</strong> / portfolio</div>
+  <div class="links">
+    <a href="#" class="active">Work</a>
+    <a href="#">Stack</a>
+    <a href="#">Experience</a>
+    <a href="#">Contact</a>
+  </div>
+  <div class="status">Open to work</div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-label">Senior DevOps Engineer · Founder of Aria Labs</div>
+    <h1 class="hero-name">Jeremy<br><em>Spofford</em></h1>
+    <p class="hero-title">I build civic tech that holds power <strong>accountable</strong> — then ship it to production without drama. 12 years of making infrastructure boring on purpose.</p>
+    <div class="hero-ctas">
+      <a href="#" class="btn-primary">View Projects</a>
+      <a href="#" class="btn-secondary">Resume</a>
+    </div>
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <div class="number">30%</div>
+        <div class="label">cloud cost reduction</div>
+      </div>
+      <div class="hero-stat">
+        <div class="number">615</div>
+        <div class="label">tests passing</div>
+      </div>
+      <div class="hero-stat">
+        <div class="number">12+</div>
+        <div class="label">years in production</div>
+      </div>
+      <div class="hero-stat">
+        <div class="number">535</div>
+        <div class="label">reps tracked</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section class="section">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-number">01</span>
+      <h2 class="section-title">Work</h2>
+      <div class="section-line"></div>
+    </div>
+
+    <div class="projects-grid">
+      <!-- Hero project — LIGHT CARD (the contrast pop) -->
+      <div class="project-hero">
+        <div>
+          <div class="project-label"><span class="live-dot"></span> Live at reps.arialabs.ai</div>
+          <div class="project-name">Reps Accountability Dashboard</div>
+          <p class="project-desc">Real-time dashboard tracking every U.S. Congress member. Votes, bills, campaign finance, known scandals. Democracy shouldn't be paywalled.</p>
+          <div class="project-tech">
+            <span>Next.js</span>
+            <span>PostgreSQL</span>
+            <span>Python</span>
+            <span>AWS</span>
+            <span>OpenFEC</span>
+          </div>
+        </div>
+        <div style="display: flex; flex-direction: column; justify-content: center; align-items: flex-end; text-align: right;">
+          <div class="project-metric">535</div>
+          <div class="project-metric-label">Representatives Tracked</div>
+          <div style="margin-top: 24px; background: #f0f0ed; border-radius: 8px; padding: 16px 20px; width: 100%;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; padding-bottom: 8px; border-bottom: 1px solid #e0e0dd;">
+              <span style="font-size: 12px; color: #6b6b66; font-family: 'DM Mono', monospace;">Sen. Warren (D-MA)</span>
+              <span style="background: #dcfce7; color: #166534; padding: 2px 8px; border-radius: 3px; font-size: 11px; font-weight: 600;">A-</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; padding-bottom: 8px; border-bottom: 1px solid #e0e0dd;">
+              <span style="font-size: 12px; color: #6b6b66; font-family: 'DM Mono', monospace;">Rep. Jordan (R-OH)</span>
+              <span style="background: #fef9c3; color: #854d0e; padding: 2px 8px; border-radius: 3px; font-size: 11px; font-weight: 600;">C-</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <span style="font-size: 12px; color: #6b6b66; font-family: 'DM Mono', monospace;">Sen. Collins (R-ME)</span>
+              <span style="background: #dbeafe; color: #1e40af; padding: 2px 8px; border-radius: 3px; font-size: 11px; font-weight: 600;">B+</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Two secondary cards -->
+      <div class="project-row">
+        <div class="project-card">
+          <div class="accent-bar" style="background: #f59e0b;"></div>
+          <div class="project-label">Epstein Files Explorer</div>
+          <div class="project-name">Network Mapper</div>
+          <p class="project-desc">Full-text search engine for court documents with connection graphs and a 70+ person network map. Victim privacy protections built in.</p>
+          <div class="project-tech">
+            <span>Elasticsearch</span>
+            <span>Python</span>
+            <span>pgvector</span>
+          </div>
+        </div>
+
+        <div class="project-card">
+          <div class="accent-bar" style="background: #4ade80;"></div>
+          <div class="project-label">Nova AI Platform</div>
+          <div class="project-name">Persistent Memory</div>
+          <p class="project-desc">Custom AI assistant with semantic memory via pgvector. One persistent brain across Telegram, CLI, and Web. Context never lost.</p>
+          <div class="project-tech">
+            <span>Python</span>
+            <span>pgvector</span>
+            <span>Claude API</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Third card full width but dark -->
+      <div class="project-card">
+        <div class="accent-bar" style="background: #818cf8;"></div>
+        <div class="project-label">Suppr</div>
+        <div class="project-name" style="display: flex; align-items: baseline; gap: 16px;">Social Dining App <span style="font-family: 'DM Mono', monospace; font-size: 12px; color: var(--gray-500); font-weight: 400;">72h to MVP</span></div>
+        <p class="project-desc">Connecting people through shared meals. Find your next dinner companion. Built for real community — not engagement metrics.</p>
+        <div class="project-tech">
+          <span>React Native</span>
+          <span>Node.js</span>
+          <span>PostgreSQL</span>
+          <span>Expo</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section class="section" style="background: var(--gray-900); border-top: 1px solid var(--gray-800); border-bottom: 1px solid var(--gray-800);">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-number">02</span>
+      <h2 class="section-title">Stack</h2>
+      <div class="section-line"></div>
+    </div>
+
+    <div class="skills-content">
+      <div>
+        <div class="skill-group">
+          <div class="skill-group-title">Expert — 5+ years, production-grade</div>
+          <div class="skill-tags">
+            <span class="skill-tag expert">Terraform</span>
+            <span class="skill-tag expert">Linux</span>
+            <span class="skill-tag expert">TypeScript</span>
+            <span class="skill-tag expert">CI/CD</span>
+            <span class="skill-tag expert">Docker</span>
+            <span class="skill-tag expert">Bash</span>
+            <span class="skill-tag expert">Git</span>
+            <span class="skill-tag expert">IaC</span>
+            <span class="skill-tag expert">IAM & Security</span>
+            <span class="skill-tag expert">Networking</span>
+          </div>
+        </div>
+        <div class="skill-group">
+          <div class="skill-group-title">Proficient — 2-4 years, shipped</div>
+          <div class="skill-tags">
+            <span class="skill-tag">AWS</span>
+            <span class="skill-tag">GCP</span>
+            <span class="skill-tag">Python</span>
+            <span class="skill-tag">Ansible</span>
+            <span class="skill-tag">PostgreSQL</span>
+            <span class="skill-tag">Redis</span>
+            <span class="skill-tag">Datadog</span>
+          </div>
+        </div>
+        <div class="skill-group">
+          <div class="skill-group-title">Familiar — learning / projects</div>
+          <div class="skill-tags">
+            <span class="skill-tag" style="opacity: 0.6;">AWS CDK</span>
+            <span class="skill-tag" style="opacity: 0.6;">Prometheus</span>
+            <span class="skill-tag" style="opacity: 0.6;">Grafana</span>
+            <span class="skill-tag" style="opacity: 0.6;">LLM APIs</span>
+            <span class="skill-tag" style="opacity: 0.6;">GitHub Actions</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="skills-sidebar">
+        <div class="sidebar-card">
+          <div class="sidebar-value">12+</div>
+          <div class="sidebar-label">years shipping infra</div>
+        </div>
+        <div class="sidebar-card">
+          <div class="sidebar-value">AWS + GCP</div>
+          <div class="sidebar-label">primary platforms</div>
+        </div>
+        <div class="cert-badge">
+          <div class="cert-icon">🛡</div>
+          <div class="cert-info">
+            <div class="cert-name">GCP Associate Cloud Engineer</div>
+            <div class="cert-status">Active · expires 2028</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section class="section">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-number">03</span>
+      <h2 class="section-title">Experience</h2>
+      <div class="section-line"></div>
+    </div>
+
+    <div class="exp-timeline">
+      <div class="exp-item">
+        <div class="exp-date">
+          <div class="current">Current</div>
+          <div style="margin-top: 4px;">Nov 2022 —</div>
+        </div>
+        <div>
+          <div class="exp-role">Senior DevOps Engineer</div>
+          <div class="exp-company">VividCloud</div>
+          <p class="exp-details">30% cloud cost reduction across all environments. Dynamic preview environments tied to GitLab MRs. SSL cert renewal automation with GCP Secret Manager.</p>
+          <div class="exp-highlight">↓ 30% cloud spend</div>
+        </div>
+      </div>
+      <div class="exp-item">
+        <div class="exp-date">
+          <div>Jun 2019 — Jun 2021</div>
+        </div>
+        <div>
+          <div class="exp-role">DevOps Engineer</div>
+          <div class="exp-company">Tyler Technologies</div>
+          <p class="exp-details">CI/CD pipeline design with TeamCity and Azure DevOps. Puppet infrastructure automation for environment consistency.</p>
+        </div>
+      </div>
+      <div class="exp-item">
+        <div class="exp-date">
+          <div>Earlier roles</div>
+        </div>
+        <div>
+          <div class="exp-role">Systems Engineer → Desktop Support</div>
+          <div class="exp-company">MMC</div>
+          <p class="exp-details">Where the 12 years started. Progressed from desktop support through systems engineering.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="section" style="padding-bottom: 80px;">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-number">04</span>
+      <h2 class="section-title">Contact</h2>
+      <div class="section-line"></div>
+    </div>
+
+    <div class="contact-content">
+      <div class="contact-cta">
+        Let's build<br>something <em>boring.</em>
+      </div>
+      <div class="contact-links">
+        <a href="#" class="contact-link">
+          <div class="link-icon">@</div>
+          <div>
+            <div style="font-weight: 600;">Email</div>
+            <div style="color: var(--gray-500); font-size: 12px;">JeremySpofford@gmail.com</div>
+          </div>
+        </a>
+        <a href="#" class="contact-link">
+          <div class="link-icon">GH</div>
+          <div>
+            <div style="font-weight: 600;">GitHub</div>
+            <div style="color: var(--gray-500); font-size: 12px;">View repositories</div>
+          </div>
+        </a>
+        <a href="#" class="contact-link">
+          <div class="link-icon">LI</div>
+          <div>
+            <div style="font-weight: 600;">LinkedIn</div>
+            <div style="color: var(--gray-500); font-size: 12px;">Connect</div>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    Built with Next.js · Deployed on Cloudflare Pages · Designed with intention
+  </div>
+</footer>
+
+</body>
+</html>

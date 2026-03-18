@@ -45,15 +45,15 @@ const SKILL_TIERS = [
     ],
   },
   {
-    tier: "Familiar",
-    label: "Familiar",
-    description: "Used in projects, learning",
+    tier: "Building Toward",
+    label: "Building Toward",
+    description: "Active projects & learning",
     color: "#475569",
     dimColor: "rgba(71,85,105,0.06)",
     borderColor: "rgba(71,85,105,0.18)",
     skills: [
-      "AWS CDK", "Prometheus", "Grafana", "LLM APIs", "CloudFormation",
-      "GitHub Actions", "Liquibase",
+      "pgvector", "PyTorch", "LLM APIs", "vLLM / Local Inference",
+      "AWS CDK", "Prometheus", "Grafana", "GitHub Actions",
     ],
   },
 ];

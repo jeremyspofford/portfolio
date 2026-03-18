@@ -218,6 +218,56 @@ export function ExperienceTimeline({ items }: ExperienceTimelineProps) {
                     </span>
                   ))}
                 </div>
+
+                {/* VividCloud highlight cards */}
+                {active.content.company === "VividCloud" && (
+                  <div className="mt-6 pt-6 border-t border-[#3D4F6B]">
+                    <div className="font-mono text-[10px] text-[#F59E0B] uppercase tracking-widest mb-3">
+                      Key deliverables
+                    </div>
+                    <div className="grid sm:grid-cols-3 gap-3">
+                      {[
+                        {
+                          title: "Cloud Cost Optimization",
+                          description: "Shared review-app resources, Cloud Run scale-to-zero, build pipeline cleanup",
+                          metric: "↓ 30% monthly GCP spend",
+                          metricColor: "#10B981",
+                        },
+                        {
+                          title: "Dynamic Preview Environments",
+                          description: "PR-based staging tied to GitLab MRs with automatic teardown",
+                          metric: "Per-MR environments",
+                          metricColor: "#22D3EE",
+                        },
+                        {
+                          title: "Certificate Automation",
+                          description: "SSL renewal via GCP Secret Manager + Pub/Sub",
+                          metric: "Zero manual renewals",
+                          metricColor: "#22D3EE",
+                        },
+                      ].map((card) => (
+                        <div
+                          key={card.title}
+                          className="rounded-lg border border-[#3D4F6B] p-3"
+                          style={{ background: "#182240" }}
+                        >
+                          <h4 className="font-display font-semibold text-xs text-[#F1F5F9] mb-1">
+                            {card.title}
+                          </h4>
+                          <p className="text-[10px] text-[#CBD5E1] leading-relaxed mb-2">
+                            {card.description}
+                          </p>
+                          <span
+                            className="font-mono text-[10px] font-bold"
+                            style={{ color: card.metricColor }}
+                          >
+                            {card.metric}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </motion.div>
             </AnimatePresence>
           </div>

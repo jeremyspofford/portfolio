@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Color Systems — Full Scale</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Instrument Sans', sans-serif; overflow-x: hidden; }
+
+  .palette-divider {
+    padding: 40px 48px 20px;
+    background: #1a1a18;
+    font-family: 'Geist Mono', monospace;
+    display: flex; align-items: center; gap: 16px;
+    position: sticky; top: 0; z-index: 50;
+  }
+  .palette-divider .badge {
+    font-size: 13px; font-weight: 700; padding: 4px 12px;
+    border-radius: 4px; color: #fff;
+  }
+  .palette-divider .label {
+    font-size: 18px; font-weight: 700; color: #e8e8e5;
+    font-family: 'Instrument Sans', sans-serif;
+  }
+  .palette-divider .hint {
+    font-size: 12px; color: #666; margin-left: auto;
+  }
+
+  /* Shared structure */
+  .demo-page { min-height: 100vh; position: relative; }
+
+  .demo-nav {
+    padding: 14px 48px; display: flex; align-items: center;
+    justify-content: space-between; border-bottom-width: 1px; border-bottom-style: solid;
+    font-family: 'Geist Mono', monospace;
+  }
+  .demo-nav .logo { font-size: 14px; font-weight: 600; }
+  .demo-nav .links { display: flex; gap: 24px; font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .demo-nav .status { font-size: 11px; font-weight: 600; display: flex; align-items: center; gap: 6px; padding: 4px 12px; border-radius: 16px; }
+  .demo-nav .status::before { content: ''; width: 6px; height: 6px; border-radius: 50%; }
+
+  .demo-hero {
+    padding: 80px 48px 60px;
+    display: grid; grid-template-columns: 1fr 480px; gap: 48px; align-items: center;
+    min-height: 80vh;
+  }
+  .hero-label {
+    font-family: 'Geist Mono', monospace; font-size: 13px; margin-bottom: 16px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .hero-label .dot { width: 6px; height: 6px; border-radius: 50%; }
+  .hero-name { font-size: 68px; font-weight: 700; line-height: 0.95; letter-spacing: -3.5px; margin-bottom: 20px; }
+  .hero-desc { font-size: 18px; line-height: 1.65; margin-bottom: 10px; max-width: 460px; }
+  .hero-desc strong { font-weight: 600; }
+  .hero-quote { font-size: 14px; font-style: italic; margin-bottom: 28px; }
+  .hero-quote .attr { font-style: normal; font-weight: 500; }
+  .hero-ctas { display: flex; gap: 12px; margin-bottom: 48px; }
+  .cta-primary { padding: 11px 24px; border-radius: 8px; font-size: 14px; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; }
+  .cta-secondary { padding: 11px 24px; border-radius: 8px; font-size: 14px; font-weight: 500; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; border-width: 1px; border-style: solid; }
+  .hero-stats { display: flex; gap: 48px; padding-top: 28px; border-top-width: 1px; border-top-style: solid; }
+  .stat-num { font-size: 32px; font-weight: 700; letter-spacing: -1.5px; }
+  .stat-lbl { font-family: 'Geist Mono', monospace; font-size: 11px; margin-top: 3px; }
+
+  /* Terminal */
+  .terminal { border-radius: 12px; overflow: hidden; width: 100%; }
+  .term-bar {
+    padding: 10px 14px; display: flex; align-items: center; gap: 6px;
+    font-family: 'Geist Mono', monospace; font-size: 11px;
+    border-bottom-width: 1px; border-bottom-style: solid;
+  }
+  .term-dot { width: 10px; height: 10px; border-radius: 50%; }
+  .term-title { flex: 1; text-align: center; }
+  .term-body {
+    padding: 20px; min-height: 300px;
+    font-family: 'Geist Mono', monospace; font-size: 13px; line-height: 1.8;
+  }
+  .term-status {
+    padding: 5px 14px; font-family: 'Geist Mono', monospace;
+    font-size: 11px; font-weight: 600; display: flex; justify-content: space-between;
+  }
+
+  /* Project cards */
+  .demo-cards {
+    padding: 48px; display: grid; grid-template-columns: 1fr 1fr; gap: 20px;
+  }
+  .demo-card {
+    border-radius: 14px; padding: 28px; border-width: 1px; border-style: solid;
+    position: relative; overflow: hidden;
+  }
+  .card-stripe {
+    position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  }
+  .demo-card .card-label {
+    font-family: 'Geist Mono', monospace; font-size: 11px;
+    text-transform: uppercase; letter-spacing: 2px; margin-bottom: 10px;
+  }
+  .demo-card h3 { font-size: 20px; font-weight: 700; letter-spacing: -0.3px; margin-bottom: 8px; }
+  .demo-card p { font-size: 13px; line-height: 1.5; margin-bottom: 16px; }
+  .demo-card .tags { display: flex; gap: 6px; flex-wrap: wrap; }
+  .demo-card .tags span {
+    font-family: 'Geist Mono', monospace; font-size: 11px;
+    padding: 3px 8px; border-radius: 4px; border-width: 1px; border-style: solid;
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- PALETTE A: WARM CHARCOAL + TERRA COTTA     -->
+<!-- ═══════════════════════════════════════════ -->
+<div class="palette-divider">
+  <span class="badge" style="background:#c45a3c;">A</span>
+  <span class="label">Warm Charcoal + Terra Cotta</span>
+  <span class="hint">Scroll to see B and C below ↓</span>
+</div>
+
+<div class="demo-page" style="background:#fafaf7;">
+  <div class="demo-nav" style="background:#fafaf7; border-color:#e0ddd5; color:#2b2926;">
+    <div class="logo"><span style="color:#c45a3c;">~/</span>jeremyspofford</div>
+    <div class="links" style="color:#7a7770;">
+      <span style="color:#2b2926;">projects</span><span>stack</span><span>experience</span><span>blog</span>
+    </div>
+    <div class="status" style="color:#4a9e6a; background:rgba(74,158,106,0.1); border:1px solid rgba(74,158,106,0.2);">
+      <span style="width:6px;height:6px;border-radius:50%;background:#4a9e6a;display:inline-block;"></span>
+      Open to work
+    </div>
+  </div>
+
+  <div class="demo-hero" style="color:#2b2926;">
+    <div>
+      <div class="hero-label" style="color:#7a7770;"><div class="dot" style="background:#4a9e6a;"></div> Senior DevOps Engineer · Aria Labs</div>
+      <h1 class="hero-name">Jeremy<br>Spofford</h1>
+      <p class="hero-desc" style="color:#7a7770;">12 years of making infrastructure <strong style="color:#2b2926;">boring on purpose</strong>. Now building the platform layer where DevOps meets AI.</p>
+      <p class="hero-quote" style="color:#9a9790;">"Oh, that broke. That's okay — it's just part of engineering." <span class="attr" style="color:#7a7770;">— My 5-year-old, who gets it.</span></p>
+      <div class="hero-ctas">
+        <a class="cta-primary" style="background:#2b2926; color:#fafaf7;">See my work ↓</a>
+        <a class="cta-secondary" style="border-color:#e0ddd5; color:#7a7770;">View Resume</a>
+      </div>
+      <div class="hero-stats" style="border-color:#e0ddd5;">
+        <div><div class="stat-num">30%</div><div class="stat-lbl" style="color:#7a7770;">cloud cost reduction</div></div>
+        <div><div class="stat-num">615</div><div class="stat-lbl" style="color:#7a7770;">tests passing</div></div>
+        <div><div class="stat-num">12+</div><div class="stat-lbl" style="color:#7a7770;">years in production</div></div>
+        <div><div class="stat-num">9</div><div class="stat-lbl" style="color:#7a7770;">services in Nova</div></div>
+      </div>
+    </div>
+    <div>
+      <div class="terminal" style="background:#2b2926; border:1px solid #3d3a35; box-shadow: 0 24px 48px rgba(43,41,38,0.15);">
+        <div class="term-bar" style="background:#332f2b; border-color:#3d3a35; color:#7a7770;">
+          <div class="term-dot" style="background:#c45a3c;"></div>
+          <div class="term-dot" style="background:#d4a058;"></div>
+          <div class="term-dot" style="background:#4a9e6a;"></div>
+          <span class="term-title">jeremy@aria-labs — nova — 120×36</span>
+        </div>
+        <div class="term-body" style="color:#b5b0a5;">
+          <div style="color:#5a5650;"># aria-labs production — nova agent</div>
+          <br>
+          <div><span style="color:#4a9e6a;">$</span> nova run --task "audit congressional votes"</div>
+          <br>
+          <div style="color:#7a7770;"><span style="color:#d4a058;">→</span> Connecting to congressional database...</div>
+          <div style="color:#7a7770;"><span style="color:#d4a058;">→</span> Loading 535 representatives...</div>
+          <div style="color:#7a7770;"><span style="color:#d4a058;">→</span> Analyzing voting patterns (119th Congress)...</div>
+          <div style="color:#7a7770;"><span style="color:#d4a058;">→</span> Cross-referencing campaign finance data...</div>
+          <div style="color:#7a7770;"><span style="color:#d4a058;">→</span> Computing accountability grades...</div>
+          <br>
+          <div style="color:#4a9e6a;"><span>✓</span> Accountability report generated.</div>
+          <div style="color:#4a9e6a;"><span>✓</span> Published to reps.arialabs.ai</div>
+          <div style="color:#4a9e6a;"><span>✓</span> 615 tests passing. 0 failures.</div>
+          <br>
+          <div><span style="color:#4a9e6a;">$</span> <span style="border-right:2px solid #c45a3c;">&nbsp;</span></div>
+        </div>
+        <div class="term-status" style="background:#c45a3c; color:#fafaf7;">
+          <span>NORMAL</span>
+          <span>jeremyspofford.dev | nova | utf-8</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="demo-cards" style="background:#fafaf7;">
+    <div class="demo-card" style="background:#f0efe9; border-color:#e0ddd5; color:#2b2926;">
+      <div class="card-stripe" style="background:linear-gradient(90deg,#c45a3c,#c45a3c 40%,transparent);"></div>
+      <div class="card-label" style="color:#7a7770;">Featured · Live</div>
+      <h3>Reps Accountability Dashboard</h3>
+      <p style="color:#7a7770;">Real-time dashboard tracking every U.S. Congress member. 535 reps.</p>
+      <div class="tags"><span style="background:#fafaf7; border-color:#e0ddd5; color:#7a7770;">Next.js</span><span style="background:#fafaf7; border-color:#e0ddd5; color:#7a7770;">PostgreSQL</span><span style="background:#fafaf7; border-color:#e0ddd5; color:#7a7770;">AWS</span></div>
+    </div>
+    <div class="demo-card" style="background:#f0efe9; border-color:#e0ddd5; color:#2b2926;">
+      <div class="card-stripe" style="background:linear-gradient(90deg,#d4a058,#d4a058 40%,transparent);"></div>
+      <div class="card-label" style="color:#7a7770;">AI Infrastructure</div>
+      <h3>Nova</h3>
+      <p style="color:#7a7770;">9-service AI platform. Graph memory, LLM routing, PyTorch re-ranker.</p>
+      <div class="tags"><span style="background:#fafaf7; border-color:#e0ddd5; color:#7a7770;">Python</span><span style="background:#fafaf7; border-color:#e0ddd5; color:#7a7770;">PyTorch</span><span style="background:#fafaf7; border-color:#e0ddd5; color:#7a7770;">pgvector</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- PALETTE B: SAGE + FOREST                    -->
+<!-- ═══════════════════════════════════════════ -->
+<div class="palette-divider">
+  <span class="badge" style="background:#2d7d5f;">B</span>
+  <span class="label">Sage + Forest</span>
+</div>
+
+<div class="demo-page" style="background:#f5f7f2;">
+  <div class="demo-nav" style="background:#f5f7f2; border-color:#d2d9cb; color:#2a3328;">
+    <div class="logo"><span style="color:#2d7d5f;">~/</span>jeremyspofford</div>
+    <div class="links" style="color:#6b7c6e;">
+      <span style="color:#2a3328;">projects</span><span>stack</span><span>experience</span><span>blog</span>
+    </div>
+    <div class="status" style="color:#2d7d5f; background:rgba(45,125,95,0.08); border:1px solid rgba(45,125,95,0.2);">
+      <span style="width:6px;height:6px;border-radius:50%;background:#2d7d5f;display:inline-block;"></span>
+      Open to work
+    </div>
+  </div>
+
+  <div class="demo-hero" style="color:#2a3328;">
+    <div>
+      <div class="hero-label" style="color:#6b7c6e;"><div class="dot" style="background:#2d7d5f;"></div> Senior DevOps Engineer · Aria Labs</div>
+      <h1 class="hero-name">Jeremy<br>Spofford</h1>
+      <p class="hero-desc" style="color:#6b7c6e;">12 years of making infrastructure <strong style="color:#2a3328;">boring on purpose</strong>. Now building the platform layer where DevOps meets AI.</p>
+      <p class="hero-quote" style="color:#95a498;">"Oh, that broke. That's okay — it's just part of engineering." <span class="attr" style="color:#6b7c6e;">— My 5-year-old, who gets it.</span></p>
+      <div class="hero-ctas">
+        <a class="cta-primary" style="background:#2a3328; color:#f5f7f2;">See my work ↓</a>
+        <a class="cta-secondary" style="border-color:#d2d9cb; color:#6b7c6e;">View Resume</a>
+      </div>
+      <div class="hero-stats" style="border-color:#d2d9cb;">
+        <div><div class="stat-num">30%</div><div class="stat-lbl" style="color:#6b7c6e;">cloud cost reduction</div></div>
+        <div><div class="stat-num">615</div><div class="stat-lbl" style="color:#6b7c6e;">tests passing</div></div>
+        <div><div class="stat-num">12+</div><div class="stat-lbl" style="color:#6b7c6e;">years in production</div></div>
+        <div><div class="stat-num">9</div><div class="stat-lbl" style="color:#6b7c6e;">services in Nova</div></div>
+      </div>
+    </div>
+    <div>
+      <div class="terminal" style="background:#1e2a22; border:1px solid #2e3e32; box-shadow: 0 24px 48px rgba(30,42,34,0.2);">
+        <div class="term-bar" style="background:#253029; border-color:#2e3e32; color:#6b7c6e;">
+          <div class="term-dot" style="background:#ef6b5e;"></div>
+          <div class="term-dot" style="background:#b8930b;"></div>
+          <div class="term-dot" style="background:#4ade80;"></div>
+          <span class="term-title">jeremy@aria-labs — nova — 120×36</span>
+        </div>
+        <div class="term-body" style="color:#a8b8a5;">
+          <div style="color:#4a5e4d;"># aria-labs production — nova agent</div>
+          <br>
+          <div><span style="color:#4ade80;">$</span> nova run --task "audit congressional votes"</div>
+          <br>
+          <div style="color:#6b7c6e;"><span style="color:#b8930b;">→</span> Connecting to congressional database...</div>
+          <div style="color:#6b7c6e;"><span style="color:#b8930b;">→</span> Loading 535 representatives...</div>
+          <div style="color:#6b7c6e;"><span style="color:#b8930b;">→</span> Analyzing voting patterns (119th Congress)...</div>
+          <div style="color:#6b7c6e;"><span style="color:#b8930b;">→</span> Cross-referencing campaign finance data...</div>
+          <div style="color:#6b7c6e;"><span style="color:#b8930b;">→</span> Computing accountability grades...</div>
+          <br>
+          <div style="color:#4ade80;"><span>✓</span> Accountability report generated.</div>
+          <div style="color:#4ade80;"><span>✓</span> Published to reps.arialabs.ai</div>
+          <div style="color:#4ade80;"><span>✓</span> 615 tests passing. 0 failures.</div>
+          <br>
+          <div><span style="color:#4ade80;">$</span> <span style="border-right:2px solid #2d7d5f;">&nbsp;</span></div>
+        </div>
+        <div class="term-status" style="background:#2d7d5f; color:#f5f7f2;">
+          <span>NORMAL</span>
+          <span>jeremyspofford.dev | nova | utf-8</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="demo-cards" style="background:#f5f7f2;">
+    <div class="demo-card" style="background:#e8ece3; border-color:#d2d9cb; color:#2a3328;">
+      <div class="card-stripe" style="background:linear-gradient(90deg,#2d7d5f,#2d7d5f 40%,transparent);"></div>
+      <div class="card-label" style="color:#6b7c6e;">Featured · Live</div>
+      <h3>Reps Accountability Dashboard</h3>
+      <p style="color:#6b7c6e;">Real-time dashboard tracking every U.S. Congress member. 535 reps.</p>
+      <div class="tags"><span style="background:#f5f7f2; border-color:#d2d9cb; color:#6b7c6e;">Next.js</span><span style="background:#f5f7f2; border-color:#d2d9cb; color:#6b7c6e;">PostgreSQL</span><span style="background:#f5f7f2; border-color:#d2d9cb; color:#6b7c6e;">AWS</span></div>
+    </div>
+    <div class="demo-card" style="background:#e8ece3; border-color:#d2d9cb; color:#2a3328;">
+      <div class="card-stripe" style="background:linear-gradient(90deg,#b8930b,#b8930b 40%,transparent);"></div>
+      <div class="card-label" style="color:#6b7c6e;">AI Infrastructure</div>
+      <h3>Nova</h3>
+      <p style="color:#6b7c6e;">9-service AI platform. Graph memory, LLM routing, PyTorch re-ranker.</p>
+      <div class="tags"><span style="background:#f5f7f2; border-color:#d2d9cb; color:#6b7c6e;">Python</span><span style="background:#f5f7f2; border-color:#d2d9cb; color:#6b7c6e;">PyTorch</span><span style="background:#f5f7f2; border-color:#d2d9cb; color:#6b7c6e;">pgvector</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- PALETTE C: SLATE + COPPER                   -->
+<!-- ═══════════════════════════════════════════ -->
+<div class="palette-divider">
+  <span class="badge" style="background:#b87a4e;">C</span>
+  <span class="label">Slate + Copper</span>
+</div>
+
+<div class="demo-page" style="background:#f5f4f1;">
+  <div class="demo-nav" style="background:#f5f4f1; border-color:#d8d6d0; color:#27262a;">
+    <div class="logo"><span style="color:#b87a4e;">~/</span>jeremyspofford</div>
+    <div class="links" style="color:#807d78;">
+      <span style="color:#27262a;">projects</span><span>stack</span><span>experience</span><span>blog</span>
+    </div>
+    <div class="status" style="color:#4a9e6a; background:rgba(74,158,106,0.08); border:1px solid rgba(74,158,106,0.2);">
+      <span style="width:6px;height:6px;border-radius:50%;background:#4a9e6a;display:inline-block;"></span>
+      Open to work
+    </div>
+  </div>
+
+  <div class="demo-hero" style="color:#27262a;">
+    <div>
+      <div class="hero-label" style="color:#807d78;"><div class="dot" style="background:#4a9e6a;"></div> Senior DevOps Engineer · Aria Labs</div>
+      <h1 class="hero-name">Jeremy<br>Spofford</h1>
+      <p class="hero-desc" style="color:#807d78;">12 years of making infrastructure <strong style="color:#27262a;">boring on purpose</strong>. Now building the platform layer where DevOps meets AI.</p>
+      <p class="hero-quote" style="color:#a09d98;">"Oh, that broke. That's okay — it's just part of engineering." <span class="attr" style="color:#807d78;">— My 5-year-old, who gets it.</span></p>
+      <div class="hero-ctas">
+        <a class="cta-primary" style="background:#27262a; color:#f5f4f1;">See my work ↓</a>
+        <a class="cta-secondary" style="border-color:#d8d6d0; color:#807d78;">View Resume</a>
+      </div>
+      <div class="hero-stats" style="border-color:#d8d6d0;">
+        <div><div class="stat-num">30%</div><div class="stat-lbl" style="color:#807d78;">cloud cost reduction</div></div>
+        <div><div class="stat-num">615</div><div class="stat-lbl" style="color:#807d78;">tests passing</div></div>
+        <div><div class="stat-num">12+</div><div class="stat-lbl" style="color:#807d78;">years in production</div></div>
+        <div><div class="stat-num">9</div><div class="stat-lbl" style="color:#807d78;">services in Nova</div></div>
+      </div>
+    </div>
+    <div>
+      <div class="terminal" style="background:#27262a; border:1px solid #38373c; box-shadow: 0 24px 48px rgba(39,38,42,0.18);">
+        <div class="term-bar" style="background:#302f34; border-color:#38373c; color:#807d78;">
+          <div class="term-dot" style="background:#e06c5e;"></div>
+          <div class="term-dot" style="background:#b87a4e;"></div>
+          <div class="term-dot" style="background:#4a9e6a;"></div>
+          <span class="term-title">jeremy@aria-labs — nova — 120×36</span>
+        </div>
+        <div class="term-body" style="color:#b0ada6;">
+          <div style="color:#555459;"># aria-labs production — nova agent</div>
+          <br>
+          <div><span style="color:#4a9e6a;">$</span> nova run --task "audit congressional votes"</div>
+          <br>
+          <div style="color:#807d78;"><span style="color:#b87a4e;">→</span> Connecting to congressional database...</div>
+          <div style="color:#807d78;"><span style="color:#b87a4e;">→</span> Loading 535 representatives...</div>
+          <div style="color:#807d78;"><span style="color:#b87a4e;">→</span> Analyzing voting patterns (119th Congress)...</div>
+          <div style="color:#807d78;"><span style="color:#b87a4e;">→</span> Cross-referencing campaign finance data...</div>
+          <div style="color:#807d78;"><span style="color:#b87a4e;">→</span> Computing accountability grades...</div>
+          <br>
+          <div style="color:#4a9e6a;"><span>✓</span> Accountability report generated.</div>
+          <div style="color:#4a9e6a;"><span>✓</span> Published to reps.arialabs.ai</div>
+          <div style="color:#4a9e6a;"><span>✓</span> 615 tests passing. 0 failures.</div>
+          <br>
+          <div><span style="color:#4a9e6a;">$</span> <span style="border-right:2px solid #b87a4e;">&nbsp;</span></div>
+        </div>
+        <div class="term-status" style="background:#b87a4e; color:#f5f4f1;">
+          <span>NORMAL</span>
+          <span>jeremyspofford.dev | nova | utf-8</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="demo-cards" style="background:#f5f4f1;">
+    <div class="demo-card" style="background:#eae8e3; border-color:#d8d6d0; color:#27262a;">
+      <div class="card-stripe" style="background:linear-gradient(90deg,#b87a4e,#b87a4e 40%,transparent);"></div>
+      <div class="card-label" style="color:#807d78;">Featured · Live</div>
+      <h3>Reps Accountability Dashboard</h3>
+      <p style="color:#807d78;">Real-time dashboard tracking every U.S. Congress member. 535 reps.</p>
+      <div class="tags"><span style="background:#f5f4f1; border-color:#d8d6d0; color:#807d78;">Next.js</span><span style="background:#f5f4f1; border-color:#d8d6d0; color:#807d78;">PostgreSQL</span><span style="background:#f5f4f1; border-color:#d8d6d0; color:#807d78;">AWS</span></div>
+    </div>
+    <div class="demo-card" style="background:#eae8e3; border-color:#d8d6d0; color:#27262a;">
+      <div class="card-stripe" style="background:linear-gradient(90deg,#6a8fa8,#6a8fa8 40%,transparent);"></div>
+      <div class="card-label" style="color:#807d78;">AI Infrastructure</div>
+      <h3>Nova</h3>
+      <p style="color:#807d78;">9-service AI platform. Graph memory, LLM routing, PyTorch re-ranker.</p>
+      <div class="tags"><span style="background:#f5f4f1; border-color:#d8d6d0; color:#807d78;">Python</span><span style="background:#f5f4f1; border-color:#d8d6d0; color:#807d78;">PyTorch</span><span style="background:#f5f4f1; border-color:#d8d6d0; color:#807d78;">pgvector</span></div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

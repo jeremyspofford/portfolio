@@ -110,6 +110,15 @@ function delay(ms: number) {
   return new Promise<void>(resolve => setTimeout(resolve, ms));
 }
 
+function getKidAge(): number {
+  const now = new Date();
+  const birthYear = 2020;
+  const birthMonth = 10; // November (0-indexed)
+  let age = now.getFullYear() - birthYear;
+  if (now.getMonth() < birthMonth) age--;
+  return age;
+}
+
 export function Hero({ profile, certifications: _certifications }: HeroProps) {
   const { typedCommand, outputLines, phase } = useTerminalAnimation();
 
@@ -162,10 +171,19 @@ export function Hero({ profile, certifications: _certifications }: HeroProps) {
 
             {/* Single sentence — left-aligned */}
             <p className="text-[#CBD5E1] text-xl leading-relaxed max-w-2xl text-left">
-              I build civic tech that holds power{" "}
-              <span style={{ color: "#F59E0B", fontWeight: 600, fontStyle: "italic", letterSpacing: "0.02em" }}>accountable</span>
-              {" "}— tracking Congress and surfacing public records, then shipping it to production without drama.
+              12 years of making infrastructure{" "}
+              <strong className="text-primary font-bold">boring on purpose</strong>.
+              Now building the platform layer where DevOps meets AI.
             </p>
+
+            <blockquote className="border-l-2 border-[#F59E0B] pl-4 py-1 max-w-xl">
+              <p className="text-[#94A3B8] text-sm italic leading-relaxed">
+                &ldquo;Oh, that broke. That&apos;s okay — it&apos;s just part of engineering.&rdquo;
+              </p>
+              <cite className="text-[#475569] text-xs font-mono not-italic mt-1 block">
+                — My {getKidAge()}-year-old, who gets it.
+              </cite>
+            </blockquote>
 
             {/* CTA buttons */}
             <div className="flex flex-col sm:flex-row gap-3">

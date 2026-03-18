@@ -1,6 +1,6 @@
 "use client";
 
-import { ExternalLink, Github, ArrowUpRight } from "lucide-react";
+import { ExternalLink, Github, ArrowUpRight, BookOpen } from "lucide-react";
 import { ContentItem, StandaloneProjectContent } from "@/lib/api";
 import { motion } from "framer-motion";
 
@@ -15,6 +15,7 @@ const PROJECT_METADATA: Record<string, {
   problem?: string;
   solution?: string;
   github?: string;
+  docs?: string;
   accentColor?: string;
   tag?: string;
   isHero?: boolean;
@@ -24,7 +25,7 @@ const PROJECT_METADATA: Record<string, {
     metricLabel: "reps tracked",
     problem: "Voting records, campaign finance, and scandals are buried across dozens of government sites — by design.",
     solution: "Real-time dashboard tracking every U.S. Congress member. Votes, bills, campaign finance, known scandals. 615 tests. Democracy shouldn't be paywalled.",
-    github: "https://github.com/jeremyspofford",
+    github: "https://github.com/arialabs/accountability-dashboard",
     accentColor: "#22D3EE",
     tag: "Aria Labs",
     isHero: true,
@@ -34,7 +35,7 @@ const PROJECT_METADATA: Record<string, {
     metricLabel: "photo coverage",
     problem: "Court-released documents were scattered across hundreds of PDFs — no search, no structure, no accountability.",
     solution: "Full-text search engine for court documents with connection graphs, flight logs, and a 70+ person network map. Victim privacy protections built in from day one.",
-    github: "https://github.com/jeremyspofford",
+    github: "https://github.com/arialabs/epstein-files",
     accentColor: "#F59E0B",
     tag: "Aria Labs",
   },
@@ -43,16 +44,16 @@ const PROJECT_METADATA: Record<string, {
     metricLabel: "to MVP",
     problem: "Social media optimizes for outrage, not connection. People eat alone in cities full of strangers.",
     solution: "Social dining app connecting people through shared meals. Find your next dinner companion. Built for real community — not engagement metrics.",
-    github: "https://github.com/jeremyspofford",
     accentColor: "#10B981",
     tag: "Aria Labs",
   },
   "Nova AI Platform": {
-    metric: "3",
-    metricLabel: "channels unified",
-    problem: "AI assistants forget everything between sessions — no memory, no personalization, no continuity.",
-    solution: "Custom AI assistant with semantic memory via pgvector. One persistent brain across Telegram, CLI, and Web. Context never lost.",
-    github: "https://github.com/jeremyspofford",
+    metric: "10",
+    metricLabel: "services",
+    problem: "AI assistants forget everything between sessions — no memory, no personalization, no continuity. And every \"AI wrapper\" is just an API call with a system prompt.",
+    solution: "Self-directed autonomous platform. Define a goal — Nova decomposes it, executes through a 5-agent pipeline with guardrails and code review, and completes with minimal intervention. Brain-inspired Engram memory with spreading activation, Hebbian consolidation, and a working memory gate that curates context like a desk, not a transcript.",
+    github: "https://github.com/arialabs/nova",
+    docs: "https://arialabs.ai/nova/",
     accentColor: "#22D3EE",
     tag: "Aria Labs",
   },
@@ -403,7 +404,7 @@ function SupprMockup() {
 
 // ─── HERO PROJECT CARD ────────────────────────────────────────────────────────
 
-function HeroProjectCard({ item }: { item: ContentItem<StandaloneProjectContent> }) {
+function HeroProjectCard({ item, mockup }: { item: ContentItem<StandaloneProjectContent>; mockup?: React.ReactNode }) {
   const project = item.content;
   const meta = PROJECT_METADATA[project.title] || {};
 
@@ -513,6 +514,17 @@ function HeroProjectCard({ item }: { item: ContentItem<StandaloneProjectContent>
                   Live site
                 </a>
               )}
+              {meta.docs && (
+                <a
+                  href={meta.docs}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg border border-[#22D3EE]/40 text-[#22D3EE] text-sm font-bold hover:bg-[#22D3EE]/10 transition-colors"
+                >
+                  <BookOpen className="w-3.5 h-3.5" />
+                  Docs
+                </a>
+              )}
               {meta.github && (
                 <a
                   href={meta.github}
@@ -527,10 +539,12 @@ function HeroProjectCard({ item }: { item: ContentItem<StandaloneProjectContent>
             </div>
           </div>
 
-          {/* Right: Reps dashboard mockup */}
-          <div className="hidden lg:flex flex-col" style={{ minHeight: "340px" }}>
-            <RepsMockup />
-          </div>
+          {/* Right: mockup */}
+          {mockup && (
+            <div className="hidden lg:flex flex-col" style={{ minHeight: "340px" }}>
+              {mockup}
+            </div>
+          )}
         </div>
       </div>
     </motion.article>
@@ -705,11 +719,24 @@ function FeaturedCard({
   );
 }
 
-/** Nova AI Platform terminal mockup */
+/** Nova AI Platform architecture diagram mockup */
 function NovaMockup() {
+  const services = [
+    { name: "Orchestrator", color: "#10B981", desc: "5-agent pipeline, MCP" },
+    { name: "LLM Gateway", color: "#3B82F6", desc: "12+ providers, WoL" },
+    { name: "Memory", color: "#A855F7", desc: "engram graph, pgvector" },
+    { name: "Neural Router", color: "#F97316", desc: "PyTorch re-ranker" },
+    { name: "Cortex", color: "#EC4899", desc: "autonomous drives" },
+    { name: "Chat API", color: "#6366F1", desc: "WebSocket streaming" },
+    { name: "Chat Bridge", color: "#14B8A6", desc: "Telegram + Discord" },
+    { name: "Recovery", color: "#EF4444", desc: "backup + health" },
+    { name: "Dashboard", color: "#F59E0B", desc: "React admin UI" },
+    { name: "Website", color: "#8B5CF6", desc: "docs + landing" },
+  ];
+
   return (
     <div
-      className="rounded-xl overflow-hidden w-full h-full flex flex-col font-mono text-[12px]"
+      className="rounded-xl overflow-hidden w-full h-full flex flex-col"
       style={{
         background: "#080C12",
         border: "1px solid #1E293B",
@@ -726,60 +753,37 @@ function NovaMockup() {
           <div className="w-2.5 h-2.5 rounded-full" style={{ background: "#FEBC2E" }} />
           <div className="w-2.5 h-2.5 rounded-full" style={{ background: "#28C840" }} />
         </div>
-        <span className="text-[11px] font-mono text-[#4B5563] ml-2">nova-ai-platform — status</span>
+        <span className="text-[11px] font-mono text-[#4B5563] ml-2">nova — architecture</span>
       </div>
 
-      {/* Body */}
-      <div className="flex-1 p-4 space-y-2 leading-relaxed" style={{ color: "#94A3B8" }}>
-        {/* Box top */}
-        <div style={{ color: "#22D3EE" }}>┌─ nova-ai-platform ────────────────────┐</div>
-        <div>
-          <span style={{ color: "#22D3EE" }}>│</span>
-          {" "}Channels:{" "}
-          <span style={{ color: "#10B981" }}>Telegram ✓</span>{" "}
-          <span style={{ color: "#10B981" }}>Discord ✓</span>{" "}
-          <span style={{ color: "#10B981" }}>CLI ✓</span>
-          {"            "}
-          <span style={{ color: "#22D3EE" }}>│</span>
-        </div>
-        <div>
-          <span style={{ color: "#22D3EE" }}>│</span>
-          {" "}Memory:{" "}
-          <span style={{ color: "#F1F5F9" }}>2,847</span>{" "}
-          <span>facts indexed</span>
-          {"              "}
-          <span style={{ color: "#22D3EE" }}>│</span>
-        </div>
-        <div>
-          <span style={{ color: "#22D3EE" }}>│</span>
-          {" "}Uptime:{" "}
-          <span style={{ color: "#10B981" }}>99.7%</span>
-          {" (30d)"}
-          {"                      "}
-          <span style={{ color: "#22D3EE" }}>│</span>
-        </div>
-        <div>
-          <span style={{ color: "#22D3EE" }}>│</span>
-          {" "}Active conversations:{" "}
-          <span style={{ color: "#F59E0B" }}>3</span>
-          {"               "}
-          <span style={{ color: "#22D3EE" }}>│</span>
-        </div>
-        <div style={{ color: "#22D3EE" }}>└───────────────────────────────────────┘</div>
-        <div className="mt-2" style={{ color: "#22D3EE" }}>
-          <span>$ </span>
-          <span style={{ color: "#F1F5F9" }}>nova status --verbose</span>
-        </div>
-        <div style={{ color: "#10B981" }}>✓ pgvector memory: online</div>
-        <div style={{ color: "#10B981" }}>✓ Semantic search: ready</div>
-        <div style={{ color: "#10B981" }}>✓ All channels: healthy</div>
-        <div className="mt-1" style={{ color: "#22D3EE" }}>
-          <span>$ </span>
-          <span
-            className="inline-block w-[2px] h-[1em] align-text-bottom"
-            style={{ background: "#22D3EE", animation: "blink 1.2s step-end infinite" }}
-          />
-        </div>
+      {/* Service grid */}
+      <div className="flex-1 p-3 grid grid-cols-5 gap-1.5 content-start" style={{ color: "#94A3B8" }}>
+        {services.map((svc) => (
+          <div
+            key={svc.name}
+            className="rounded-lg p-2 border flex flex-col gap-1"
+            style={{
+              background: `${svc.color}08`,
+              borderColor: `${svc.color}30`,
+            }}
+          >
+            <div className="flex items-center gap-1">
+              <div
+                className="w-1.5 h-1.5 rounded-full flex-shrink-0"
+                style={{ background: svc.color }}
+              />
+              <span
+                className="text-[8px] font-mono font-semibold truncate"
+                style={{ color: svc.color }}
+              >
+                {svc.name}
+              </span>
+            </div>
+            <span className="text-[7px] font-mono text-[#64748B] leading-tight">
+              {svc.desc}
+            </span>
+          </div>
+        ))}
       </div>
 
       {/* Status bar */}
@@ -787,121 +791,12 @@ function NovaMockup() {
         className="px-4 py-2 border-t flex items-center justify-between"
         style={{ background: "#22D3EE", borderColor: "#22D3EE" }}
       >
-        <span className="font-mono text-[11px] font-bold" style={{ color: "#0A0E17" }}>NORMAL</span>
-        <span className="font-mono text-[11px]" style={{ color: "#0A0E17", opacity: 0.8 }}>nova  utf-8</span>
+        <span className="font-mono text-[11px] font-bold" style={{ color: "#0A0E17" }}>10 SERVICES</span>
+        <span className="font-mono text-[11px]" style={{ color: "#0A0E17", opacity: 0.8 }}>
+          docker compose · GPU overlay
+        </span>
       </div>
     </div>
-  );
-}
-
-// ─── NOVA CARD (medium, standalone) ──────────────────────────────────────────
-
-function NovaCard({ item }: { item: ContentItem<StandaloneProjectContent> }) {
-  const project = item.content;
-  const meta = PROJECT_METADATA[project.title] || {};
-
-  return (
-    <motion.article
-      initial={{ opacity: 0, y: 24 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-60px" }}
-      transition={{ duration: 0.5 }}
-      className="group relative rounded-2xl border border-[#3D4F6B] overflow-hidden card-hover-glow card-depth"
-      style={{ background: "#1F2B45" }}
-    >
-      <div className="absolute top-0 left-0 right-0 h-px" style={{ background: "linear-gradient(90deg, transparent, #22D3EE, transparent)" }} />
-
-      <div className="p-6 md:p-8 lg:p-10">
-        <div className="grid lg:grid-cols-[1fr_360px] gap-6 lg:gap-10 items-start">
-
-          {/* Left: content */}
-          <div className="space-y-5">
-            <div className="flex items-start justify-between gap-4">
-              <div>
-                <div className="flex items-center gap-2 mb-2">
-                  {meta.tag && (
-                    <span className="font-mono text-[10px] text-[#22D3EE] uppercase tracking-widest px-2 py-0.5 rounded border border-[#22D3EE]/20 bg-[#22D3EE]/05">
-                      {meta.tag}
-                    </span>
-                  )}
-                </div>
-                <h3 className="font-display font-bold text-2xl md:text-3xl text-[#F1F5F9] group-hover:text-[#22D3EE] transition-colors mb-2">
-                  {project.title}
-                </h3>
-                <p className="text-[#94A3B8] text-sm leading-relaxed max-w-2xl">
-                  {project.description}
-                </p>
-              </div>
-              {meta.metric && (
-                <div className="text-right flex-shrink-0">
-                  <div className="font-mono font-bold text-4xl leading-none" style={{ color: "#22D3EE" }}>
-                    {meta.metric}
-                  </div>
-                  <div className="font-mono text-[10px] text-[#CBD5E1] uppercase tracking-widest mt-1">
-                    {meta.metricLabel}
-                  </div>
-                </div>
-              )}
-            </div>
-
-            {meta.problem && (
-              <div className="grid sm:grid-cols-2 gap-4">
-                <div className="rounded-lg p-3 border border-[#3D4F6B]" style={{ background: "#111827" }}>
-                  <div className="font-mono text-[10px] text-[#CBD5E1] uppercase tracking-widest mb-1.5">Problem</div>
-                  <p className="text-[#CBD5E1] text-sm leading-relaxed">{meta.problem}</p>
-                </div>
-                <div className="rounded-lg p-3 border border-[#22D3EE]/15" style={{ background: "rgba(34,211,238,0.03)" }}>
-                  <div className="font-mono text-[10px] text-[#22D3EE] uppercase tracking-widest mb-1.5">Solution</div>
-                  <p className="text-[#CBD5E1] text-sm leading-relaxed">{meta.solution}</p>
-                </div>
-              </div>
-            )}
-
-            <div className="flex flex-wrap gap-2">
-              {project.technologies?.map((tech) => (
-                <span
-                  key={tech}
-                  className="px-2.5 py-1 rounded font-mono text-xs text-[#CBD5E1] border border-[#3D4F6B]"
-                  style={{ background: "#111827" }}
-                >
-                  {tech}
-                </span>
-              ))}
-            </div>
-
-            <div className="flex items-center gap-4">
-              {project.link && (
-                <a
-                  href={project.link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-[#22D3EE]/10 border border-[#22D3EE]/30 text-[#22D3EE] text-sm font-medium hover:bg-[#22D3EE]/20 transition-colors"
-                >
-                  <ExternalLink className="w-3.5 h-3.5" />
-                  Live site
-                </a>
-              )}
-              {meta.github && (
-                <a
-                  href={meta.github}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 text-[#CBD5E1] text-sm font-medium hover:text-[#F1F5F9] transition-colors"
-                >
-                  <Github className="w-4 h-4" />
-                  View source
-                </a>
-              )}
-            </div>
-          </div>
-
-          {/* Right: Nova terminal mockup */}
-          <div className="hidden lg:block" style={{ height: "340px" }}>
-            <NovaMockup />
-          </div>
-        </div>
-      </div>
-    </motion.article>
   );
 }
 
@@ -912,18 +807,18 @@ export function Projects({ items }: ProjectsProps) {
 
   if (!sortedItems.length) return null;
 
-  const HERO_TITLE = "Reps Accountability Dashboard";
+  const HERO_TITLE = "Nova AI Platform";
   const heroItem = sortedItems.find(item => item.content.title === HERO_TITLE);
 
-  const FEATURED_TITLES = ["Epstein Files Explorer", "Suppr"];
+  const FEATURED_TITLES = ["Reps Accountability Dashboard", "Epstein Files Explorer", "Suppr"];
   const featuredItems = sortedItems.filter(item => FEATURED_TITLES.includes(item.content.title));
   featuredItems.sort((a, b) => FEATURED_TITLES.indexOf(a.content.title) - FEATURED_TITLES.indexOf(b.content.title));
 
-  const novaItem = sortedItems.find(item => item.content.title === "Nova AI Platform");
-
   const MOCKUPS: Record<string, React.ReactNode> = {
+    "Reps Accountability Dashboard": <RepsMockup />,
     "Epstein Files Explorer": <EpsteinMockup />,
     "Suppr": <SupprMockup />,
+    "Nova AI Platform": <NovaMockup />,
   };
 
   return (
@@ -956,7 +851,7 @@ export function Projects({ items }: ProjectsProps) {
         {/* HERO project */}
         {heroItem && (
           <div className="mb-8">
-            <HeroProjectCard item={heroItem} />
+            <HeroProjectCard item={heroItem} mockup={MOCKUPS[heroItem.content.title]} />
           </div>
         )}
 
@@ -980,29 +875,6 @@ export function Projects({ items }: ProjectsProps) {
             />
           ))}
         </div>
-
-        {/* Nova AI Platform — promoted, standalone */}
-        {novaItem && (
-          <div className="mb-12">
-            <NovaCard item={novaItem} />
-          </div>
-        )}
-
-        {/* Also built — compact list replacing weak infra cards */}
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-40px" }}
-          transition={{ duration: 0.4 }}
-          className="mt-4 border-t border-[#1E293B] pt-6"
-        >
-          <h3 className="font-mono text-xs text-[#F59E0B] tracking-widest uppercase mb-3">Also built</h3>
-          <ul className="space-y-2 text-sm text-[#94A3B8]">
-            <li>• Cloud cost optimization pipeline — saved $12K/year across 3 cloud providers</li>
-            <li>• Dynamic preview environments — PR-based staging with automatic teardown</li>
-            <li>• Infrastructure documentation automation — Terraform → README generation</li>
-          </ul>
-        </motion.div>
 
       </div>
     </section>

@@ -5,7 +5,7 @@ content:
   role: Senior DevOps Engineer
   startDate: "2022-11"
   endDate: Present
-  description: Led cloud infrastructure optimization initiatives resulting in significant cost reductions. Enhanced CI/CD workflows with parallelized Terraform jobs and dynamic preview environments. Automated SSL certificate renewal processes using GCP Secret Manager and Pub/Sub.
+  description: "30% GCP cost reduction via shared review-app infrastructure (replacing full-stack per-MR environments), Cloud Run scale-to-zero for non-production services, and build pipeline cleanup (eliminating unnecessary container builds on every commit)."
   technologies:
     - GCP
     - Terraform
