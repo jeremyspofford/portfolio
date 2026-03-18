@@ -26,9 +26,10 @@ const SKILL_TIERS = [
     dimColor: "rgba(34,211,238,0.12)",
     borderColor: "rgba(34,211,238,0.25)",
     skills: [
-      "AWS", "Terraform", "Kubernetes", "Docker", "Linux",
-      "CI/CD", "Python", "Bash", "Git", "CloudFormation",
-      "GitHub Actions", "IAM & Security",
+      "Terraform", "OpenTofu", "Terragrunt", "Linux Administration", "TypeScript",
+      "CI/CD", "Bash", "Git", "GitLab", "Secrets Management", "IaC",
+      "IAM & Security", "Docker", "DAST/SAST", "Debian", "DynamoDB", "VPC/Subnet/Networking",
+      "API Gateway", "Private Service Connect", "VPS"
     ],
   },
   {
@@ -39,9 +40,8 @@ const SKILL_TIERS = [
     dimColor: "rgba(148,163,184,0.08)",
     borderColor: "rgba(148,163,184,0.2)",
     skills: [
-      "GCP", "Azure DevOps", "Ansible", "Prometheus", "Grafana",
-      "PostgreSQL", "Redis", "TypeScript", "Next.js", "Nginx",
-      "Datadog", "EKS", "GKE", "LLM APIs", "pgvector", "Semantic Search",
+      "AWS", "GCP", "Python", "Ansible", "Windows Administration", "Active Directory",
+      "PostgreSQL", "Redis", "Datadog", "PowerShell",
     ],
   },
   {
@@ -52,8 +52,8 @@ const SKILL_TIERS = [
     dimColor: "rgba(71,85,105,0.06)",
     borderColor: "rgba(71,85,105,0.18)",
     skills: [
-      "Rust", "Go", "Pulumi", "Vault", "Consul",
-      "ArgoCD", "Istio", "ClickHouse", "Kafka", "dbt", "RAG", "Fine-tuning",
+      "AWS CDK", "Prometheus", "Grafana", "LLM APIs", "CloudFormation",
+      "GitHub Actions", "Liquibase",
     ],
   },
 ];
@@ -230,11 +230,10 @@ export function Skills({ items, certifications = [] }: SkillsProps) {
                       <div className="flex items-center gap-2 mt-0.5">
                         <span className="font-mono text-[10px] text-[#CBD5E1]">{cert.issuer} · {cert.date}</span>
                         <span
-                          className={`font-mono text-[9px] uppercase tracking-widest px-1.5 py-0.5 rounded border ${
-                            cert.active
-                              ? "text-[#F59E0B] border-[#F59E0B]/30 bg-[#F59E0B]/08"
-                              : "text-[#475569] border-[#475569]/30"
-                          }`}
+                          className={`font-mono text-[9px] uppercase tracking-widest px-1.5 py-0.5 rounded border ${cert.active
+                            ? "text-[#F59E0B] border-[#F59E0B]/30 bg-[#F59E0B]/08"
+                            : "text-[#475569] border-[#475569]/30"
+                            }`}
                         >
                           {cert.active ? "Active" : "Expired"}
                         </span>
