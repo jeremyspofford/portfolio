@@ -1,0 +1,145 @@
+name: Agent Fleet
+
+on:
+  schedule:
+    # Weekly on Sundays at 6 AM UTC
+    - cron: '0 6 * * 0'
+  push:
+    branches:
+      - main
+    paths:
+      # Only run on push when source code changes, not docs/config
+      - 'src/**'
+      - 'backend/**'
+      - 'terraform/**'
+      - 'package.json'
+      - 'src/package.json'
+  workflow_dispatch:
+    inputs:
+      agents:
+        description: 'Agents to run (comma-separated, or "all")'
+        required: false
+        default: 'all'
+        type: string
+      phase:
+        description: 'Phase: suggest (issues only), draft (PRs), auto-merge (dependency bumps)'
+        required: false
+        default: 'suggest'
+        type: choice
+        options:
+          - suggest
+          - draft
+          - auto-merge
+
+# Prevent concurrent fleet runs
+concurrency:
+  group: agent-fleet
+  cancel-in-progress: false
+
+jobs:
+  # Determine which agents to run
+  setup:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.parse.outputs.matrix }}
+      phase: ${{ steps.parse.outputs.phase }}
+    steps:
+      - name: Parse inputs
+        id: parse
+        env:
+          INPUT_AGENTS: ${{ inputs.agents }}
+          INPUT_PHASE: ${{ inputs.phase }}
+          EVENT_NAME: ${{ github.event_name }}
+        run: |
+          ALL_AGENTS="security-audit,performance-review,architecture-review,api-quality,frontend-quality,test-coverage,dependency-health"
+
+          if [ "$EVENT_NAME" = "workflow_dispatch" ]; then
+            AGENTS="$INPUT_AGENTS"
+            PHASE="$INPUT_PHASE"
+          elif [ "$EVENT_NAME" = "schedule" ]; then
+            AGENTS="all"
+            PHASE="auto-merge"
+          else
+            # On push: only run security and dependency health (fast, high-value)
+            AGENTS="security-audit,dependency-health"
+            PHASE="suggest"
+          fi
+
+          if [ "$AGENTS" = "all" ] || [ -z "$AGENTS" ]; then
+            AGENTS="$ALL_AGENTS"
+          fi
+
+          # Convert comma-separated list to JSON array for matrix
+          MATRIX=$(echo "$AGENTS" | tr ',' '\n' | jq -R . | jq -sc '{"agent": .}')
+          echo "matrix=$MATRIX" >> $GITHUB_OUTPUT
+          echo "phase=$PHASE" >> $GITHUB_OUTPUT
+          echo "Running agents: $AGENTS (phase: $PHASE)"
+
+  # Run each agent as a separate job via matrix
+  run-agent:
+    needs: setup
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJson(needs.setup.outputs.matrix) }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        working-directory: src
+        run: npm ci
+
+      - name: Install Claude Code
+        run: npm install -g @anthropic-ai/claude-code
+
+      - name: Run agent
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          AGENT_NAME: ${{ matrix.agent }}
+          PHASE: ${{ needs.setup.outputs.phase }}
+        run: |
+          echo "Running agent: $AGENT_NAME (phase: $PHASE)"
+          claude --agent ".claude/agents/${AGENT_NAME}.md" \
+            --allowedTools "Bash,Read,Write,Edit,Glob,Grep,gh" \
+            --max-turns 30
+
+  # Auto-merge eligible dependency PRs
+  auto-merge:
+    needs: [setup, run-agent]
+    if: needs.setup.outputs.phase == 'auto-merge'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Auto-merge dependency PRs
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # Find open PRs with auto-merge label from agent-fleet
+          PRS=$(gh pr list --label "auto-merge,agent-fleet" --json number --jq '.[].number')
+          for PR in $PRS; do
+            echo "Checking PR #$PR for auto-merge eligibility..."
+
+            # Verify all checks passed
+            STATUS=$(gh pr checks "$PR" --json state --jq 'all(.[]; .state == "SUCCESS")')
+            if [ "$STATUS" = "true" ]; then
+              echo "All checks passed — merging PR #$PR"
+              gh pr merge "$PR" --squash --auto
+            else
+              echo "PR #$PR has pending or failed checks — skipping"
+            fi
+          done
