@@ -104,7 +104,7 @@ jobs:
 
       - name: Run agent
         env:
-          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
           AGENT_NAME: ${{ matrix.agent }}
           PHASE: ${{ needs.setup.outputs.phase }}
         run: |
