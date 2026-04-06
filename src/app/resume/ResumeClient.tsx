@@ -1,7 +1,8 @@
 'use client';
 
 import { useState } from 'react';
-import { Download } from 'lucide-react';
+import { Download, Printer, ChevronDown, FileText, FileDown, Loader2 } from 'lucide-react';
+import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
 import {
   ProfileContent,
   ExperienceContent,
@@ -12,6 +13,7 @@ import {
   CandidateSkill
 } from '@/lib/api';
 import { JobPostingMatcher } from '@/components/JobPostingMatcher';
+import { downloadResumePdf, downloadResumeDocx, downloadResumeTxt, type ResumeData } from '@/lib/resumeDownload';
 
 // Type for deliverable items
 interface DeliverableContent {
@@ -38,6 +40,21 @@ export function ResumeClient({ profile, experience, education, skills, certifica
     proficiency: s.content.proficiency
   }));
 
+  const [downloading, setDownloading] = useState<string | null>(null);
+
+  const resumeData: ResumeData = { profile: profile || undefined, experience, education, skills, certifications };
+
+  const handleDownload = async (format: string, fn: () => Promise<void> | void) => {
+    setDownloading(format);
+    try {
+      await fn();
+    } catch (err) {
+      console.error(`Download ${format} failed:`, err);
+    } finally {
+      setDownloading(null);
+    }
+  };
+
   return (
     <div className="container py-12 px-4 max-w-6xl mx-auto">
       <div className="flex justify-between items-start mb-8 print:hidden">
@@ -45,31 +62,99 @@ export function ResumeClient({ profile, experience, education, skills, certifica
           <h1 className="text-3xl font-bold tracking-tight mb-2">Resume</h1>
           <p className="text-muted-foreground">Professional experience and qualifications.</p>
         </div>
-        <div className="flex gap-4">
-          {process.env.NEXT_PUBLIC_SHOW_RESUME_DOWNLOAD === 'true' && (
-            <a
-              href="/resume.pdf"
-              download="JeremySpofford_Resume.pdf"
-              className="flex items-center gap-2 px-4 py-2 bg-secondary text-secondary-foreground rounded-md hover:bg-secondary/90 transition-colors shadow-sm"
-            >
-              <Download className="w-4 h-4" />
-              Download PDF
-            </a>
-          )}
+        <div className="flex gap-2">
           <button
-            className="flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 shadow-sm"
+            className="flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 shadow-sm text-sm"
             onClick={() => window.print()}
           >
-            <Download className="w-4 h-4" />
+            <Printer className="w-4 h-4" />
             Print / PDF
           </button>
+
+          <DropdownMenu.Root>
+            <DropdownMenu.Trigger asChild>
+              <button className="flex items-center gap-2 px-4 py-2 bg-secondary text-secondary-foreground rounded-md hover:bg-secondary/90 shadow-sm text-sm">
+                {downloading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Download className="w-4 h-4" />}
+                Download
+                <ChevronDown className="w-3 h-3 opacity-60" />
+              </button>
+            </DropdownMenu.Trigger>
+
+            <DropdownMenu.Portal>
+              <DropdownMenu.Content
+                className="min-w-[220px] rounded-lg p-1.5 shadow-xl border"
+                style={{ background: '#1F2B45', borderColor: '#3D4F6B' }}
+                sideOffset={5}
+                align="end"
+              >
+                <DropdownMenu.Label className="px-3 py-1.5 text-[10px] font-mono uppercase tracking-widest text-[#94A3B8]">
+                  Generated from data
+                </DropdownMenu.Label>
+
+                <DropdownMenu.Item
+                  className="flex items-center gap-2 px-3 py-2 text-sm text-[#F1F5F9] rounded-md cursor-pointer hover:bg-[#22D3EE]/10 hover:text-[#22D3EE] outline-none"
+                  onSelect={() => handleDownload('pdf', () => downloadResumePdf('resume-paper'))}
+                  disabled={downloading !== null}
+                >
+                  <FileDown className="w-4 h-4" />
+                  {downloading === 'pdf' ? 'Generating...' : 'Download PDF'}
+                </DropdownMenu.Item>
+
+                <DropdownMenu.Item
+                  className="flex items-center gap-2 px-3 py-2 text-sm text-[#F1F5F9] rounded-md cursor-pointer hover:bg-[#22D3EE]/10 hover:text-[#22D3EE] outline-none"
+                  onSelect={() => handleDownload('docx', () => downloadResumeDocx(resumeData))}
+                  disabled={downloading !== null}
+                >
+                  <FileDown className="w-4 h-4" />
+                  {downloading === 'docx' ? 'Generating...' : 'Download Word'}
+                </DropdownMenu.Item>
+
+                <DropdownMenu.Item
+                  className="flex items-center gap-2 px-3 py-2 text-sm text-[#F1F5F9] rounded-md cursor-pointer hover:bg-[#22D3EE]/10 hover:text-[#22D3EE] outline-none"
+                  onSelect={() => handleDownload('txt', () => downloadResumeTxt(resumeData))}
+                  disabled={downloading !== null}
+                >
+                  <FileDown className="w-4 h-4" />
+                  Download Text
+                </DropdownMenu.Item>
+
+                <DropdownMenu.Separator className="h-px my-1.5 mx-2" style={{ background: '#3D4F6B' }} />
+
+                <DropdownMenu.Label className="px-3 py-1.5 text-[10px] font-mono uppercase tracking-widest text-[#94A3B8]">
+                  Original files
+                </DropdownMenu.Label>
+
+                <DropdownMenu.Item asChild>
+                  <a
+                    href="/assets/JeremySpoffordSeniorDevOpsEngineer.pdf"
+                    download
+                    className="flex items-center gap-2 px-3 py-2 text-sm text-[#F1F5F9] rounded-md cursor-pointer hover:bg-[#22D3EE]/10 hover:text-[#22D3EE] outline-none"
+                  >
+                    <FileText className="w-4 h-4" />
+                    Original Resume (PDF)
+                  </a>
+                </DropdownMenu.Item>
+
+                <DropdownMenu.Item asChild>
+                  <a
+                    href="/assets/Jeremy-Spofford-Senior DevOps Engineer.docx"
+                    download
+                    className="flex items-center gap-2 px-3 py-2 text-sm text-[#F1F5F9] rounded-md cursor-pointer hover:bg-[#22D3EE]/10 hover:text-[#22D3EE] outline-none"
+                  >
+                    <FileText className="w-4 h-4" />
+                    Original Resume (Word)
+                  </a>
+                </DropdownMenu.Item>
+              </DropdownMenu.Content>
+            </DropdownMenu.Portal>
+          </DropdownMenu.Root>
         </div>
       </div>
 
       <div className="grid gap-8 lg:grid-cols-[1fr_380px]">
         {/* Main Resume Content - Paper Sheet */}
         <div className="relative">
-          <div className="bg-white border border-zinc-200 shadow-lg print:shadow-none print:border-none p-8 md:p-12 min-h-[11in] mx-auto print:mx-0 print:p-0">
+          <div id="resume-paper" className="bg-white border border-zinc-200 shadow-lg print:shadow-none print:border-none p-8 md:p-12 min-h-[11in] mx-auto print:mx-0 print:p-0">
             {/* Header */}
             <header className="border-b-2 border-zinc-900 pb-8 mb-8">
                 <>
