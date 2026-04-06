@@ -117,7 +117,7 @@ export function ExperienceTimeline({ items }: ExperienceTimelineProps) {
             </h2>
           </div>
           <p className="text-[#CBD5E1] text-lg max-w-2xl mt-4 text-left">
-            12 years of infrastructure work across enterprise, cloud-native, and startup environments.
+            8 years of infrastructure work across enterprise, cloud-native, and startup environments.
           </p>
         </motion.div>
 

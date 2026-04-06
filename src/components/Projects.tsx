@@ -27,7 +27,7 @@ const PROJECT_METADATA: Record<string, {
     solution: "Real-time dashboard tracking every U.S. Congress member. Votes, bills, campaign finance, known scandals. 615 tests. Democracy shouldn't be paywalled.",
     github: "https://github.com/arialabs/accountability-dashboard",
     accentColor: "#22D3EE",
-    tag: "Aria Labs",
+    tag: "Aria Labs POC",
     isHero: true,
   },
   "Epstein Files Explorer": {
@@ -37,7 +37,7 @@ const PROJECT_METADATA: Record<string, {
     solution: "Full-text search engine for court documents with connection graphs, flight logs, and a 70+ person network map. Victim privacy protections built in from day one.",
     github: "https://github.com/arialabs/epstein-files",
     accentColor: "#F59E0B",
-    tag: "Aria Labs",
+    tag: "Aria Labs POC",
   },
   "Suppr": {
     metric: "72h",
@@ -45,7 +45,7 @@ const PROJECT_METADATA: Record<string, {
     problem: "Social media optimizes for outrage, not connection. People eat alone in cities full of strangers.",
     solution: "Social dining app connecting people through shared meals. Find your next dinner companion. Built for real community — not engagement metrics.",
     accentColor: "#10B981",
-    tag: "Aria Labs",
+    tag: "Aria Labs POC",
   },
   "Nova AI Platform": {
     metric: "10",
@@ -55,7 +55,7 @@ const PROJECT_METADATA: Record<string, {
     github: "https://github.com/arialabs/nova",
     docs: "https://arialabs.ai/nova/",
     accentColor: "#22D3EE",
-    tag: "Aria Labs",
+    tag: "Aria Labs POC",
   },
 };
 
@@ -855,10 +855,10 @@ export function Projects({ items }: ProjectsProps) {
           </div>
         )}
 
-        {/* Aria Labs label */}
+        {/* Aria Labs POC label */}
         <div className="flex items-center gap-3 mb-6">
           <span className="font-mono text-xs text-[#22D3EE] uppercase tracking-widest px-2.5 py-1 rounded border border-[#22D3EE]/30 bg-[#22D3EE]/05">
-            Aria Labs
+            Aria Labs POC
           </span>
           <div className="h-px flex-1 bg-[#1E293B]" />
         </div>

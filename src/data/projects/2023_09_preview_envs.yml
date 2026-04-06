@@ -8,5 +8,5 @@ content:
     - GitLab
     - Terraform
     - GCP
-    - Kubernetes
+    - Cloud Run
   link: null

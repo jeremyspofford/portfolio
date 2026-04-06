@@ -30,7 +30,7 @@ export const metadata: Metadata = {
     template: '%s | Jeremy Spofford',
     default: 'Jeremy Spofford | Senior DevOps Engineer',
   },
-  description: "Senior DevOps Engineer with 12+ years building infrastructure that scales without drama. AWS, GCP, Terraform, Kubernetes — I eliminate toil and make systems reliable.",
+  description: "Senior DevOps Engineer with 8+ years building infrastructure that scales without drama. AWS, GCP, Terraform — I eliminate toil and make systems reliable.",
   openGraph: {
     type: 'website',
     locale: 'en_US',

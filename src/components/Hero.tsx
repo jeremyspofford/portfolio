@@ -125,7 +125,7 @@ export function Hero({ profile, certifications: _certifications }: HeroProps) {
   if (!profile) return null;
 
   return (
-    <section className="relative w-full min-h-[100dvh] flex items-center overflow-hidden" style={{ background: "#0A0E17" }}>
+    <section className="relative w-full flex items-center overflow-hidden" style={{ background: "#0A0E17" }}>
       {/* Background grid */}
       <div
         className="absolute inset-0 pointer-events-none"
@@ -154,7 +154,7 @@ export function Hero({ profile, certifications: _certifications }: HeroProps) {
 
       {/* Hero glow */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[600px] rounded-full opacity-[0.08] blur-[120px] pointer-events-none" style={{ background: "radial-gradient(circle, rgba(34,211,238,0.3) 0%, transparent 70%)" }} />
-      <div className="relative z-10 w-full max-w-7xl mx-auto px-6 md:px-12 py-24 md:py-32">
+      <div className="relative z-10 w-full max-w-7xl mx-auto px-6 md:px-12 py-16 md:py-20">
         <div className="grid lg:grid-cols-[1fr_500px] gap-10 lg:gap-16 items-center">
 
           {/* Left: Text content */}
@@ -171,7 +171,7 @@ export function Hero({ profile, certifications: _certifications }: HeroProps) {
 
             {/* Single sentence — left-aligned */}
             <p className="text-[#CBD5E1] text-xl leading-relaxed max-w-2xl text-left">
-              12 years of making infrastructure{" "}
+              8 years of making infrastructure{" "}
               <strong className="text-primary font-bold">boring on purpose</strong>.
               Now building the platform layer where DevOps meets AI.
             </p>
@@ -185,10 +185,10 @@ export function Hero({ profile, certifications: _certifications }: HeroProps) {
               </cite>
             </blockquote>
 
-            {/* CTA buttons */}
+            {/* CTA buttons — Resume is primary */}
             <div className="flex flex-col sm:flex-row gap-3">
               <Link
-                href="#projects"
+                href="/resume"
                 className="inline-flex items-center justify-center h-11 px-6 rounded-lg font-semibold font-display text-sm transition-all duration-200"
                 style={{
                   background: "#22D3EE",
@@ -197,15 +197,15 @@ export function Hero({ profile, certifications: _certifications }: HeroProps) {
                 onMouseEnter={e => (e.currentTarget.style.background = "#06B6D4")}
                 onMouseLeave={e => (e.currentTarget.style.background = "#22D3EE")}
               >
-                See my work ↓
+                <FileText className="mr-2 h-4 w-4" />
+                View Resume
               </Link>
               <Link
-                href="/resume"
+                href="#projects"
                 className="inline-flex items-center justify-center h-11 px-6 rounded-lg border font-medium text-sm transition-all duration-200 text-[#F1F5F9] hover:text-[#22D3EE] hover:border-[#22D3EE]/50"
                 style={{ borderColor: "#1E293B", background: "#1F2B45" }}
               >
-                <FileText className="mr-2 h-4 w-4" />
-                View Resume
+                See my work ↓
               </Link>
             </div>
           </div>

@@ -13,7 +13,7 @@ const PHILOSOPHY = [
 ];
 
 export function About({ bio }: AboutProps) {
-  const startYear = 2014;
+  const startYear = 2017;
   const yearsOfExperience = new Date().getFullYear() - startYear;
 
   return (

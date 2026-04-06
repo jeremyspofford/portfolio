@@ -79,7 +79,7 @@ export function Skills({ items, certifications = [] }: SkillsProps) {
             Stack
           </h2>
           <p className="text-[#CBD5E1] text-lg max-w-2xl text-left">
-            12+ years deep. Here&apos;s an honest breakdown of what I can do at what level.
+            8+ years deep. Here&apos;s an honest breakdown of what I can do at what level.
           </p>
         </motion.div>
 
@@ -154,7 +154,7 @@ export function Skills({ items, certifications = [] }: SkillsProps) {
           className="mt-8 grid grid-cols-3 gap-4"
         >
           {[
-            { value: "12+", label: "Years shipping infra" },
+            { value: "8+", label: "Years shipping infra" },
             { value: "AWS + GCP", label: "Primary cloud platforms" },
             { value: "IaC-first", label: "Philosophy" },
           ].map((stat) => (

@@ -25,7 +25,10 @@ export default async function Home() {
   ]);
 
   const profile = profileData.find((item) => item.SK === "MAIN")?.content as ProfileContent | undefined;
-  const experience = experienceData as ContentItem<ExperienceContent>[];
+  // Only show DevOps and SWE roles in the timeline
+  const DEVOPS_SWE_ROLES = ['Senior DevOps Engineer', 'Software Engineer', 'DevOps Engineer'];
+  const experience = (experienceData as ContentItem<ExperienceContent>[])
+    .filter(item => DEVOPS_SWE_ROLES.includes(item.content.role));
   const skills = skillsData as ContentItem<SkillContent>[];
   const certifications = certificationsData as ContentItem<CertificationContent>[];
   const projects = projectsData as ContentItem<StandaloneProjectContent>[];
