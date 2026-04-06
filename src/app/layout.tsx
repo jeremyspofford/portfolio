@@ -81,9 +81,6 @@ export default function RootLayout({
             >
               Skip to main content
             </a>
-            <div className="bg-amber-500/10 border-b border-amber-500/20 text-amber-300 text-center py-1.5 px-4 text-xs font-medium font-mono">
-              🚧 This site is under active development — content and design are being refined.
-            </div>
             <Navbar />
             <ErrorBoundary>
               <main id="main-content" className="flex flex-col items-center">

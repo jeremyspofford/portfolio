@@ -155,7 +155,7 @@ export function Hero({ profile, certifications: _certifications }: HeroProps) {
       {/* Hero glow */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[600px] rounded-full opacity-[0.08] blur-[120px] pointer-events-none" style={{ background: "radial-gradient(circle, rgba(34,211,238,0.3) 0%, transparent 70%)" }} />
       <div className="relative z-10 w-full max-w-7xl mx-auto px-6 md:px-12 py-16 md:py-20">
-        <div className="grid lg:grid-cols-[1fr_500px] gap-10 lg:gap-16 items-center">
+        <div className="grid lg:grid-cols-[1fr_380px] gap-8 lg:gap-12 items-center">
 
           {/* Left: Text content */}
           <div className="space-y-8">
@@ -236,7 +236,7 @@ export function Hero({ profile, certifications: _certifications }: HeroProps) {
               </div>
 
               {/* Terminal body */}
-              <div className="p-5 min-h-[320px] font-mono text-[13px] leading-relaxed overflow-hidden">
+              <div className="p-4 min-h-[240px] font-mono text-[12px] leading-relaxed overflow-hidden">
                 {/* Initial comment before typing starts */}
                 <div className="text-[#4B5563] mb-2"># aria-labs production — nova agent</div>
 

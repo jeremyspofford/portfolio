@@ -1,6 +1,5 @@
 import Link from 'next/link';
 import { Hero } from "@/components/Hero";
-import { Contact } from "@/components/Contact";
 import { fetchContent } from '@/lib/content';
 import { ProfileContent } from '@/lib/api';
 
@@ -51,7 +50,35 @@ export default async function Home() {
         </div>
       </section>
 
-      <Contact profile={profile} />
+      {/* Slim footer */}
+      <footer className="w-full px-6 md:px-12 py-8 border-t border-[#1E293B]" style={{ background: "#0A0E17" }}>
+        <div className="max-w-3xl mx-auto flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+          <div className="flex items-center gap-6 text-sm text-[#94A3B8]">
+            {profile?.email && (
+              <a href={`mailto:${profile.email}`} className="hover:text-[#22D3EE] transition-colors">
+                {profile.email}
+              </a>
+            )}
+            {profile?.location && (
+              <span>{profile.location}</span>
+            )}
+          </div>
+          <div className="flex items-center gap-5 text-sm text-[#94A3B8]">
+            {profile?.socials?.github && (
+              <a href={profile.socials.github} target="_blank" rel="noopener noreferrer" className="hover:text-[#22D3EE] transition-colors">GitHub</a>
+            )}
+            {profile?.socials?.gitlab && (
+              <a href={profile.socials.gitlab} target="_blank" rel="noopener noreferrer" className="hover:text-[#22D3EE] transition-colors">GitLab</a>
+            )}
+            {profile?.socials?.linkedin && (
+              <a href={profile.socials.linkedin} target="_blank" rel="noopener noreferrer" className="hover:text-[#22D3EE] transition-colors">LinkedIn</a>
+            )}
+          </div>
+        </div>
+        <div className="max-w-3xl mx-auto mt-6 text-xs font-mono text-[#475569]">
+          &copy; {new Date().getFullYear()} {profile?.name || 'Jeremy Spofford'}
+        </div>
+      </footer>
     </div>
   );
 }
