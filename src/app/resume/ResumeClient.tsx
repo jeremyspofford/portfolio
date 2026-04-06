@@ -210,16 +210,16 @@ export function ResumeClient({ profile, experience, education, skills, certifica
       <div className="grid gap-8 lg:grid-cols-[1fr_380px]">
         {/* Main Resume Content - Paper Sheet */}
         <div className="relative">
-          <div id="resume-paper" className="bg-white border border-zinc-200 shadow-lg print:shadow-none print:border-none p-8 md:p-12 min-h-[11in] mx-auto print:mx-0 print:p-0">
+          <div id="resume-paper" className="bg-white border border-zinc-200 shadow-lg print:shadow-none print:border-none p-6 md:p-10 min-h-[11in] mx-auto print:mx-0 print:p-0 text-[13px]">
             {/* Header */}
-            <header className="border-b-2 border-zinc-900 pb-8 mb-8">
+            <header className="border-b-2 border-zinc-900 pb-4 mb-6">
                 <>
-                  <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-zinc-900 mb-4 uppercase">
+                  <h2 className="text-xl md:text-2xl font-bold tracking-tight text-zinc-900 mb-2 uppercase">
                     {profile?.name || "Name"}
                   </h2>
                   <div className="flex flex-col md:flex-row md:items-center justify-between text-zinc-600 font-medium">
-                    <p className="text-lg text-zinc-900">{profile?.title}</p>
-                    <div className="flex flex-col md:flex-row md:gap-6 text-sm mt-2 md:mt-0">
+                    <p className="text-sm text-zinc-900">{profile?.title}</p>
+                    <div className="flex flex-col md:flex-row md:gap-4 text-xs mt-1 md:mt-0">
                       <span className="hover:text-primary transition-colors">{profile?.email}</span>
                       {profile?.socials?.github && (
                         <>
@@ -238,10 +238,10 @@ export function ResumeClient({ profile, experience, education, skills, certifica
                 </>
             </header>
 
-            <div className="space-y-8">
+            <div className="space-y-5">
               {/* Summary */}
               <section>
-                <h3 className="text-sm font-bold uppercase tracking-widest text-zinc-500 mb-4 border-b border-zinc-100 pb-2">
+                <h3 className="text-xs font-bold uppercase tracking-widest text-zinc-500 mb-3 border-b border-zinc-100 pb-1.5">
                   Professional Summary
                 </h3>
                   <p className="text-zinc-700 leading-relaxed max-w-3xl">
@@ -251,10 +251,10 @@ export function ResumeClient({ profile, experience, education, skills, certifica
 
               {/* Experience */}
               <section>
-                <h3 className="text-sm font-bold uppercase tracking-widest text-zinc-500 mb-6 border-b border-zinc-100 pb-2">
+                <h3 className="text-xs font-bold uppercase tracking-widest text-zinc-500 mb-4 border-b border-zinc-100 pb-1.5">
                   Work Experience
                 </h3>
-                <div className="space-y-8">
+                <div className="space-y-5">
                     {[...visibleExperience].sort((a, b) => {
                       const dateA = a.content.startDate || '';
                       const dateB = b.content.startDate || '';
@@ -262,14 +262,14 @@ export function ResumeClient({ profile, experience, education, skills, certifica
                     }).map((item) => (
                       <div key={item.SK} className="group">
                         <div className="flex flex-col sm:flex-row sm:justify-between sm:items-baseline mb-2">
-                          <h4 className="text-lg font-bold text-zinc-900">
+                          <h4 className="text-sm font-bold text-zinc-900">
                             {item.content.role} <span className="font-normal text-zinc-500">at</span> {item.content.company}
                           </h4>
-                          <span className="text-sm font-mono text-zinc-500 shrink-0 bg-zinc-100 px-2 py-1 rounded">
+                          <span className="text-xs text-zinc-500 shrink-0">
                             {item.content.startDate} — {item.content.endDate}
                           </span>
                         </div>
-                        <p className="text-zinc-700 leading-relaxed mb-3">
+                        <p className="text-zinc-700 leading-relaxed mb-2 text-[13px]">
                           {item.content.description}
                         </p>
 
@@ -284,15 +284,11 @@ export function ResumeClient({ profile, experience, education, skills, certifica
                           </ul>
                         )}
 
-                        {/* Technologies (Chips) */}
+                        {/* Technologies */}
                         {item.content.technologies && item.content.technologies.length > 0 && (
-                          <div className="flex flex-wrap gap-1 mt-3">
-                            {item.content.technologies.slice(0, 5).map((tech: string) => (
-                              <span key={tech} className="text-[10px] uppercase font-bold text-zinc-500 bg-zinc-50 px-1.5 py-0.5 rounded border border-zinc-200">
-                                {tech}
-                              </span>
-                            ))}
-                          </div>
+                          <p className="text-[11px] text-zinc-500 mt-2">
+                            {item.content.technologies.join(' \u00B7 ')}
+                          </p>
                         )}
                       </div>
                     ))}
@@ -302,17 +298,17 @@ export function ResumeClient({ profile, experience, education, skills, certifica
               {/* Education */}
               {education.length > 0 && (
                 <section>
-                  <h3 className="text-sm font-bold uppercase tracking-widest text-zinc-500 mb-6 border-b border-zinc-100 pb-2">
+                  <h3 className="text-xs font-bold uppercase tracking-widest text-zinc-500 mb-4 border-b border-zinc-100 pb-1.5">
                     Education
                   </h3>
                   <div className="space-y-4">
                     {education.map((item) => (
                       <div key={item.SK}>
                         <div className="flex flex-col sm:flex-row sm:justify-between sm:items-baseline mb-2">
-                          <h4 className="text-lg font-bold text-zinc-900">
+                          <h4 className="text-sm font-bold text-zinc-900">
                             {item.content.degree}
                           </h4>
-                          <span className="text-sm font-mono text-zinc-500 shrink-0 bg-zinc-100 px-2 py-1 rounded">
+                          <span className="text-xs text-zinc-500 shrink-0">
                             {item.content.graduationDate}
                           </span>
                         </div>
@@ -340,19 +336,15 @@ export function ResumeClient({ profile, experience, education, skills, certifica
               {/* Skills */}
               {skills.length > 0 && (
                 <section>
-                  <h3 className="text-sm font-bold uppercase tracking-widest text-zinc-500 mb-6 border-b border-zinc-100 pb-2">
+                  <h3 className="text-xs font-bold uppercase tracking-widest text-zinc-500 mb-4 border-b border-zinc-100 pb-1.5">
                     Skills
                   </h3>
-                  <div className="grid grid-cols-2 gap-x-8 gap-y-4">
+                  <div className="space-y-2">
                     {skills.map((skill) => (
-                      <div key={skill.SK}>
-                        <h4 className="font-bold text-zinc-900 mb-1">
-                          {skill.content.category}
-                        </h4>
-                        <p className="text-zinc-700 text-sm leading-relaxed">
-                          {skill.content.items.join(", ")}
-                        </p>
-                      </div>
+                      <p key={skill.SK} className="text-[13px] text-zinc-700">
+                        <span className="font-bold text-zinc-900">{skill.content.category}:</span>{' '}
+                        {skill.content.items.join(", ")}
+                      </p>
                     ))}
                   </div>
                 </section>
@@ -361,21 +353,21 @@ export function ResumeClient({ profile, experience, education, skills, certifica
               {/* Certifications */}
               {certifications.length > 0 && (
                  <section>
-                   <h3 className="text-sm font-bold uppercase tracking-widest text-zinc-500 mb-6 border-b border-zinc-100 pb-2">
+                   <h3 className="text-xs font-bold uppercase tracking-widest text-zinc-500 mb-4 border-b border-zinc-100 pb-1.5">
                      Certifications
                    </h3>
                    <div className="space-y-4">
                      {certifications.map((cert) => (
                        <div key={cert.SK} className="flex flex-col sm:flex-row sm:justify-between sm:items-baseline">
                          <div>
-                           <h4 className="font-bold text-zinc-900">
+                           <h4 className="text-sm font-bold text-zinc-900">
                              {cert.content.name}
                            </h4>
-                           <p className="text-sm text-zinc-600">
+                           <p className="text-xs text-zinc-600">
                              {cert.content.issuer}
                            </p>
                          </div>
-                         <div className="text-sm font-mono text-zinc-500 bg-zinc-100 px-2 py-1 rounded mt-1 sm:mt-0">
+                         <div className="text-xs text-zinc-500 mt-1 sm:mt-0">
                            {cert.content.date}
                          </div>
                        </div>
