@@ -27,10 +27,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   const routes = [
     '',
-    '/about',
+    '/projects',
     '/blog',
     '/resume',
-    '/contact', // Assuming this exists or handles scrolling
   ].map((route) => ({
     url: `${BASE_URL}${route}`,
     lastModified: new Date().toISOString(),

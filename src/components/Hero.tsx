@@ -7,7 +7,7 @@ import { ContentItem, CertificationContent, ProfileContent } from "@/lib/api";
 
 interface HeroProps {
   profile: ProfileContent | undefined;
-  certifications: ContentItem<CertificationContent>[];
+  certifications?: ContentItem<CertificationContent>[];
 }
 
 type LineType = 'command' | 'output-success' | 'output-info' | 'output-done';
@@ -201,11 +201,11 @@ export function Hero({ profile, certifications: _certifications }: HeroProps) {
                 View Resume
               </Link>
               <Link
-                href="#projects"
+                href="/projects"
                 className="inline-flex items-center justify-center h-11 px-6 rounded-lg border font-medium text-sm transition-all duration-200 text-[#F1F5F9] hover:text-[#22D3EE] hover:border-[#22D3EE]/50"
                 style={{ borderColor: "#1E293B", background: "#1F2B45" }}
               >
-                See my work ↓
+                See my work
               </Link>
             </div>
           </div>

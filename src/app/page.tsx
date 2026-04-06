@@ -1,60 +1,56 @@
+import Link from 'next/link';
 import { Hero } from "@/components/Hero";
-import { ExperienceTimeline } from "@/components/ExperienceTimeline";
-import { Skills } from "@/components/Skills";
-import { Projects } from "@/components/Projects";
 import { Contact } from "@/components/Contact";
-import { Philosophy } from "@/components/Philosophy";
 import { fetchContent } from '@/lib/content';
-import {
-  ProfileContent,
-  ExperienceContent,
-  ProjectContent,
-  CertificationContent,
-  SkillContent,
-  ContentItem,
-  StandaloneProjectContent
-} from '@/lib/api';
+import { ProfileContent } from '@/lib/api';
 
 export default async function Home() {
-  const [profileData, experienceData, skillsData, certificationsData, projectsData] = await Promise.all([
-    fetchContent("PROFILE"),
-    fetchContent("EXPERIENCE"),
-    fetchContent("SKILLS"),
-    fetchContent("CERTIFICATIONS"),
-    fetchContent("PROJECTS"),
-  ]);
-
+  const profileData = await fetchContent("PROFILE");
   const profile = profileData.find((item) => item.SK === "MAIN")?.content as ProfileContent | undefined;
-  // Only show DevOps and SWE roles in the timeline
-  const DEVOPS_SWE_ROLES = ['Senior DevOps Engineer', 'Software Engineer', 'DevOps Engineer'];
-  const experience = (experienceData as ContentItem<ExperienceContent>[])
-    .filter(item => DEVOPS_SWE_ROLES.includes(item.content.role));
-  const skills = skillsData as ContentItem<SkillContent>[];
-  const certifications = certificationsData as ContentItem<CertificationContent>[];
-  const projects = projectsData as ContentItem<StandaloneProjectContent>[];
 
   return (
     <div className="flex flex-col w-full" style={{ background: "#0A0E17" }}>
-      {/* 1. Hero — terminal + value proposition */}
-      <Hero profile={profile} certifications={certifications} />
+      <Hero profile={profile} />
 
-      {/* 2. Projects — lead with proof */}
-      <div style={{ background: "#0A0E17" }}>
-        <Projects items={projects} />
-      </div>
+      {/* Navigation — funnel to the real content */}
+      <section className="w-full px-6 md:px-12 py-12" style={{ background: "#0A0E17" }}>
+        <div className="max-w-3xl mx-auto">
+          <Link
+            href="/resume"
+            className="group flex items-baseline justify-between py-5 border-b border-[#1E293B] hover:border-[#22D3EE]/40 transition-colors"
+          >
+            <span className="font-display font-semibold text-lg text-[#F1F5F9] group-hover:text-[#22D3EE] transition-colors">
+              Resume
+            </span>
+            <span className="text-sm text-[#94A3B8]">
+              Experience, skills, certifications
+            </span>
+          </Link>
+          <Link
+            href="/projects"
+            className="group flex items-baseline justify-between py-5 border-b border-[#1E293B] hover:border-[#22D3EE]/40 transition-colors"
+          >
+            <span className="font-display font-semibold text-lg text-[#F1F5F9] group-hover:text-[#22D3EE] transition-colors">
+              Projects
+            </span>
+            <span className="text-sm text-[#94A3B8]">
+              Nova, Reps Dashboard, Epstein Files, and more
+            </span>
+          </Link>
+          <Link
+            href="/blog"
+            className="group flex items-baseline justify-between py-5 border-b border-[#1E293B] hover:border-[#22D3EE]/40 transition-colors"
+          >
+            <span className="font-display font-semibold text-lg text-[#F1F5F9] group-hover:text-[#22D3EE] transition-colors">
+              Blog
+            </span>
+            <span className="text-sm text-[#94A3B8]">
+              Writing about DevOps, AI, and infrastructure
+            </span>
+          </Link>
+        </div>
+      </section>
 
-      {/* 3. Skills */}
-      <Skills items={skills} certifications={certifications} />
-
-      {/* 4. Experience */}
-      <div style={{ background: "#0A0E17" }}>
-        <ExperienceTimeline items={experience} />
-      </div>
-
-      {/* 5. How I Work — personality before the CTA */}
-      <Philosophy />
-
-      {/* 6. Contact */}
       <Contact profile={profile} />
     </div>
   );
