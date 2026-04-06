@@ -814,6 +814,10 @@ export function Projects({ items }: ProjectsProps) {
   const featuredItems = sortedItems.filter(item => FEATURED_TITLES.includes(item.content.title));
   featuredItems.sort((a, b) => FEATURED_TITLES.indexOf(a.content.title) - FEATURED_TITLES.indexOf(b.content.title));
 
+  // Work projects = everything that isn't Aria Labs
+  const ARIA_LABS_TITLES = [HERO_TITLE, ...FEATURED_TITLES];
+  const workItems = sortedItems.filter(item => !ARIA_LABS_TITLES.includes(item.content.title));
+
   const MOCKUPS: Record<string, React.ReactNode> = {
     "Reps Accountability Dashboard": <RepsMockup />,
     "Epstein Files Explorer": <EpsteinMockup />,
@@ -848,13 +852,6 @@ export function Projects({ items }: ProjectsProps) {
           </p>
         </motion.div>
 
-        {/* HERO project */}
-        {heroItem && (
-          <div className="mb-8">
-            <HeroProjectCard item={heroItem} mockup={MOCKUPS[heroItem.content.title]} />
-          </div>
-        )}
-
         {/* Aria Labs POC label */}
         <div className="flex items-center gap-3 mb-6">
           <span className="font-mono text-xs text-[#22D3EE] uppercase tracking-widest px-2.5 py-1 rounded border border-[#22D3EE]/30 bg-[#22D3EE]/05">
@@ -863,8 +860,15 @@ export function Projects({ items }: ProjectsProps) {
           <div className="h-px flex-1 bg-[#1E293B]" />
         </div>
 
-        {/* Featured large cards — Epstein + Suppr */}
-        <div className="space-y-6 mb-8">
+        {/* Nova hero card */}
+        {heroItem && (
+          <div className="mb-6">
+            <HeroProjectCard item={heroItem} mockup={MOCKUPS[heroItem.content.title]} />
+          </div>
+        )}
+
+        {/* Featured cards — Reps, Epstein, Suppr */}
+        <div className="space-y-6 mb-16">
           {featuredItems.map((item, index) => (
             <FeaturedCard
               key={item.SK}
@@ -873,6 +877,47 @@ export function Projects({ items }: ProjectsProps) {
               mockup={MOCKUPS[item.content.title]}
               flipped={item.content.title === "Epstein Files Explorer"}
             />
+          ))}
+        </div>
+
+        {/* Professional Work label */}
+        <div className="flex items-center gap-3 mb-6">
+          <span className="font-mono text-xs text-[#F59E0B] uppercase tracking-widest px-2.5 py-1 rounded border border-[#F59E0B]/30 bg-[#F59E0B]/05">
+            Professional Work
+          </span>
+          <div className="h-px flex-1 bg-[#1E293B]" />
+        </div>
+
+        {/* Work project cards */}
+        <div className="grid md:grid-cols-2 gap-4 mb-8">
+          {workItems.map((item, index) => (
+            <motion.article
+              key={item.SK}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-60px" }}
+              transition={{ duration: 0.4, delay: index * 0.08 }}
+              className="rounded-xl border border-[#3D4F6B] p-6 card-hover-glow card-depth"
+              style={{ background: "#1F2B45" }}
+            >
+              <h3 className="font-display font-semibold text-lg text-[#F1F5F9] mb-2">
+                {item.content.title}
+              </h3>
+              <p className="text-[#94A3B8] text-sm leading-relaxed mb-4">
+                {item.content.description}
+              </p>
+              <div className="flex flex-wrap gap-1.5">
+                {item.content.technologies?.map((tech) => (
+                  <span
+                    key={tech}
+                    className="px-2 py-0.5 rounded font-mono text-[11px] text-[#CBD5E1] border border-[#3D4F6B]"
+                    style={{ background: "#111827" }}
+                  >
+                    {tech}
+                  </span>
+                ))}
+              </div>
+            </motion.article>
           ))}
         </div>
 
