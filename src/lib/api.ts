@@ -75,34 +75,6 @@ export interface ContentItem<T> {
 
 // fetchContent removed. Import from '@/lib/content' instead.
 
-export interface ResumeContent {
-    summary?: string;
-    experience?: ExperienceContent[];
-}
-
-export interface EnhanceResult {
-    analysis: string;
-    suggested_summary: string;
-    key_keywords_found: string[];
-}
-
-export async function enhanceContent(jobDescription: string, resumeContent: ResumeContent): Promise<EnhanceResult | null> {
-    if (!API_URL) return null;
-
-    try {
-        const res = await fetch(`${API_URL}/enhance`, {
-            method: 'POST',
-            body: JSON.stringify({ jobDescription, resumeContent }),
-            headers: { 'Content-Type': 'application/json' }
-        });
-        if (!res.ok) throw new Error("Failed to enhance content");
-        return res.json();
-    } catch (error) {
-        console.error("Error enhancing content:", error);
-        throw error;
-    }
-}
-
 // Types for Job Posting Matcher feature
 export interface SkillMatchResult {
     skill: string;

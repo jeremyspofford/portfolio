@@ -6,8 +6,6 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 // Feature flag types
 export interface FeatureFlags {
-  showAIShowcase: boolean;
-  showContributions: boolean;
   showResumeDownload: boolean;
   enableJobFitAnalyzer: boolean;
   enableJobFitUrl: boolean;
@@ -15,8 +13,6 @@ export interface FeatureFlags {
 
 // Default flags (used when API unavailable or for SSR)
 export const defaultFlags: FeatureFlags = {
-  showAIShowcase: true,
-  showContributions: true,
   showResumeDownload: false,
   enableJobFitAnalyzer: true,
   enableJobFitUrl: true,
