@@ -1,10 +1,10 @@
 PK: EXPERIENCE
-SK: 2017-08-01
+SK: 2017-06-01
 content:
   company: Tyler Technologies
-  role: Conversions Developer
-  startDate: "2017-08"
-  endDate: "2019-06"
+  role: Conversion Developer
+  startDate: "2017-06"
+  endDate: "2019-04"
   description: Converted legacy data systems, increasing revenue by $500K. Engineered a CLI automation tool for error log processing, accelerating conversion speed by 50%. Developed SQL scripts for seamless data integration.
   technologies:
     - COBOL

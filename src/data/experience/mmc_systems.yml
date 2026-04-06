@@ -1,10 +1,10 @@
 PK: EXPERIENCE
-SK: 2016-04-01
+SK: 2016-02-01
 content:
   company: Maine Medical Center
-  role: Systems Specialist
-  startDate: "2016-04"
-  endDate: "2017-08"
+  role: Systems Administrator
+  startDate: "2016-02"
+  endDate: "2017-06"
   description: Implemented automated pharmacy reporting systems using Python and SQL. Established IT communication protocols with 2-hour response standards. Created comprehensive IT documentation framework.
   technologies:
     - Windows
