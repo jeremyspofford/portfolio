@@ -7,7 +7,7 @@ export default function BlogIndex() {
   const posts = getAllPosts();
 
   return (
-    <div className="flex flex-col w-full max-w-4xl mx-auto p-6 md:p-12 space-y-12">
+    <div className="flex flex-col w-full max-w-5xl mx-auto p-6 md:p-12 space-y-12">
       <div className="space-y-4">
         <Link 
           href="/"

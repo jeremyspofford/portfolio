@@ -22,7 +22,7 @@ export default async function Home() {
 
       {/* Navigation — funnel to the real content */}
       <section className="w-full px-6 md:px-12 py-12" style={{ background: "#0A0E17" }}>
-        <div className="max-w-3xl mx-auto">
+        <div className="max-w-5xl mx-auto">
           <Link
             href="/resume"
             className="group flex items-baseline justify-between py-5 border-b border-[#1E293B] hover:border-[#22D3EE]/40 transition-colors"
@@ -61,7 +61,7 @@ export default async function Home() {
 
       {/* Slim footer */}
       <footer className="w-full px-6 md:px-12 py-8 border-t border-[#1E293B]" style={{ background: "#0A0E17" }}>
-        <div className="max-w-3xl mx-auto flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+        <div className="max-w-5xl mx-auto flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
           <div className="flex items-center gap-6 text-sm text-[#94A3B8]">
             {profile?.email && (
               <a href={`mailto:${profile.email}`} className="hover:text-[#22D3EE] transition-colors">
@@ -95,7 +95,7 @@ export default async function Home() {
             )}
           </div>
         </div>
-        <div className="max-w-3xl mx-auto mt-6 text-xs font-mono text-[#475569]">
+        <div className="max-w-5xl mx-auto mt-6 text-xs font-mono text-[#475569]">
           &copy; {new Date().getFullYear()} {profile?.name || 'Jeremy Spofford'}
         </div>
       </footer>

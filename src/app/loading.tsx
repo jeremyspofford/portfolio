@@ -18,7 +18,7 @@ export default function Loading() {
       </div>
 
       {/* Skeleton content preview */}
-      <div className="w-full max-w-4xl mx-auto px-6 mt-16 space-y-8 animate-pulse">
+      <div className="w-full max-w-5xl mx-auto px-6 mt-16 space-y-8 animate-pulse">
         {/* Hero skeleton */}
         <div className="text-center space-y-4">
           <div className="h-12 bg-muted rounded-lg w-3/4 mx-auto" />

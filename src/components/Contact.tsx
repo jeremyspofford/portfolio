@@ -24,7 +24,7 @@ export function Contact({ profile }: ContactProps) {
       className="w-full py-12 md:py-16 px-6 md:px-12 scroll-mt-20"
       style={{ background: "#182240", borderTop: "1px solid #1E293B" }}
     >
-      <div className="max-w-4xl mx-auto">
+      <div className="max-w-5xl mx-auto">
 
         {/* Section header */}
         <div className="mb-10">
