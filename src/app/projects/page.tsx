@@ -13,7 +13,7 @@ export default async function ProjectsPage() {
   const projects = projectsData as ContentItem<StandaloneProjectContent>[];
 
   return (
-    <div className="flex flex-col w-full" style={{ background: "#0A0E17" }}>
+    <div className="flex flex-col w-full pt-16" style={{ background: "#0A0E17" }}>
       <Projects items={projects} />
     </div>
   );
