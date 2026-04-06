@@ -85,7 +85,7 @@ export function ResumeClient({ profile, experience, education, skills, certifica
   };
 
   return (
-    <div className="container py-12 px-4 max-w-7xl mx-auto">
+    <div className="container pt-24 pb-12 px-4 max-w-7xl mx-auto">
       <div className="flex justify-between items-start mb-8 print:hidden">
         <div>
           <h1 className="text-3xl font-bold tracking-tight mb-2">Resume</h1>

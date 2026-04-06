@@ -37,7 +37,7 @@ export default async function BlogPost(props: { params: Promise<{ slug: string }
   };
 
   return (
-    <article className="w-full max-w-5xl mx-auto p-4 md:p-8 space-y-8">
+    <article className="w-full max-w-5xl mx-auto p-4 md:p-8 pt-24 space-y-8">
        <Link 
           href="/blog"
           className="inline-flex items-center text-sm text-muted-foreground hover:text-primary transition-colors font-medium mb-4"
