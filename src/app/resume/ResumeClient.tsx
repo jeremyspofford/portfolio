@@ -1,7 +1,7 @@
 'use client';
 
-import { useState } from 'react';
-import { Download, Printer, ChevronDown, FileText, FileDown, Loader2 } from 'lucide-react';
+import { useState, useMemo } from 'react';
+import { Download, Printer, ChevronDown, FileText, FileDown, Loader2, Eye } from 'lucide-react';
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
 import {
   ProfileContent,
@@ -42,7 +42,36 @@ export function ResumeClient({ profile, experience, education, skills, certifica
 
   const [downloading, setDownloading] = useState<string | null>(null);
 
-  const resumeData: ResumeData = { profile: profile || undefined, experience, education, skills, certifications };
+  // Roles considered "legacy" — hidden by default but togglable
+  const LEGACY_ROLES = ['Desktop Support Specialist', 'Systems Administrator', 'Conversion Developer'];
+
+  // Track which experience entries are visible (by SK key)
+  const [hiddenExperience, setHiddenExperience] = useState<Set<string>>(() => {
+    const hidden = new Set<string>();
+    for (const item of experience) {
+      if (LEGACY_ROLES.includes(item.content.role)) {
+        hidden.add(item.SK);
+      }
+    }
+    return hidden;
+  });
+
+  const toggleExperience = (sk: string) => {
+    setHiddenExperience(prev => {
+      const next = new Set(prev);
+      if (next.has(sk)) next.delete(sk);
+      else next.add(sk);
+      return next;
+    });
+  };
+
+  const visibleExperience = useMemo(
+    () => experience.filter(item => !hiddenExperience.has(item.SK)),
+    [experience, hiddenExperience]
+  );
+
+  // Pass only visible experience to download functions
+  const resumeData: ResumeData = { profile: profile || undefined, experience: visibleExperience, education, skills, certifications };
 
   const handleDownload = async (format: string, fn: () => Promise<void> | void) => {
     setDownloading(format);
@@ -151,6 +180,33 @@ export function ResumeClient({ profile, experience, education, skills, certifica
         </div>
       </div>
 
+      {/* Experience toggles */}
+      <div className="mb-6 p-4 rounded-lg border border-[#1E293B] print:hidden" style={{ background: '#111827' }}>
+        <div className="flex items-center gap-2 mb-3">
+          <Eye className="w-4 h-4 text-[#94A3B8]" />
+          <span className="text-sm font-medium text-[#F1F5F9]">Include in resume</span>
+        </div>
+        <div className="flex flex-wrap gap-x-6 gap-y-2">
+          {[...experience].sort((a, b) => {
+            const dateA = a.content.startDate || '';
+            const dateB = b.content.startDate || '';
+            return dateB.localeCompare(dateA);
+          }).map((item) => (
+            <label key={item.SK} className="flex items-center gap-2 cursor-pointer text-sm">
+              <input
+                type="checkbox"
+                checked={!hiddenExperience.has(item.SK)}
+                onChange={() => toggleExperience(item.SK)}
+                className="rounded border-[#3D4F6B] bg-[#1F2B45] text-[#22D3EE] focus:ring-[#22D3EE] focus:ring-offset-0"
+              />
+              <span className={hiddenExperience.has(item.SK) ? 'text-[#475569]' : 'text-[#CBD5E1]'}>
+                {item.content.role} <span className="text-[#475569]">@ {item.content.company}</span>
+              </span>
+            </label>
+          ))}
+        </div>
+      </div>
+
       <div className="grid gap-8 lg:grid-cols-[1fr_380px]">
         {/* Main Resume Content - Paper Sheet */}
         <div className="relative">
@@ -199,7 +255,7 @@ export function ResumeClient({ profile, experience, education, skills, certifica
                   Work Experience
                 </h3>
                 <div className="space-y-8">
-                    {[...experience].sort((a, b) => {
+                    {[...visibleExperience].sort((a, b) => {
                       const dateA = a.content.startDate || '';
                       const dateB = b.content.startDate || '';
                       return dateB.localeCompare(dateA);

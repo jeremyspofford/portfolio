@@ -9,6 +9,7 @@ export interface ProfileContent {
   location?: string;
   socials: {
     github?: string;
+    github_org?: string;
     gitlab?: string;
     linkedin?: string;
     twitter?: string;

@@ -1,7 +1,16 @@
 import Link from 'next/link';
+import { Github, Linkedin } from 'lucide-react';
 import { Hero } from "@/components/Hero";
 import { fetchContent } from '@/lib/content';
 import { ProfileContent } from '@/lib/api';
+
+function GitlabIcon({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" className={className} aria-hidden="true">
+      <path d="M22.65 14.39L12 22.13 1.35 14.39a.84.84 0 0 1-.3-.94l1.22-3.78 2.44-7.51A.42.42 0 0 1 4.82 2a.43.43 0 0 1 .58 0 .42.42 0 0 1 .11.18l2.44 7.49h8.1l2.44-7.51A.42.42 0 0 1 18.6 2a.43.43 0 0 1 .58 0 .42.42 0 0 1 .11.18l2.44 7.51L23 13.45a.84.84 0 0 1-.35.94z" />
+    </svg>
+  );
+}
 
 export default async function Home() {
   const profileData = await fetchContent("PROFILE");
@@ -63,15 +72,26 @@ export default async function Home() {
               <span>{profile.location}</span>
             )}
           </div>
-          <div className="flex items-center gap-5 text-sm text-[#94A3B8]">
+          <div className="flex items-center gap-4 text-[#94A3B8]">
             {profile?.socials?.github && (
-              <a href={profile.socials.github} target="_blank" rel="noopener noreferrer" className="hover:text-[#22D3EE] transition-colors">GitHub</a>
+              <a href={profile.socials.github} target="_blank" rel="noopener noreferrer" aria-label="GitHub" className="hover:text-[#22D3EE] transition-colors">
+                <Github className="w-5 h-5" />
+              </a>
+            )}
+            {profile?.socials?.github_org && (
+              <a href={profile.socials.github_org} target="_blank" rel="noopener noreferrer" aria-label="Aria Labs GitHub" className="hover:text-[#22D3EE] transition-colors" title="Aria Labs">
+                <Github className="w-5 h-5" />
+              </a>
             )}
             {profile?.socials?.gitlab && (
-              <a href={profile.socials.gitlab} target="_blank" rel="noopener noreferrer" className="hover:text-[#22D3EE] transition-colors">GitLab</a>
+              <a href={profile.socials.gitlab} target="_blank" rel="noopener noreferrer" aria-label="GitLab" className="hover:text-[#22D3EE] transition-colors">
+                <GitlabIcon className="w-5 h-5" />
+              </a>
             )}
             {profile?.socials?.linkedin && (
-              <a href={profile.socials.linkedin} target="_blank" rel="noopener noreferrer" className="hover:text-[#22D3EE] transition-colors">LinkedIn</a>
+              <a href={profile.socials.linkedin} target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="hover:text-[#22D3EE] transition-colors">
+                <Linkedin className="w-5 h-5" />
+              </a>
             )}
           </div>
         </div>
