@@ -17,7 +17,7 @@ export default async function Home() {
   const profile = profileData.find((item) => item.SK === "MAIN")?.content as ProfileContent | undefined;
 
   return (
-    <div className="flex flex-col w-full" style={{ background: "#0A0E17" }}>
+    <div className="flex flex-col w-full min-h-screen" style={{ background: "#0A0E17" }}>
       <Hero profile={profile} />
 
       {/* Navigation — funnel to the real content */}
@@ -59,8 +59,8 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* Slim footer */}
-      <footer className="w-full px-6 md:px-12 py-8 border-t border-[#1E293B]" style={{ background: "#0A0E17" }}>
+      {/* Slim footer — pinned to bottom */}
+      <footer className="w-full px-6 md:px-12 py-8 border-t border-[#1E293B] mt-auto" style={{ background: "#0A0E17" }}>
         <div className="max-w-5xl mx-auto flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
           <div className="flex items-center gap-6 text-sm text-[#94A3B8]">
             {profile?.email && (
