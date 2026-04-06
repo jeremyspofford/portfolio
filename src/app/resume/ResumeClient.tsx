@@ -85,7 +85,7 @@ export function ResumeClient({ profile, experience, education, skills, certifica
   };
 
   return (
-    <div className="container py-12 px-4 max-w-5xl mx-auto">
+    <div className="container py-12 px-4 max-w-7xl mx-auto">
       <div className="flex justify-between items-start mb-8 print:hidden">
         <div>
           <h1 className="text-3xl font-bold tracking-tight mb-2">Resume</h1>
@@ -214,7 +214,7 @@ export function ResumeClient({ profile, experience, education, skills, certifica
             {/* Header */}
             <header className="border-b-2 border-zinc-900 pb-8 mb-8">
                 <>
-                  <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight text-zinc-900 mb-4 uppercase">
+                  <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-zinc-900 mb-4 uppercase">
                     {profile?.name || "Name"}
                   </h2>
                   <div className="flex flex-col md:flex-row md:items-center justify-between text-zinc-600 font-medium">
