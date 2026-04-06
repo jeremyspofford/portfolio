@@ -122,11 +122,11 @@ export function ResumeClient({ profile, experience, education, skills, certifica
 
                 <DropdownMenu.Item
                   className="flex items-center gap-2 px-3 py-2 text-sm text-[#F1F5F9] rounded-md cursor-pointer hover:bg-[#22D3EE]/10 hover:text-[#22D3EE] outline-none"
-                  onSelect={() => handleDownload('pdf', () => downloadResumePdf('resume-paper'))}
+                  onSelect={() => handleDownload('pdf', () => downloadResumePdf(resumeData))}
                   disabled={downloading !== null}
                 >
                   <FileDown className="w-4 h-4" />
-                  {downloading === 'pdf' ? 'Generating...' : 'Download PDF'}
+                  {downloading === 'pdf' ? 'Generating...' : 'PDF (ATS-friendly)'}
                 </DropdownMenu.Item>
 
                 <DropdownMenu.Item
@@ -135,7 +135,7 @@ export function ResumeClient({ profile, experience, education, skills, certifica
                   disabled={downloading !== null}
                 >
                   <FileDown className="w-4 h-4" />
-                  {downloading === 'docx' ? 'Generating...' : 'Download Word'}
+                  {downloading === 'docx' ? 'Generating...' : 'Word (ATS-friendly)'}
                 </DropdownMenu.Item>
 
                 <DropdownMenu.Item

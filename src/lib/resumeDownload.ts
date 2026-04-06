@@ -15,23 +15,225 @@ export interface ResumeData {
   certifications: ContentItem<CertificationContent>[];
 }
 
-// ── PDF (from rendered DOM) ──────────────────────────────────────────────────
+// ── PDF (ATS-compatible, text-based via jsPDF) ──────────────────────────────
 
 export async function downloadResumePdf(
-  elementId: string,
+  data: ResumeData,
   filename: string = 'JeremySpofford_Resume.pdf'
 ): Promise<void> {
-  const html2pdf = (await import('html2pdf.js')).default;
-  const element = document.getElementById(elementId);
-  if (!element) throw new Error('Resume element not found');
+  const { default: jsPDF } = await import('jspdf');
 
-  await html2pdf().set({
-    margin: 0,
-    filename,
-    image: { type: 'jpeg', quality: 0.98 },
-    html2canvas: { scale: 2, useCORS: true, backgroundColor: '#ffffff' },
-    jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' },
-  }).from(element).save();
+  const { profile, experience, education, skills, certifications } = data;
+  const doc = new jsPDF({ unit: 'pt', format: 'letter' });
+  const pageWidth = doc.internal.pageSize.getWidth();
+  const margin = 50;
+  const contentWidth = pageWidth - margin * 2;
+  let y = margin;
+
+  const checkPageBreak = (needed: number) => {
+    const pageHeight = doc.internal.pageSize.getHeight();
+    if (y + needed > pageHeight - margin) {
+      doc.addPage();
+      y = margin;
+    }
+  };
+
+  const drawLine = () => {
+    doc.setDrawColor(200);
+    doc.line(margin, y, pageWidth - margin, y);
+    y += 12;
+  };
+
+  // Wrap text and return lines
+  const wrapText = (text: string, maxWidth: number, fontSize: number): string[] => {
+    doc.setFontSize(fontSize);
+    return doc.splitTextToSize(text, maxWidth);
+  };
+
+  // Header
+  if (profile) {
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(20);
+    doc.text(profile.name.toUpperCase(), margin, y);
+    y += 20;
+
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(11);
+    doc.setTextColor(100);
+    doc.text(profile.title, margin, y);
+    y += 16;
+
+    doc.setFontSize(9);
+    const contactParts = [profile.email, profile.location, profile.socials?.github, profile.socials?.linkedin].filter(Boolean);
+    doc.text(contactParts.join('  |  '), margin, y);
+    y += 20;
+
+    doc.setTextColor(0);
+    drawLine();
+
+    // Summary
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(11);
+    doc.text('PROFESSIONAL SUMMARY', margin, y);
+    y += 16;
+
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(10);
+    const bioLines = wrapText(profile.bio, contentWidth, 10);
+    checkPageBreak(bioLines.length * 14);
+    doc.text(bioLines, margin, y);
+    y += bioLines.length * 14 + 12;
+
+    drawLine();
+  }
+
+  // Experience
+  const sortedExperience = [...experience].sort((a, b) =>
+    (b.content.startDate || b.SK).localeCompare(a.content.startDate || a.SK)
+  );
+
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(11);
+  doc.text('WORK EXPERIENCE', margin, y);
+  y += 18;
+
+  for (const item of sortedExperience) {
+    const exp = item.content;
+    const endDate = exp.endDate === 'Present' ? 'Present' : exp.endDate;
+
+    checkPageBreak(80);
+
+    // Role + Company
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(10);
+    doc.setTextColor(0);
+    doc.text(`${exp.role} | ${exp.company}`, margin, y);
+
+    // Dates (right-aligned)
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(9);
+    doc.setTextColor(120);
+    const dateStr = `${exp.startDate} – ${endDate}`;
+    const dateWidth = doc.getTextWidth(dateStr);
+    doc.text(dateStr, pageWidth - margin - dateWidth, y);
+    y += 16;
+
+    // Description
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(9);
+    doc.setTextColor(50);
+    const descLines = wrapText(exp.description, contentWidth, 9);
+    checkPageBreak(descLines.length * 13);
+    doc.text(descLines, margin, y);
+    y += descLines.length * 13 + 4;
+
+    // Key deliverables
+    if (exp.key_deliverables?.length) {
+      for (const kd of exp.key_deliverables) {
+        checkPageBreak(26);
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(9);
+        doc.setTextColor(50);
+        const bulletText = `${kd.title}: ${kd.description}`;
+        const bulletLines = wrapText(bulletText, contentWidth - 15, 9);
+        doc.text('•', margin + 5, y);
+        doc.text(bulletLines, margin + 15, y);
+        y += bulletLines.length * 13 + 2;
+      }
+    }
+
+    // Technologies
+    if (exp.technologies?.length) {
+      checkPageBreak(16);
+      doc.setFontSize(8);
+      doc.setTextColor(140);
+      doc.text(exp.technologies.join(' · '), margin, y);
+      y += 14;
+    }
+
+    y += 8;
+  }
+
+  drawLine();
+
+  // Education
+  if (education.length > 0) {
+    checkPageBreak(50);
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(11);
+    doc.setTextColor(0);
+    doc.text('EDUCATION', margin, y);
+    y += 18;
+
+    for (const item of education) {
+      const edu = item.content;
+      checkPageBreak(30);
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(10);
+      doc.text(`${edu.degree} – ${edu.institution}`, margin, y);
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(9);
+      doc.setTextColor(120);
+      const gradWidth = doc.getTextWidth(edu.graduationDate);
+      doc.text(edu.graduationDate, pageWidth - margin - gradWidth, y);
+      doc.setTextColor(0);
+      y += 20;
+    }
+
+    drawLine();
+  }
+
+  // Skills
+  if (skills.length > 0) {
+    checkPageBreak(50);
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(11);
+    doc.setTextColor(0);
+    doc.text('SKILLS', margin, y);
+    y += 18;
+
+    for (const item of skills) {
+      const skill = item.content;
+      checkPageBreak(16);
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(9);
+      doc.setTextColor(0);
+      const labelWidth = doc.getTextWidth(`${skill.category}: `);
+      doc.text(`${skill.category}: `, margin, y);
+      doc.setFont('helvetica', 'normal');
+      doc.setTextColor(60);
+      const itemsLines = wrapText(skill.items.join(', '), contentWidth - labelWidth, 9);
+      doc.text(itemsLines, margin + labelWidth, y);
+      y += itemsLines.length * 13 + 4;
+    }
+
+    drawLine();
+  }
+
+  // Certifications
+  if (certifications.length > 0) {
+    checkPageBreak(50);
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(11);
+    doc.setTextColor(0);
+    doc.text('CERTIFICATIONS', margin, y);
+    y += 18;
+
+    for (const item of certifications) {
+      const cert = item.content;
+      checkPageBreak(16);
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(9);
+      doc.setTextColor(0);
+      doc.text(cert.name, margin, y);
+      doc.setFont('helvetica', 'normal');
+      doc.setTextColor(80);
+      doc.text(` – ${cert.issuer} (${cert.date})`, margin + doc.getTextWidth(cert.name), y);
+      y += 15;
+    }
+  }
+
+  doc.save(filename);
 }
 
 // ── Word (.docx from data) ───────────────────────────────────────────────────
