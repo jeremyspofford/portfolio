@@ -23,38 +23,38 @@ export function SearchPosts({ posts }: { posts: BlogPost[] }) {
   return (
     <div className="space-y-8">
       <div className="relative">
-        <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-[#475569] w-5 h-5" />
+        <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-text-faint w-5 h-5" />
         <input
           type="text"
           placeholder="Search posts by title, description, or tags..."
-          className="w-full pl-10 pr-4 py-3 rounded-xl border border-[#1E293B] bg-[#111827] text-[#F1F5F9] focus:ring-2 focus:ring-[#22D3EE] focus:border-transparent outline-none transition-all placeholder:text-[#475569]"
+          className="w-full pl-10 pr-4 py-3 rounded border border-border-primary bg-bg-muted text-text-primary focus:border-text-primary outline-none transition-colors placeholder:text-text-faint"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
         />
       </div>
 
-      <div className="grid gap-6">
+      <div className="space-y-7">
         {filteredPosts.length > 0 ? (
           filteredPosts.map((post) => (
             <Link
               key={post.slug}
               href={`/blog/${post.slug}`}
-              className="group block p-6 bg-[#111827] hover:bg-[#1F2B45] border border-[#1E293B] hover:border-[#22D3EE]/40 rounded-xl transition-all duration-200"
+              className="group block py-3 border-b border-border-primary last:border-0"
             >
-              <div className="flex flex-col md:flex-row md:items-baseline justify-between mb-3">
-                <h2 className="text-xl font-bold text-[#F1F5F9] group-hover:text-[#22D3EE] transition-colors">
+              <div className="flex flex-col md:flex-row md:items-baseline justify-between mb-2">
+                <h2 className="font-display font-semibold text-[17px] text-text-primary group-hover:underline underline-offset-4">
                   {post.title}
                 </h2>
-                <span className="text-sm font-mono text-[#475569] shrink-0 mt-1 md:mt-0">
+                <span className="text-[13px] font-mono text-text-faint shrink-0 mt-1 md:mt-0">
                   {post.date}
                 </span>
               </div>
-              <p className="text-[#94A3B8] mb-4 line-clamp-2 leading-relaxed">
+              <p className="text-[15px] leading-relaxed text-text-body mb-2 line-clamp-2 max-w-[65ch]">
                 {post.description}
               </p>
-              <div className="flex gap-2 flex-wrap">
+              <div className="flex gap-3 flex-wrap">
                 {post.tags.map(tag => (
-                  <span key={tag} className="text-xs px-2 py-1 rounded-md bg-[#22D3EE]/10 text-[#22D3EE] border border-[#22D3EE]/20 font-medium">
+                  <span key={tag} className="font-mono text-[11px] text-text-faint">
                     #{tag}
                   </span>
                 ))}
@@ -62,7 +62,7 @@ export function SearchPosts({ posts }: { posts: BlogPost[] }) {
             </Link>
           ))
         ) : (
-          <div className="text-center py-12 text-[#475569]">
+          <div className="text-center py-12 text-text-muted">
             No posts found matching &quot;{query}&quot;
           </div>
         )}

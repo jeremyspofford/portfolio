@@ -16,26 +16,25 @@ module.exports = {
     },
     extend: {
       fontFamily: {
-        display: ['var(--font-display)', 'Space Grotesk', 'system-ui', 'sans-serif'],
-        body: ['var(--font-body)', 'Inter Tight', 'system-ui', 'sans-serif'],
+        display: ['var(--font-display)', 'Source Serif 4', 'Georgia', 'serif'],
+        body: ['var(--font-body)', 'Inter', 'system-ui', 'sans-serif'],
         mono: ['var(--font-mono)', 'JetBrains Mono', 'Fira Code', 'monospace'],
       },
       colors: {
-        // Brand colors
-        'bg-primary': '#0A0E17',
-        'bg-secondary': '#111827',
-        'bg-card': '#1A1F2E',
-        'bg-light': '#F8FAFC',
-        'text-primary': '#F1F5F9',
-        'text-secondary': '#94A3B8',
-        'text-dark': '#0F172A',
-        'brand-accent': '#22D3EE',
-        'accent-hover': '#06B6D4',
-        'accent-muted': 'rgba(34, 211, 238, 0.1)',
-        'brand-success': '#10B981',
-        'brand-border': '#1E293B',
+        // Document palette — warm stone, no accent
+        'bg-primary':     '#FAFAF9', // stone-50 — page
+        'bg-muted':       '#F5F5F4', // stone-100
+        'header-bg':      '#1C1917', // stone-900 — dark strip
+        'header-fg':      '#F5F5F4', // stone-100
+        'header-muted':   '#A8A29E', // stone-400
+        'text-primary':   '#1C1917', // stone-900
+        'text-body':      '#44403C', // stone-700
+        'text-secondary': '#57534E', // stone-600
+        'text-muted':     '#78716C', // stone-500
+        'text-faint':     '#A8A29E', // stone-400
+        'border-primary': '#E7E5E4', // stone-200
 
-        // shadcn compat
+        // shadcn compat — light stone
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
@@ -75,23 +74,8 @@ module.exports = {
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
       },
-      boxShadow: {
-        'glow-cyan': '0 0 20px rgba(34, 211, 238, 0.15)',
-        'glow-cyan-lg': '0 0 40px rgba(34, 211, 238, 0.25)',
-      },
-      animation: {
-        'fade-in-up': 'fadeInUp 0.6s ease forwards',
-        'cursor-blink': 'blink 1s step-end infinite',
-      },
-      keyframes: {
-        fadeInUp: {
-          from: { opacity: '0', transform: 'translateY(24px)' },
-          to: { opacity: '1', transform: 'translateY(0)' },
-        },
-        blink: {
-          '0%, 100%': { opacity: '1' },
-          '50%': { opacity: '0' },
-        },
+      maxWidth: {
+        'doc': '720px',
       },
     },
   },

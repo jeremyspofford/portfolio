@@ -70,8 +70,29 @@ export function ResumeClient({ profile, experience, education, skills, certifica
     [experience, hiddenExperience]
   );
 
-  // Pass only visible experience to download functions
-  const resumeData: ResumeData = { profile: profile || undefined, experience: visibleExperience, education, skills, certifications };
+  // Education: hidden by default — opt-in toggle
+  const [hiddenEducation, setHiddenEducation] = useState<Set<string>>(() => {
+    const hidden = new Set<string>();
+    for (const item of education) hidden.add(item.SK);
+    return hidden;
+  });
+
+  const toggleEducation = (sk: string) => {
+    setHiddenEducation(prev => {
+      const next = new Set(prev);
+      if (next.has(sk)) next.delete(sk);
+      else next.add(sk);
+      return next;
+    });
+  };
+
+  const visibleEducation = useMemo(
+    () => education.filter(item => !hiddenEducation.has(item.SK)),
+    [education, hiddenEducation]
+  );
+
+  // Pass only visible experience + education to download functions
+  const resumeData: ResumeData = { profile: profile || undefined, experience: visibleExperience, education: visibleEducation, skills, certifications };
 
   const handleDownload = async (format: string, fn: () => Promise<void> | void) => {
     setDownloading(format);
@@ -85,7 +106,7 @@ export function ResumeClient({ profile, experience, education, skills, certifica
   };
 
   return (
-    <div className="container pt-24 pb-12 px-4 max-w-7xl mx-auto">
+    <div className="container pt-8 pb-12 px-4 max-w-7xl mx-auto">
       <div className="flex justify-between items-start mb-8 print:hidden">
         <div>
           <h1 className="text-3xl font-bold tracking-tight mb-2">Resume</h1>
@@ -111,17 +132,16 @@ export function ResumeClient({ profile, experience, education, skills, certifica
 
             <DropdownMenu.Portal>
               <DropdownMenu.Content
-                className="min-w-[220px] rounded-lg p-1.5 shadow-xl border"
-                style={{ background: '#1F2B45', borderColor: '#3D4F6B' }}
+                className="min-w-[220px] rounded p-1.5 shadow-lg border bg-white border-border-primary"
                 sideOffset={5}
                 align="end"
               >
-                <DropdownMenu.Label className="px-3 py-1.5 text-[10px] font-mono uppercase tracking-widest text-[#94A3B8]">
+                <DropdownMenu.Label className="px-3 py-1.5 text-[10px] font-mono uppercase tracking-widest text-text-muted">
                   Generated from data
                 </DropdownMenu.Label>
 
                 <DropdownMenu.Item
-                  className="flex items-center gap-2 px-3 py-2 text-sm text-[#F1F5F9] rounded-md cursor-pointer hover:bg-[#22D3EE]/10 hover:text-[#22D3EE] outline-none"
+                  className="flex items-center gap-2 px-3 py-2 text-sm text-text-body rounded cursor-pointer hover:bg-bg-muted hover:text-text-primary outline-none"
                   onSelect={() => handleDownload('pdf', () => downloadResumePdf(resumeData))}
                   disabled={downloading !== null}
                 >
@@ -130,7 +150,7 @@ export function ResumeClient({ profile, experience, education, skills, certifica
                 </DropdownMenu.Item>
 
                 <DropdownMenu.Item
-                  className="flex items-center gap-2 px-3 py-2 text-sm text-[#F1F5F9] rounded-md cursor-pointer hover:bg-[#22D3EE]/10 hover:text-[#22D3EE] outline-none"
+                  className="flex items-center gap-2 px-3 py-2 text-sm text-text-body rounded cursor-pointer hover:bg-bg-muted hover:text-text-primary outline-none"
                   onSelect={() => handleDownload('docx', () => downloadResumeDocx(resumeData))}
                   disabled={downloading !== null}
                 >
@@ -139,7 +159,7 @@ export function ResumeClient({ profile, experience, education, skills, certifica
                 </DropdownMenu.Item>
 
                 <DropdownMenu.Item
-                  className="flex items-center gap-2 px-3 py-2 text-sm text-[#F1F5F9] rounded-md cursor-pointer hover:bg-[#22D3EE]/10 hover:text-[#22D3EE] outline-none"
+                  className="flex items-center gap-2 px-3 py-2 text-sm text-text-body rounded cursor-pointer hover:bg-bg-muted hover:text-text-primary outline-none"
                   onSelect={() => handleDownload('txt', () => downloadResumeTxt(resumeData))}
                   disabled={downloading !== null}
                 >
@@ -147,9 +167,9 @@ export function ResumeClient({ profile, experience, education, skills, certifica
                   Download Text
                 </DropdownMenu.Item>
 
-                <DropdownMenu.Separator className="h-px my-1.5 mx-2" style={{ background: '#3D4F6B' }} />
+                <DropdownMenu.Separator className="h-px my-1.5 mx-2 bg-border-primary" />
 
-                <DropdownMenu.Label className="px-3 py-1.5 text-[10px] font-mono uppercase tracking-widest text-[#94A3B8]">
+                <DropdownMenu.Label className="px-3 py-1.5 text-[10px] font-mono uppercase tracking-widest text-text-muted">
                   Original files
                 </DropdownMenu.Label>
 
@@ -157,7 +177,7 @@ export function ResumeClient({ profile, experience, education, skills, certifica
                   <a
                     href="/assets/JeremySpoffordSeniorDevOpsEngineer.pdf"
                     download
-                    className="flex items-center gap-2 px-3 py-2 text-sm text-[#F1F5F9] rounded-md cursor-pointer hover:bg-[#22D3EE]/10 hover:text-[#22D3EE] outline-none"
+                    className="flex items-center gap-2 px-3 py-2 text-sm text-text-body rounded cursor-pointer hover:bg-bg-muted hover:text-text-primary outline-none"
                   >
                     <FileText className="w-4 h-4" />
                     Original Resume (PDF)
@@ -168,7 +188,7 @@ export function ResumeClient({ profile, experience, education, skills, certifica
                   <a
                     href="/assets/Jeremy-Spofford-Senior DevOps Engineer.docx"
                     download
-                    className="flex items-center gap-2 px-3 py-2 text-sm text-[#F1F5F9] rounded-md cursor-pointer hover:bg-[#22D3EE]/10 hover:text-[#22D3EE] outline-none"
+                    className="flex items-center gap-2 px-3 py-2 text-sm text-text-body rounded cursor-pointer hover:bg-bg-muted hover:text-text-primary outline-none"
                   >
                     <FileText className="w-4 h-4" />
                     Original Resume (Word)
@@ -180,30 +200,57 @@ export function ResumeClient({ profile, experience, education, skills, certifica
         </div>
       </div>
 
-      {/* Experience toggles */}
-      <div className="mb-6 p-4 rounded-lg border border-[#1E293B] print:hidden" style={{ background: '#111827' }}>
+      {/* Experience + Education toggles */}
+      <div className="mb-6 p-4 rounded border border-border-primary bg-bg-muted print:hidden">
         <div className="flex items-center gap-2 mb-3">
-          <Eye className="w-4 h-4 text-[#94A3B8]" />
-          <span className="text-sm font-medium text-[#F1F5F9]">Include in resume</span>
+          <Eye className="w-4 h-4 text-text-muted" />
+          <span className="text-sm font-medium text-text-primary">Include in resume</span>
         </div>
-        <div className="flex flex-wrap gap-x-6 gap-y-2">
-          {[...experience].sort((a, b) => {
-            const dateA = a.content.startDate || '';
-            const dateB = b.content.startDate || '';
-            return dateB.localeCompare(dateA);
-          }).map((item) => (
-            <label key={item.SK} className="flex items-center gap-2 cursor-pointer text-sm">
-              <input
-                type="checkbox"
-                checked={!hiddenExperience.has(item.SK)}
-                onChange={() => toggleExperience(item.SK)}
-                className="rounded border-[#3D4F6B] bg-[#1F2B45] text-[#22D3EE] focus:ring-[#22D3EE] focus:ring-offset-0"
-              />
-              <span className={hiddenExperience.has(item.SK) ? 'text-[#475569]' : 'text-[#CBD5E1]'}>
-                {item.content.role} <span className="text-[#475569]">@ {item.content.company}</span>
-              </span>
-            </label>
-          ))}
+
+        <div className="space-y-4">
+          <div>
+            <div className="text-[11px] uppercase tracking-widest font-mono text-text-faint mb-2">Experience</div>
+            <div className="flex flex-wrap gap-x-6 gap-y-2">
+              {[...experience].sort((a, b) => {
+                const dateA = a.content.startDate || '';
+                const dateB = b.content.startDate || '';
+                return dateB.localeCompare(dateA);
+              }).map((item) => (
+                <label key={item.SK} className="flex items-center gap-2 cursor-pointer text-sm">
+                  <input
+                    type="checkbox"
+                    checked={!hiddenExperience.has(item.SK)}
+                    onChange={() => toggleExperience(item.SK)}
+                    className="rounded border-border-primary bg-white text-text-primary focus:ring-text-primary focus:ring-offset-0"
+                  />
+                  <span className={hiddenExperience.has(item.SK) ? 'text-text-faint' : 'text-text-body'}>
+                    {item.content.role} <span className="text-text-muted">@ {item.content.company}</span>
+                  </span>
+                </label>
+              ))}
+            </div>
+          </div>
+
+          {education.length > 0 && (
+            <div>
+              <div className="text-[11px] uppercase tracking-widest font-mono text-text-faint mb-2">Education</div>
+              <div className="flex flex-wrap gap-x-6 gap-y-2">
+                {education.map((item) => (
+                  <label key={item.SK} className="flex items-center gap-2 cursor-pointer text-sm">
+                    <input
+                      type="checkbox"
+                      checked={!hiddenEducation.has(item.SK)}
+                      onChange={() => toggleEducation(item.SK)}
+                      className="rounded border-border-primary bg-white text-text-primary focus:ring-text-primary focus:ring-offset-0"
+                    />
+                    <span className={hiddenEducation.has(item.SK) ? 'text-text-faint' : 'text-text-body'}>
+                      {item.content.degree} <span className="text-text-muted">@ {item.content.institution}</span>
+                    </span>
+                  </label>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       </div>
 
@@ -296,13 +343,13 @@ export function ResumeClient({ profile, experience, education, skills, certifica
               </section>
 
               {/* Education */}
-              {education.length > 0 && (
+              {visibleEducation.length > 0 && (
                 <section>
                   <h3 className="text-xs font-bold uppercase tracking-widest text-zinc-500 mb-4 border-b border-zinc-100 pb-1.5">
                     Education
                   </h3>
                   <div className="space-y-4">
-                    {education.map((item) => (
+                    {visibleEducation.map((item) => (
                       <div key={item.SK}>
                         <div className="flex flex-col sm:flex-row sm:justify-between sm:items-baseline mb-2">
                           <h4 className="text-sm font-bold text-zinc-900">

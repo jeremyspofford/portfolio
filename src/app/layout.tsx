@@ -1,19 +1,24 @@
 import type { Metadata } from "next";
-import { Space_Grotesk, Inter_Tight, JetBrains_Mono } from "next/font/google";
+import { Source_Serif_4, Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { Navbar } from "@/components/Navbar";
+import { SiteHeader } from "@/components/SiteHeader";
+import { Footer } from "@/components/Footer";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { FeatureFlagsProvider } from "@/lib/featureFlags";
 import GoogleAnalytics from "@/components/GoogleAnalytics";
+import { fetchContent } from "@/lib/content";
+import { ProfileContent } from "@/lib/api";
 
-const spaceGrotesk = Space_Grotesk({
+const sourceSerif = Source_Serif_4({
   subsets: ["latin"],
   variable: "--font-display",
-  weight: ["500", "600", "700"],
+  weight: ["400", "600"],
+  style: ["normal", "italic"],
 });
 
-const interTight = Inter_Tight({
+const inter = Inter({
   subsets: ["latin"],
   variable: "--font-body",
   weight: ["400", "500", "600"],
@@ -53,40 +58,47 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const profileData = await fetchContent("PROFILE");
+  const profile = profileData.find((item) => item.SK === "MAIN")?.content as ProfileContent | undefined;
+
   return (
     <html
       lang="en"
-      className="dark"
+      className="light"
       suppressHydrationWarning
     >
       <body
-        className={`${spaceGrotesk.variable} ${interTight.variable} ${jetbrainsMono.variable} font-body antialiased`}
+        className={`${sourceSerif.variable} ${inter.variable} ${jetbrainsMono.variable} font-body antialiased`}
       >
         <GoogleAnalytics />
         <ThemeProvider
           attribute="class"
-          defaultTheme="dark"
-          forcedTheme="dark"
+          defaultTheme="light"
+          forcedTheme="light"
           disableTransitionOnChange
         >
           <FeatureFlagsProvider>
-            <a
-              href="#main-content"
-              className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:bg-[#22D3EE] focus:text-[#0A0E17] focus:rounded-md focus:outline-none"
-            >
-              Skip to main content
-            </a>
-            <Navbar />
-            <ErrorBoundary>
-              <main id="main-content" className="flex flex-col items-center">
-                {children}
-              </main>
-            </ErrorBoundary>
+            <div className="flex min-h-screen flex-col">
+              <a
+                href="#main-content"
+                className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:bg-header-bg focus:text-header-fg focus:rounded focus:outline-none"
+              >
+                Skip to main content
+              </a>
+              <SiteHeader profile={profile} />
+              <Navbar />
+              <ErrorBoundary>
+                <main id="main-content" className="flex-1 flex flex-col items-center w-full">
+                  {children}
+                </main>
+              </ErrorBoundary>
+              <Footer profile={profile} />
+            </div>
           </FeatureFlagsProvider>
         </ThemeProvider>
       </body>
