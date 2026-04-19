@@ -23,7 +23,7 @@ export function Hero({ profile, certifications: _certifications }: HeroProps) {
         <p className="text-[17px] leading-relaxed text-text-body max-w-[65ch]">
           The best infrastructure disappears. 8 years of making systems{" "}
           <em className="italic text-text-primary font-medium">boring-on-purpose</em>{" "}
-          in DevOps — shrinking a 30-minute pipeline to 2 by rebuilding change detection. Now turning that same discipline on the ML side — graph-based memory, learned retrieval, and inference routing between cloud providers and local GPUs.
+          in DevOps — shrinking a 30-minute pipeline to 2 by rebuilding change detection. Currently designing multi-account AWS infrastructure with Terragrunt and Lambda across five environments.
         </p>
 
         <blockquote className="mt-8 pl-5 border-l border-border-primary max-w-[55ch]">
