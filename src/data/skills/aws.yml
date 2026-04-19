@@ -14,5 +14,10 @@ content:
     - API Gateway
     - Cognito
     - CloudWatch
+    - KMS
+    - Secrets Manager
+    - ECR
+    - SAM
+    - SNS
   icon: cloud
   description: Deep knowledge of AWS core services and serverless computing architectures.

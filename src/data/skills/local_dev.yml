@@ -1,0 +1,12 @@
+PK: SKILL
+SK: LOCAL_DEV
+content:
+  category: Local Development & Testing
+  proficiency: 80
+  items:
+    - LocalStack
+    - Docker Compose
+    - AWS SAM CLI
+    - AWS CLI
+  icon: terminal
+  description: Layered local development environments that let engineers iterate fast without cloud credentials or cloud bills.
