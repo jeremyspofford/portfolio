@@ -9,7 +9,7 @@ titles:
   # - DevOps Engineer
   # - Cloud Infrastructure Architect
   # - Site Reliability Engineer
-bio: "Senior DevOps Engineer with 8+ years of experience driving infrastructure automation, cloud cost optimization, and CI/CD excellence. Reduced monthly GCP spend by 30% through strategic Cloud Run and review-app optimization. Architected dynamic preview environments and automated certificate management systems serving production workloads. Prototyping Nova — a 9-service AI platform POC exploring graph-based cognitive memory, PyTorch re-ranking, and multi-provider LLM routing. The platform layer is where DevOps meets AI, and that's where I'm heading."
+bio: "Senior DevOps Engineer with 8+ years of experience driving infrastructure automation, cloud cost optimization, and CI/CD excellence. Reduced monthly GCP spend by 30% through strategic Cloud Run and review-app optimization. Architected dynamic preview environments and automated certificate management systems serving production workloads. Prototyping Nova — a 9-service AI platform POC exploring graph-based cognitive memory, PyTorch re-ranking, and multi-provider LLM routing. The platform layer is where DevOps meets AI, and that's where I'm heading. Currently deepening AWS in production (Terragrunt, Lambda, multi-account) and starting Kubernetes labs in preparation for CKA later this year."
 email: JeremySpofford@gmail.com
 location: Windham, ME
 socials:
