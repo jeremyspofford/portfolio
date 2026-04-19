@@ -11,6 +11,14 @@ content:
     - Terraform
     - GitLab CI
     - AWS
+    - Terragrunt
+    - OpenTofu
+    - LocalStack
+    - AWS SAM
+    - Cognito
+    - KMS
+    - Secrets Manager
+    - ECR
   key_deliverables:
     - title: Cloud Cost Optimization Initiative
       description: Led an initiative resulting in a 30% reduction in monthly infrastructure expenses across all environments.
