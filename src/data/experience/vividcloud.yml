@@ -52,3 +52,37 @@ content:
         - Terraform
         - terraform-docs
         - GitLab CI
+    - title: Multi-account AWS infrastructure with Terragrunt
+      description: Designed and maintain Terragrunt modules across five environments (dev/stage/prod plus sandbox/local), with shared baseline modules and per-environment overrides.
+      technologies:
+        - Terragrunt
+        - OpenTofu
+        - AWS
+        - Lambda
+        - DynamoDB
+        - S3
+        - Cognito
+        - API Gateway
+        - GitLab CI
+    - title: Layered local AWS development with LocalStack and SAM
+      description: "Built a layered local development experience: a fully-local mode using LocalStack for offline iteration, and a hybrid mode using SAM CLI bootstrapped against deployed AWS dev resources for richer integration testing. Keeps cloud bills off engineers writing unit tests."
+      technologies:
+        - LocalStack
+        - Docker Compose
+        - Terragrunt
+        - AWS SAM
+        - AWS CLI
+    - title: Per-merge-request preview environments on GCP
+      description: On a previous client engagement, built per-merge-request preview environments on GCP / Cloud Run so reviewers could click around real infrastructure on each open MR instead of relying on screenshots or local repros.
+      technologies:
+        - GCP
+        - Cloud Run
+        - GitLab CI
+        - Terraform
+    - title: Observability-as-code with CloudWatch
+      description: "Treated CloudWatch alarms as code — error-rate metric math, per-environment retention tiers, master enable/disable switches, and SNS routing to email and Teams webhooks across multiple environments."
+      technologies:
+        - CloudWatch
+        - SNS
+        - Terraform
+        - Teams
