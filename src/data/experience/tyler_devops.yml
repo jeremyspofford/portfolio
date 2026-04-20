@@ -5,7 +5,7 @@ content:
   role: DevOps Engineer
   startDate: "2019-06"
   endDate: "2021-06"
-  description: Designed CI/CD pipelines streamlining deployment processes across teams. Architected scalable Puppet infrastructure for environment consistency. Automated user onboarding and routine administrative tasks via PowerShell. Owned on-premises operations end-to-end: updates, disaster recovery and backups, and capacity planning.
+  description: "Designed CI/CD pipelines streamlining deployment processes across teams. Architected scalable Puppet infrastructure for environment consistency. Automated user onboarding and routine administrative tasks via PowerShell. Owned on-premises operations end-to-end: updates, disaster recovery and backups, and capacity planning."
   technologies:
     - On-Prem
     - Azure
