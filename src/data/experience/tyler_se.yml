@@ -14,14 +14,26 @@ content:
     - Angular
   key_deliverables:
     - title: Cloud Administration Application
-      description: Developed cloud administration tool that reduced support call durations by 50% through self-service capabilities.
+      description: Built cloud administration application providing clients self-service access to integrate and map external service data in a centralized location, reducing support call durations by 50%.
       technologies:
         - TypeScript
         - Angular
         - AWS
         - GitHub
-    - title: Migration to GitHub CI/CD
-      description: Led migration from legacy CI systems to GitHub Actions with automated security scanning.
+    - title: GitHub CI/CD migration
+      description: Spearheaded migration from Bitbucket and TeamCity to GitHub, implementing branch protection with required team code reviews and automated secret-scanning on all commits.
       technologies:
         - GitHub Actions
         - Security Scanning
+    - title: Automated TypeDoc documentation pipeline
+      description: Built internal PowerShell tool automating the release and updating of TypeDoc comments into a Gatsby documentation website, eliminating manual doc maintenance.
+      technologies:
+        - PowerShell
+        - TypeDoc
+        - Gatsby
+    - title: Client database migration SPA
+      description: Collaborated with product managers to architect and develop a single-page web app for client database migrations into cloud applications.
+      technologies:
+        - TypeScript
+        - Angular
+        - AWS
