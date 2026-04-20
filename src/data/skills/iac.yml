@@ -9,5 +9,7 @@ content:
     - Terragrunt
     - AWS CDK
     - Ansible
+    - VMware vRealize
+    - Cloud-Config
   icon: code
   description: Advanced infrastructure automation and configuration management expertise.

@@ -8,5 +8,7 @@ content:
     - GitHub Actions
     - Azure DevOps
     - TeamCity
+    - GitOps
+    - terraform-docs
   icon: terminal
   description: Building robust automated pipelines for build, test, and deployment workflows.

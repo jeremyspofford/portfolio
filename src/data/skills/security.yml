@@ -8,5 +8,7 @@ content:
     - Veracode
     - Secret Management
     - IAM Integration
+    - SAST
+    - DAST
   icon: shield
   description: Security best practices, compliance, and vulnerability management.
