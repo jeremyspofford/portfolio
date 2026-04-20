@@ -5,7 +5,7 @@ content:
   role: Senior DevOps Engineer
   startDate: "2022-11"
   endDate: Present
-  description: "30% GCP cost reduction via shared review-app infrastructure (replacing full-stack per-MR environments), Cloud Run scale-to-zero for non-production services, and build pipeline cleanup (eliminating unnecessary container builds on every commit)."
+  description: "30% GCP cost reduction via shared review-app infrastructure (replacing full-stack per-MR environments), Cloud Run scale-to-zero for non-production services, and build pipeline cleanup (eliminating unnecessary container builds on every commit). Serving parallel AWS and GCP client engagements."
   technologies:
     - GCP
     - Terraform
@@ -77,12 +77,48 @@ content:
       technologies:
         - GCP
         - Cloud Run
+        - Cloud SQL
+        - Cloud DNS
+        - Cloud Storage
         - GitLab CI
         - Terraform
     - title: Observability-as-code with CloudWatch
-      description: "Treated CloudWatch alarms as code — error-rate metric math, per-environment retention tiers, master enable/disable switches, and SNS routing to email and Teams webhooks across multiple environments."
+      description: "Treated CloudWatch alarms and dashboards as code — error-rate metric math, per-environment retention tiers, master enable/disable switches, and SNS routing to email and Teams webhooks across multiple environments."
       technologies:
         - CloudWatch
         - SNS
         - Terraform
         - Teams
+    - title: Secret management across AWS and GCP
+      description: "Shipped secret-management implementations across two client engagements. On AWS: moved vendor API keys and service credentials from CI variables into Secrets Manager, with Lambda-side caching at cold start. On GCP: automated certificate rotation triggered by Pub/Sub with Secret Manager as the store, eliminating manual cert-swap downtime."
+      technologies:
+        - AWS Secrets Manager
+        - GCP Secret Manager
+        - Pub/Sub
+        - Lambda
+        - Terraform
+        - Terragrunt
+    - title: Monitoring stack migration from Datadog to GCP Cloud Monitoring
+      description: "Led migration of a client's monitoring stack from Datadog to GCP Cloud Monitoring — rebuilding dashboards and alarm routes while maintaining SLO coverage during the cutover. Standardized alert routing across email, Teams, and Slack."
+      technologies:
+        - Datadog
+        - GCP Cloud Monitoring
+        - Terraform
+    - title: CI/CD reliability guardrails
+      description: "Hardened CI pipelines to block broken code from reaching downstream environments — parallelized jobs with automated smoke tests, static-analysis and database-changelog validation, SAST/DAST-style scanning, and build-success-gated release automation."
+      technologies:
+        - GitLab CI
+        - GCP
+        - AWS
+        - Terraform
+    - title: Automated IaC documentation with terraform-docs
+      description: Integrated terraform-docs into CI pipelines to auto-generate and keep Terraform module documentation in sync with HCL source, reducing IaC onboarding friction and doc drift.
+      technologies:
+        - terraform-docs
+        - Terraform
+        - GitLab CI
+    - title: Department IAM ownership on GCP
+      description: "Owned IAM design and administration across a GCP department engagement — role bindings, custom roles, service-account hygiene, and least-privilege enforcement across multiple projects."
+      technologies:
+        - GCP IAM
+        - Terraform
