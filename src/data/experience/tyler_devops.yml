@@ -5,7 +5,7 @@ content:
   role: DevOps Engineer
   startDate: "2019-06"
   endDate: "2021-06"
-  description: Designed CI/CD pipelines streamlining deployment processes across teams. Architected scalable Puppet infrastructure for environment consistency. Automated user onboarding and routine administrative tasks via PowerShell.
+  description: Designed CI/CD pipelines streamlining deployment processes across teams. Architected scalable Puppet infrastructure for environment consistency. Automated user onboarding and routine administrative tasks via PowerShell. Owned on-premises operations end-to-end: updates, disaster recovery and backups, and capacity planning.
   technologies:
     - On-Prem
     - Azure
@@ -22,8 +22,30 @@ content:
         - Azure DevOps
         - PowerShell
     - title: Infrastructure Automation
-      description: Architected scalable Puppet infrastructure ensuring consistency across all environments.
+      description: Developed infrastructure-as-code using Puppet Enterprise (Server/Agent architecture) to reduce configuration drift and ensure consistency across developer environments.
       technologies:
         - Puppet
         - Azure
         - PowerShell
+    - title: Automated engineer onboarding
+      description: Implemented automated user creation for new engineers, eliminating manual provisioning and reducing onboarding human error.
+      technologies:
+        - PowerShell
+        - Active Directory
+    - title: Automated server provisioning
+      description: "Developed automated server creation with Cloud-Config and VMware vRealize to give developers fast, consistent, reproducible environments — reducing manual operations interventions by 75%."
+      technologies:
+        - Cloud-Config
+        - VMware vRealize
+        - Puppet
+    - title: Automated security scanning pipeline
+      description: Established scheduled SAST and DAST security scanning with automated vulnerability reports to development teams, preventing vulnerabilities from reaching production.
+      technologies:
+        - SAST
+        - DAST
+        - CI/CD
+    - title: Microsoft Active Directory administration
+      description: "Administered Active Directory — user provisioning, permission management, group creation, and distribution lists."
+      technologies:
+        - Active Directory
+        - Windows Server
