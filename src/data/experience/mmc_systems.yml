@@ -2,7 +2,7 @@ PK: EXPERIENCE
 SK: 2016-02-01
 content:
   company: Maine Medical Center
-  role: Systems Administrator
+  role: Pharmacy Systems Specialist
   startDate: "2016-02"
   endDate: "2017-06"
   description: Implemented automated pharmacy reporting systems using Python and SQL. Established IT communication protocols with 2-hour response standards. Created comprehensive IT documentation framework.
@@ -23,3 +23,7 @@ content:
       technologies:
         - Server Administration
         - SharePoint
+    - title: Vendor partnership and technology optimization
+      description: Strengthened vendor relationships to ensure optimal solution usage, collaborating on installations and upgrades.
+      technologies:
+        - Vendor Management
