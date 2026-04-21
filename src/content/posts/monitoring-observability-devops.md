@@ -105,7 +105,7 @@ resource "aws_cloudwatch_metric_alarm" "lambda_error_rate_critical" {
 }
 ```
 
-The expression `IF(m2>0,(m1/m2)*100,0)` is the key pattern. Without the `IF` guard, a period with zero invocations produces a division-by-zero and the alarm goes into `INSUFFICIENT_DATA` — which most runbooks treat as "ignore." That's how you miss a real incident during a quiet window. The guard returns a clean `0` when there's no traffic, so the alarm only fires on actual error bursts.
+The expression `IF(m2>0,(m1/m2)*100,0)` is the key pattern. Without the `IF` guard, a zero-invocations window leaves `m1/m2` as `0/0` — CloudWatch emits no datapoint, and how the alarm reacts then depends entirely on your `treat_missing_data` setting. That's a coupling you don't want: the alarm's behavior during a quiet window is decided by a config line in a different place. The guard returns a clean `0` whenever there's no traffic, so the alarm only fires on actual error bursts regardless of how missing data is treated.
 
 Same shape works for API Gateway 5XX rate (`5XXError / Count`), 4XX rate (`4XXError / Count`), and any other "errors per request" metric you care about.
 
