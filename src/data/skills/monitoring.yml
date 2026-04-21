@@ -1,0 +1,11 @@
+PK: SKILL
+SK: MONITORING
+content:
+  category: Monitoring & Observability
+  proficiency: 80
+  items:
+    - Datadog
+    - GCP Cloud Monitoring
+    - AWS CloudWatch
+  icon: chart
+  description: Monitoring and observability stack design across AWS and GCP — alarms, dashboards, metric routing, and SLO coverage during migrations.
