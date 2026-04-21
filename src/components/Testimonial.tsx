@@ -18,7 +18,7 @@ export function Testimonial() {
           </a>
           <cite className="block mt-4 text-[13px] not-italic text-text-muted">
             <span className="font-medium text-text-primary">Jessica Wood</span>
-            , Software Engineer · worked together at Dematic
+            , Software Engineer
           </cite>
         </blockquote>
       </div>
