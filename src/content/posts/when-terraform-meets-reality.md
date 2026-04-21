@@ -1,6 +1,6 @@
 ---
 title: "When Terraform Meets Reality: The Manually-Created Resource Problem"
-date: "2026-02-27"
+date: "2026-04-20"
 description: "A war story about Terraform state disagreeing with the AWS console — the import attempt that didn't resolve, the allow-failure interim, and why filtering manually-managed resources out of CI was the right call."
 tags: ["terraform", "terragrunt", "aws", "devops", "iac", "war-stories"]
 ---
