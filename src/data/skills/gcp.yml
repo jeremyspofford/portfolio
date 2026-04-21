@@ -10,5 +10,6 @@ content:
     - Private Service Connect
     - Secret Manager
     - BigQuery
+    - Cloud Composer (Airflow)
   icon: fab fa-google
   description: Expertise in Google Cloud Platform services and architecture with extensive hands-on experience.
