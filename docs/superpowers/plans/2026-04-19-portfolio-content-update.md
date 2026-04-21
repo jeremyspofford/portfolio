@@ -12,19 +12,19 @@
 
 ---
 
-## Resume Status (last updated 2026-04-20)
+## Resume Status (last updated 2026-04-21)
 
 ### Completed — no action needed
 - ✅ **Pre-flight**: spec + plan committed (`3bf4d24`); branch setup (working on `main` per user consent)
 - ✅ **Phase 1 — Task 1**: Hero subtitle replaced (`3ed2b88`)
 - ✅ **Phase 2 — Tasks 2-7**: All resume YAML updates (`76c6226` → `5908c7c`)
 - ✅ **Scope expansion (verbal approval, outside original spec)**: enrichment of every past role + a Monitoring & Observability skill category + Terraform-docs deliverable consolidation (`18f7f8d` → `d35cb28`)
+- ✅ **Phase 3 — Task 8**: Post 4 (Monitoring & Observability rewrite) published + metric-math follow-up fix (`487fe02` → `58ebcfc`)
 
-**Last commit before pause:** `d35cb28 feat(resume): add Monitoring & Observability skill category`
+**Last commit before pause:** `58ebcfc fix(blog): sharpen metric-math IF-guard explanation`
 
 ### Remaining — pick up here
-- 🔲 **Phase 3 — Task 8**: Post 4 (Monitoring & Observability rewrite) — START HERE
-- 🔲 **Phase 3 — Task 9**: Post 1 (When Terraform Meets Reality)
+- 🔲 **Phase 3 — Task 9**: Post 1 (When Terraform Meets Reality) — START HERE
 - 🔲 **Phase 3 — Task 10**: Post 2 (Per-MR Ephemeral GCP Environments)
 - 🔲 **Phase 3 — Task 11**: Post 3 (Layered Local AWS Dev Loop)
 - 🔲 **Phase 4 — Task 12**: Final verification
@@ -43,7 +43,7 @@ User confirmed Cloud Storage (NOT AWS S3 — that was a paste typo). Use these i
 
 From the portfolio repo (`cd ~/workspace/portfolio`), prompt Claude with:
 
-> "Pick up the portfolio content update plan from where we left off. The plan is at `docs/superpowers/plans/2026-04-19-portfolio-content-update.md` — read the Resume Status section at the top first. Resume from Phase 3 / Task 8 (Post 4 — Monitoring & Observability rewrite) using the superpowers:subagent-driven-development skill. Work directly on `main` per prior consent."
+> "Pick up the portfolio content update plan from where we left off. The plan is at `docs/superpowers/plans/2026-04-19-portfolio-content-update.md` — read the Resume Status section at the top first. Resume from Phase 3 / Task 9 (Post 1 — When Terraform Meets Reality) using the superpowers:subagent-driven-development skill. Work directly on `main` per prior consent."
 
 The fresh session will read the plan + the Resume Status block and dispatch the next implementer.
 
