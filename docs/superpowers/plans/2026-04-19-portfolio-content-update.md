@@ -12,6 +12,47 @@
 
 ---
 
+## Resume Status (last updated 2026-04-20)
+
+### Completed — no action needed
+- ✅ **Pre-flight**: spec + plan committed (`3bf4d24`); branch setup (working on `main` per user consent)
+- ✅ **Phase 1 — Task 1**: Hero subtitle replaced (`3ed2b88`)
+- ✅ **Phase 2 — Tasks 2-7**: All resume YAML updates (`76c6226` → `5908c7c`)
+- ✅ **Scope expansion (verbal approval, outside original spec)**: enrichment of every past role + a Monitoring & Observability skill category + Terraform-docs deliverable consolidation (`18f7f8d` → `d35cb28`)
+
+**Last commit before pause:** `d35cb28 feat(resume): add Monitoring & Observability skill category`
+
+### Remaining — pick up here
+- 🔲 **Phase 3 — Task 8**: Post 4 (Monitoring & Observability rewrite) — START HERE
+- 🔲 **Phase 3 — Task 9**: Post 1 (When Terraform Meets Reality)
+- 🔲 **Phase 3 — Task 10**: Post 2 (Per-MR Ephemeral GCP Environments)
+- 🔲 **Phase 3 — Task 11**: Post 3 (Layered Local AWS Dev Loop)
+- 🔲 **Phase 4 — Task 12**: Final verification
+
+### Captured Q&A (use during Phase 3)
+
+**For Task 10 (Post 2 — GCP review-apps):** the GCP services used in that engagement were:
+- Cloud Run (apps)
+- Cloud SQL (database)
+- Cloud DNS (per-MR subdomain assignment)
+- Cloud Storage (frontend static assets)
+
+User confirmed Cloud Storage (NOT AWS S3 — that was a paste typo). Use these in the post body and the post's tags as appropriate.
+
+### How to resume in a fresh session
+
+From the portfolio repo (`cd ~/workspace/portfolio`), prompt Claude with:
+
+> "Pick up the portfolio content update plan from where we left off. The plan is at `docs/superpowers/plans/2026-04-19-portfolio-content-update.md` — read the Resume Status section at the top first. Resume from Phase 3 / Task 8 (Post 4 — Monitoring & Observability rewrite) using the superpowers:subagent-driven-development skill. Work directly on `main` per prior consent."
+
+The fresh session will read the plan + the Resume Status block and dispatch the next implementer.
+
+### Anonymization reminder (still in force)
+
+No client / app / vendor / product names from any client engagement. Forbidden tokens: `ft-quoting`, `alertventure`, `dematic`, `tripo`, `drone`, `trajectory`, `simulator`, `usdz`, `avfftdev`. Source environments are referred to generically ("an AWS environment I work in," "a previous GCP engagement"). The two feedback memories at `~/.claude/projects/-home-jeremy-workspace-portfolio/memory/` capture the rule and the rationale.
+
+---
+
 ## File Structure
 
 | Path | Action | Responsibility |
