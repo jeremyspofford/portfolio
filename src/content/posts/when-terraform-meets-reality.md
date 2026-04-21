@@ -21,7 +21,7 @@ I wrote the resource definition, ran the import, confirmed the state file now kn
 
 Except the resource was bound to a sibling resource that lived in a different stack, managed by a different module in a different repo. The binding had been done by hand. Once Terraform owned the resource, every plan started asserting its view of what the binding should look like — which didn't match what the out-of-stack module was trying to assert on its next plan. Each plan wanted to drift the resource back toward its own config, and the other stack's next plan wanted to drift it the other direction. A perpetual reconcile fight, with the resource oscillating between two views of reality on alternating deploys.
 
-This is the subtle failure mode with `import`. The command succeeded. The state was technically correct. But "correct state" is not the same as "a stable plan," and a plan that will never converge is worse than no import at all — because now every future apply has a live dependency on a resource that disagrees with its neighbors.
+This is the subtle failure mode with `import`. The command succeeded. The state was technically correct. But "correct state" is not the same as "a stable plan," and a plan that will never converge is worse than a failed import — a failed import is loud, a non-converging plan is quietly wrong on every future run.
 
 The options from there were: extend Terraform's ownership to cover the entangled sibling (touches a module outside my scope), rewrite both modules to share a contract (days of work, cross-team), or stop trying to manage the resource in Terraform at all. The first two were worth doing eventually. None of them were worth doing at 4pm with a pipeline red and a merge window closing.
 
@@ -46,7 +46,7 @@ The TODO comment was there for a reason. A flag like this without an expiry note
 
 The right fix, once I stopped trying to win the import fight, was to take the module out of the CI apply path entirely.
 
-Terragrunt's `run --all` has a `--filter` flag that accepts a negation pattern. The pipeline's apply command went from this —
+Terragrunt's `run --all` has a `--filter` flag that accepts a glob pattern, with `!` as a negation prefix. The pipeline's apply command went from this —
 
 ```bash
 terragrunt run --all apply
@@ -55,10 +55,10 @@ terragrunt run --all apply
 — to this:
 
 ```bash
-terragrunt run --all apply --filter '!internal-launcher-lambda'
+terragrunt run --all --filter '!./internal-launcher-lambda' -- apply
 ```
 
-The `!` inverts the match. Everything in the repo applies except the one module whose resource was fighting with an out-of-stack dependency. That module still gets planned locally when someone's working on it — it just doesn't run in the automated deploy, where a failure would block every other stack's apply.
+The `!` inverts the match; the leading `./` is the path prefix the glob expects; `--` separates the Terragrunt flags from the Terraform subcommand. Everything in the repo applies except the one module whose resource was fighting with an out-of-stack dependency. That module still gets planned locally when someone's working on it — it just doesn't run in the automated deploy, where a failure would block every other stack's apply.
 
 The same commit flipped `allow_failure` back to `false`:
 
@@ -71,14 +71,14 @@ deploy:infrastructure:
 
 That's the clean landing. The pipeline is once again telling the truth: if the infra-apply job fails, something is broken and deploys are blocked. The filtered module is explicitly out of scope for CI, with a comment in the pipeline config explaining why, and a README entry pointing at the cross-stack entanglement that would need to be untangled to bring it back in.
 
-The whole incident, import attempt through clean landing, was about 24 hours. Less time than a typical code review cycle.
+Less time, in the end, than a typical code review cycle.
 
 ## Takeaways
 
 **State is an aspiration, not a guarantee.** Terraform assumes it owns what it knows about, and it assumes what it doesn't know about doesn't exist. The world doesn't cooperate. Every real AWS account has console-clicks buried in its history, and every one of those clicks is a potential fight between state and reality. The skill isn't avoiding them — it's recognizing one early and deciding whether the fight is worth fighting.
 
-**Prefer exclusion to a fight when the cost-benefit favors it.** An import that doesn't cleanly land is a tax on every future plan, not a one-time cost. The engineering instinct is to get the tool to do the right thing, and that instinct is usually correct. It is not always correct. When the integration surface is messy and crossing stack boundaries, scoping the tool's responsibility down is often cheaper than forcing it to be right about everything.
+**Prefer exclusion to a fight when the cost-benefit favors it.** An import that doesn't cleanly land is a tax on every future plan, not a one-time cost. When the cost of making the tool agree with reality exceeds the cost of exclusion, exclusion wins.
 
-**Document and gate the manually-managed resources.** A `--filter` line in CI without a comment or a README pointer becomes a mystery in six months. Future-me opening the pipeline config and seeing `--filter '!internal-launcher-lambda'` with no context is going to assume it's safe to remove — and then find out the hard way. The filter line had a comment. The README had a paragraph. The resource itself had a tag that said "managed manually, see README." Three places, because one place is a place someone won't look.
+**Document and gate the manually-managed resources.** A `--filter` line without a comment becomes a mystery in six months — future-me seeing `--filter '!./internal-launcher-lambda'` with no context will assume it's safe to remove, and find out the hard way. The filter line had a comment. The README had a paragraph. The resource had a tag. One place is always the place someone won't look.
 
 None of this is glamorous. It's the unsexy middle ground between "infrastructure as code" as a slogan and the reality of a multi-repo AWS account that has history. The tooling does 90% of the job. The remaining 10% is judgment about when to stop fighting the tool and carve out explicit exceptions — documented, narrow, and gated — so that the 90% keeps working.
