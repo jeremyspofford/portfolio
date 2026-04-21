@@ -46,11 +46,11 @@ content:
         - Pub/Sub
         - Terraform
         - GitLab CI
-    - title: Terraform Documentation Automation
-      description: Engineered comprehensive automation generating standardized README files, usage examples, and configuration templates with automatic updates.
+    - title: Automated Terraform module documentation
+      description: "Integrated terraform-docs into CI pipelines to auto-generate Terraform module documentation — README files, usage examples, and configuration templates kept in sync with HCL source, reducing IaC onboarding friction and doc drift."
       technologies:
-        - Terraform
         - terraform-docs
+        - Terraform
         - GitLab CI
     - title: Multi-account AWS infrastructure with Terragrunt
       description: Designed and maintain Terragrunt modules across five environments (dev/stage/prod plus sandbox/local), with shared baseline modules and per-environment overrides.
@@ -111,12 +111,6 @@ content:
         - GCP
         - AWS
         - Terraform
-    - title: Automated IaC documentation with terraform-docs
-      description: Integrated terraform-docs into CI pipelines to auto-generate and keep Terraform module documentation in sync with HCL source, reducing IaC onboarding friction and doc drift.
-      technologies:
-        - terraform-docs
-        - Terraform
-        - GitLab CI
     - title: Department IAM ownership on GCP
       description: "Owned IAM design and administration across a GCP department engagement — role bindings, custom roles, service-account hygiene, and least-privilege enforcement across multiple projects."
       technologies:
