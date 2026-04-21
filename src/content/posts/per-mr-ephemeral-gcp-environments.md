@@ -55,26 +55,4 @@ Teardown ran in three layers:
 
 Most preview-environment writeups stop at Layer 1. Layer 1 alone is fine until a runner dies at the wrong moment, and then you've got an environment nothing will clean up except a human who remembers it exists. Two and three are the difference between a pattern that works and one that accumulates orphans.
 
-## What we chose to live with
-
-Every one of these decisions came with a cost we saw and accepted.
-
-Shared Cloud SQL meant no per-MR migration testing. That's a real gap. An MR with a breaking schema change can pass review-app checks, land, and blow up in staging when the migration runs for the first time. We caught that kind of thing elsewhere in the pipeline, but the review app couldn't catch it by construction.
-
-The every-MR trigger meant the path filter was load-bearing. If a future team loosened that filter — or a contributor added a new top-level directory without thinking about which bucket it belonged to — the noise and cost would show up quickly. The discipline held because whoever owned path-filter hygiene kept it tight. That's a person-dependent invariant, not a system-dependent one — worth flagging as a risk, not a win. A less disciplined team would have needed an opt-in label to protect itself.
-
-Cloud DNS per-MR meant the zone accumulated thousands of ephemeral records over the life of the project. DNS scales, but a zone carrying that many records becomes a liability the moment teardown CI fails before the cron sweep picks them up — orphan records outliving their review apps, compounding over weeks.
-
-And the 10-day cron was a choice about blast radius. When orphans are shared-read against dev and cost almost nothing idle, ten days is fine. When every orphan has its own Cloud SQL instance, ten days is a bill to explain to finance. The cadence reflected the architecture above it.
-
-## What we'd do differently
-
-If we were building this again, three things would change.
-
-The cleanup cron would run more often. Ten days was a conservative choice made when the pattern was new and nobody wanted a cron aggressively destroying things before we trusted the Layer 1 trigger. Once Layer 1 was boring, the cron could have run every two or three days with no real downside, and shorter windows tighten the feedback loop on teardown-failure bugs in Layer 1.
-
-There's also a middle path on the database question we never explored. Full Cloud SQL per-MR was the wrong call. Shared-read against dev was pragmatic but left the migration gap. Somewhere between them is a per-MR schema-migration job — applying pending migrations to a per-MR database inside a shared Cloud SQL instance, then dropping it at MR close. You'd pay most of the provisioning cost in seconds instead of minutes and get migration exercise for free in review apps. We didn't do this because the migration gap never bit us hard enough to justify building it, but if it had, that's the path I'd take.
-
-The last one is observability. A safety net nobody watches is a very quiet form of telemetry loss. Counting how often the cron picks up orphans is the signal that tells you whether Layer 1 is healthy. If it starts catching five orphans a week instead of zero, something broke in the trigger. We didn't have a dashboard for that. We should have.
-
-None of this is a repudiation of the pattern. Per-MR ephemeral environments on Cloud Run, backed by shared-read Cloud SQL, with isolated Terraform statefiles and three layers of teardown, worked — reviewers got real infrastructure to click on, orphans stayed rare, and the cost envelope stayed sane. The three things above are sharpening, not replacement.
+Per-MR ephemeral environments on Cloud Run, backed by shared-read Cloud SQL, with isolated Terraform statefiles and three layers of teardown — reviewers got real infrastructure to click on, orphans stayed rare, and the cost envelope stayed sane.
