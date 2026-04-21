@@ -1,6 +1,6 @@
 ---
 title: "Per-MR Ephemeral GCP Environments: What We Learned"
-date: "2026-01-14"
+date: "2025-01-14"
 description: "Preview environments are a frontend cliché — doing them on real GCP infrastructure is a different beast. The pattern, the costs, and what we'd do differently."
 tags: ["gcp", "cloud-run", "ci-cd", "preview-environments", "devops", "platform-engineering"]
 ---
