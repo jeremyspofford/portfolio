@@ -1,6 +1,6 @@
 ---
 title: "Monitoring and Observability in Modern DevOps Environments"
-date: "2026-04-19"
+date: "2025-11-22"
 description: "Treat your monitoring config like code. CloudWatch alarms as Terraform, metric math for derived rates, per-environment retention tiers, and SNS routing patterns from a real production AWS environment."
 tags: ["monitoring", "observability", "devops", "aws", "cloudwatch", "terraform"]
 ---
