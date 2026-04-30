@@ -57,7 +57,7 @@ Nova currently uses the `NovaCard` component (a smaller standalone card, line 79
   - Neural Router (orange) — PyTorch re-ranker
   - Cortex (pink) — autonomous agent loop
   - Chat API, Chat Bridge, Dashboard, Recovery
-- **GitHub link:** https://github.com/arialabs/nova
+- **GitHub link:** <https://github.com/jeremyspofford/nova>
 
 #### 2b. Add "Also shipped at VividCloud" sub-section
 
@@ -76,6 +76,7 @@ After the main project cards, add a labeled sub-section with three smaller cards
    - Metric: "Zero manual renewals"
 
 This is a new layout pattern — the existing "Also built" section (lines 992-1005) is a simple `<ul>` with bullet points. Replace it with a 3-column grid of small cards. Each card uses:
+
 - `rounded-xl` with `border border-[#3D4F6B]` and `bg-[#1F2B45]` (matching existing card patterns)
 - Title in `font-display font-semibold text-sm`
 - Description in `text-xs text-[#CBD5E1]`
@@ -95,6 +96,7 @@ Ensure live site URLs (reps.arialabs.ai, epstein.arialabs.ai, suppr.arialabs.ai)
 **Rename "Familiar" tier** → "Building Toward" with description: "Active projects & learning"
 
 **Update skills in that tier** to include AI-specific tools:
+
 - Add: pgvector, PyTorch, LLM APIs, vLLM / Local Inference
 - Keep existing: AWS CDK, Prometheus, Grafana, GitHub Actions
 
@@ -137,9 +139,11 @@ Four cards in a 2x2 grid (`md:grid-cols-2 gap-6`), using the existing card styli
 ### 7. Navigation Updates (`src/components/Navbar.tsx`)
 
 Add a "How I Work" entry to the `NAV_ITEMS` array between Experience and Contact:
+
 ```ts
 { label: 'Philosophy', sectionId: 'philosophy', href: '#philosophy' }
 ```
+
 No keyboard shortcut needed (keep shortcuts for the 4 main sections: p, s, e, c). The existing About.tsx component is not imported in page.tsx and is unused — Philosophy.tsx supersedes it.
 
 ### 8. Profile Data (`src/data/profile/main.yml`)

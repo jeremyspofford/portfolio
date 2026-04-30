@@ -10,11 +10,12 @@
 
 ---
 
-### Task 1: Update YAML Data Files
+## Task 1: Update YAML Data Files
 
 These are pure data changes with no component dependencies.
 
 **Files:**
+
 - Modify: `src/data/profile/main.yml`
 - Modify: `src/data/experience/vividcloud.yml`
 - Modify: `src/data/experience/mmc_desktop.yml`
@@ -82,9 +83,10 @@ git commit -m "content: update YAML data — bio, VividCloud details, MMC story,
 
 ---
 
-### Task 2: Update Hero Section — Subtitle and Son's Quote
+## Task 2: Update Hero Section — Subtitle and Son's Quote
 
 **Files:**
+
 - Modify: `src/components/Hero.tsx` (lines 113-168 area)
 
 - [ ] **Step 1: Add `getKidAge` helper function**
@@ -134,6 +136,7 @@ Insert between the subtitle `<p>` and the CTA `<div className="flex flex-col sm:
 - [ ] **Step 4: Verify in browser**
 
 Run dev server, visit `http://localhost:3000`. Confirm:
+
 - New subtitle shows "boring on purpose" in bold with accent color
 - Son's quote appears with amber left border
 - Age calculates correctly (should show 5 as of March 2026)
@@ -148,9 +151,10 @@ git commit -m "content: update hero subtitle and add son's engineering quote"
 
 ---
 
-### Task 3: Elevate Nova to FeaturedCard with Architecture Mockup
+## Task 3: Elevate Nova to FeaturedCard with Architecture Mockup
 
 **Files:**
+
 - Modify: `src/components/Projects.tsx` (lines 12-59, 708-906, 910-1010)
 
 - [ ] **Step 1: Update `PROJECT_METADATA["Nova AI Platform"]`**
@@ -163,7 +167,7 @@ Replace the Nova entry in `PROJECT_METADATA` (lines 50-58) with:
     metricLabel: "services",
     problem: "AI assistants forget everything between sessions — no memory, no personalization, no continuity.",
     solution: "Graph-based cognitive memory with spreading activation, Hebbian learning, and consolidation cycles. One persistent brain across Telegram, CLI, and Web.",
-    github: "https://github.com/arialabs/nova",
+    github: "https://github.com/jeremyspofford/nova",
     accentColor: "#22D3EE",
     tag: "Aria Labs",
   },
@@ -306,10 +310,11 @@ Remove the entire `NovaCard` function (lines 799-906) since it's no longer used.
 - [ ] **Step 6: Verify Nova renders as FeaturedCard**
 
 Run dev server, visit `http://localhost:3000/#projects`. Confirm:
+
 - Nova shows as a large FeaturedCard with architecture diagram on the right
 - 9 service boxes visible in the mockup, each with colored dot
 - Metric shows "9 / services"
-- GitHub link points to `https://github.com/arialabs/nova`
+- GitHub link points to `https://github.com/jeremyspofford/nova`
 - Problem/Solution cards render correctly
 
 - [ ] **Step 7: Commit**
@@ -321,9 +326,10 @@ git commit -m "content: elevate Nova to FeaturedCard with architecture diagram m
 
 ---
 
-### Task 4: Replace "Also Built" with VividCloud Cards + Fix Claims
+## Task 4: Replace "Also Built" with VividCloud Cards + Fix Claims
 
 **Files:**
+
 - Modify: `src/components/Projects.tsx` (lines 991-1005)
 
 - [ ] **Step 1: Replace the "Also built" section**
@@ -394,6 +400,7 @@ This removes the inaccurate "$12K/year across 3 cloud providers" claim and repla
 - [ ] **Step 2: Make project live URLs clickable**
 
 Check if `project.link` is rendered as a clickable `<a>` in `HeroProjectCard` and `FeaturedCard`. Looking at the code:
+
 - `HeroProjectCard` (line 505-514): ✅ Already renders `project.link` as `<a href>` with `target="_blank"`
 - `FeaturedCard` (line 639-653): ✅ Already renders `project.link` as `<a href>` with `target="_blank"`
 
@@ -402,6 +409,7 @@ URLs are already clickable. No changes needed here.
 - [ ] **Step 3: Verify in browser**
 
 Visit `http://localhost:3000/#projects`. Confirm:
+
 - "Also shipped at VividCloud" section shows 3 cards in a grid
 - Cost Optimization card shows green metric text
 - No mention of "$12K/year" or "3 cloud providers" anywhere
@@ -416,9 +424,10 @@ git commit -m "content: replace 'Also built' with VividCloud cards, fix inaccura
 
 ---
 
-### Task 5: Update Skills Section — Rename Tier + Add AI Skills
+## Task 5: Update Skills Section — Rename Tier + Add AI Skills
 
 **Files:**
+
 - Modify: `src/components/Skills.tsx` (lines 46-58)
 
 - [ ] **Step 1: Update the "Familiar" tier**
@@ -445,6 +454,7 @@ Changes: tier name `Familiar` → `Building Toward`, description `Used in projec
 - [ ] **Step 2: Verify in browser**
 
 Visit `http://localhost:3000/#skills`. Confirm:
+
 - Third tier now says "Building Toward" with "Active projects & learning"
 - New AI skills (pgvector, PyTorch, LLM APIs, vLLM / Local Inference) appear
 - CloudFormation and Liquibase are gone
@@ -459,9 +469,10 @@ git commit -m "content: rename Familiar tier to Building Toward, add AI skills"
 
 ---
 
-### Task 6: Create Philosophy Component ("How I Work")
+## Task 6: Create Philosophy Component ("How I Work")
 
 **Files:**
+
 - Create: `src/components/Philosophy.tsx`
 
 - [ ] **Step 1: Create `src/components/Philosophy.tsx`**
@@ -558,9 +569,10 @@ git commit -m "feat: add Philosophy/How I Work section component"
 
 ---
 
-### Task 7: Update Contact Section — Label and CTA
+## Task 7: Update Contact Section — Label and CTA
 
 **Files:**
+
 - Modify: `src/components/Contact.tsx` (lines 31-38)
 
 - [ ] **Step 1: Update section number**
@@ -597,6 +609,7 @@ Note: Looking at the current code, the description text is ALREADY this exact te
 - [ ] **Step 4: Verify in browser**
 
 Visit `http://localhost:3000/#contact`. Confirm:
+
 - Section shows "05 // contact"
 - Heading reads: Let's build something *boring.*
 - "boring." is italic and muted gray (`#94A3B8`)
@@ -610,9 +623,10 @@ git commit -m "content: update contact section number and CTA heading"
 
 ---
 
-### Task 8: Update Navbar + Page Layout
+## Task 8: Update Navbar + Page Layout
 
 **Files:**
+
 - Modify: `src/components/Navbar.tsx` (lines 8-14)
 - Modify: `src/app/page.tsx` (lines 1-54)
 
@@ -659,6 +673,7 @@ Add the Philosophy section between Experience and Contact (between lines 48-51):
 - [ ] **Step 3: Verify full page layout**
 
 Visit `http://localhost:3000`. Scroll through entire page and confirm:
+
 - Section order: Hero → Projects → Skills → Experience → **How I Work** → Contact
 - Philosophy section has `#182240` background (matches Skills)
 - Nav shows "Philosophy" entry between Experience and Blog
@@ -674,7 +689,7 @@ git commit -m "feat: add Philosophy section to navigation and page layout"
 
 ---
 
-### Task 9: Final Verification
+## Task 9: Final Verification
 
 - [ ] **Step 1: Run the dev server and check all changes end-to-end**
 

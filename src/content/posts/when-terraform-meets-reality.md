@@ -1,7 +1,7 @@
 ---
 title: "When Terraform Meets Reality: The Manually-Created Resource Problem"
 date: "2026-04-17"
-description: "A war story about Terraform state disagreeing with the AWS console — the import attempt that didn't resolve, the allow-failure interim, and why filtering manually-managed resources out of CI was the right call."
+description: "A war story about Terraform state disagreeing with the AWS console — the import attempt that didn't fit, the temporary filter that kept deploys moving, and the pre-prod cleanup that finally let Terraform own the lambda."
 tags: ["terraform", "terragrunt", "aws", "devops", "iac", "war-stories"]
 ---
 
@@ -11,7 +11,7 @@ A merge request landed clean. Tests green, plan reviewed, approvals in. The pipe
 
 The resources had been created by hand in the console weeks earlier to unblock a different piece of work. At the time it wasn't urgent to bring them into Terraform; the path of least resistance was to tag them, move on, and come back. Someone tried to come back. They pointed an AI assistant at what was running in the account, asked it to generate Terraform, and merged what it produced. The output went further than the world actually had — new resource blocks that overlapped with the existing manual ones (same names, same ARNs the apply would try to claim) plus a handful of extras the team didn't need. When CI ran the apply, it failed loudly on the name collisions, and took the rest of the stack's deploy job with it.
 
-What follows is the ~24 hours from pipeline-red to clean-landing, the import attempt that never got to run cleanly, the interim `allow_failure` duct tape, and why the eventual fix was to take the module out of CI entirely while the config gets untangled.
+What follows is how the pipeline went from red to clean — the import attempt that never got to run cleanly, the temporary filter that bought everyone else time, and the pre-prod cleanup that finally let Terraform own the lambda.
 
 ## The import attempt
 
@@ -21,28 +21,11 @@ That textbook assumes the code was written to match what's actually running in t
 
 The real work was more involved: read the generated code carefully, compare it block-by-block against what's actually running in the account, delete the blocks that were hallucinated or unnecessary, normalize the ones that overlapped with manual resources, and only then run `import` against the legitimately existing resources. That's hours of careful attention against a moving account. Somewhere in the middle of that work, a plan would be viable. Before that, every apply would fail the same way.
 
-The options from there were: prune and reconcile the config carefully and import the legitimate resources one by one (hours of work, high risk of overlooking something), delete the manual resources from AWS and let Terraform create them fresh (a maintenance window and some coordination), or stop trying to run the module in CI at all while the config got sorted out. The first two were the right long-term moves. Neither was worth doing at 4pm with a pipeline red and a merge window closing.
+The options from there were: prune and reconcile the config carefully and import the legitimate resources one by one (hours of work, high risk of overlooking something), delete the manual resources from AWS and let Terraform create them fresh (less daunting than it sounds since this was a new feature without live traffic), or stop trying to run the module in CI at all while the config got sorted out. The first two were the real fixes. Neither was worth doing at 4pm with a pipeline red and a merge window closing.
 
-## The pragmatic interim
+## The unblock
 
-I flipped `allow_failure: true` on the infra-apply job and merged.
-
-```yaml
-deploy:infrastructure:
-  stage: infra-apply
-  needs: [ plan:infrastructure ]
-  allow_failure: true # TODO: Remove this once we have a way to test the infrastructure
-```
-
-This is the kind of change that deserves a wince. `allow_failure: true` is a small lie to the pipeline: it says "this job can fail without failing the pipeline," which means downstream stages and merges proceed as if the deploy succeeded. For an infra-apply job that's a big hammer — you're turning off the primary signal that your infrastructure is in the shape you think it is.
-
-The justification was narrow and temporary. The apply was failing on one module. Every other module in the stack was fine. Blocking every future merge on a broken config for one Lambda wasn't a serviceable posture for the rest of the team, and reverting the commit that added the module to Terraform would've put us back to manually-created resources that the state file didn't know about. `allow_failure` bought the right to ship the rest of the week's work while I figured out the real fix.
-
-The TODO comment was there for a reason. A flag like this without an expiry note is how codebases end up with six-month-old "temporary" workarounds that nobody remembers the context for.
-
-## The resolution
-
-The right fix, once I stopped trying to win the import fight, was to take the module out of the CI apply path entirely.
+The first move was to stop blocking everyone else. Until the config could be untangled, the pipeline had to keep deploying the rest of the stack.
 
 Terragrunt's `run --all` has a `--filter` flag that accepts a glob pattern, with `!` as a negation prefix. The pipeline's apply command went from this —
 
@@ -53,34 +36,31 @@ terragrunt run --all apply
 — to this:
 
 ```bash
-terragrunt run --all --filter '!./internal-launcher-lambda' -- apply
+terragrunt run --all apply --filter '!simulator-launch-lambda' --non-interactive
 ```
 
-The `!` inverts the match; the leading `./` is the path prefix the glob expects; `--` separates the Terragrunt flags from the Terraform subcommand. Everything in the repo applies except the one module whose config was in bad shape after the earlier generation attempt. That module still gets planned locally when someone's working on it — it just doesn't run in the automated deploy, where a failure would block every other stack's apply.
+The `!` inverts the match; `--non-interactive` keeps the apply from blocking on confirmation prompts in CI. Everything in the repo applied except the one module whose config was in bad shape. That module still got planned locally when someone was working on it — it just didn't run in the automated deploy, where a failure would have blocked every other stack's apply.
 
-The same commit flipped `allow_failure` back to `false`:
+The pipeline kept telling the truth: if the infra-apply job failed, something was broken and deploys were blocked. The filtered module was explicitly out of scope for CI, with a comment in the pipeline config explaining why, and a README entry pointing at the work that needed to happen before the filter could come out.
 
-```yaml
-deploy:infrastructure:
-  stage: infra-apply
-  needs: [ plan:infrastructure ]
-  allow_failure: false
+## The cleanup
+
+The lucky part was that the lambda was a new feature that hadn't gone to prod yet. That made the cleanup straightforward: walk through the AWS account, find every manually-created resource the AI-generated config was trying to claim, and delete it. No live traffic, no blast radius, no rollback plan to write — the kind of cleanup you can do during normal hours.
+
+Once the conflicting resources were gone, the `--filter` came out of the pipeline:
+
+```bash
+terragrunt run --all apply --non-interactive
 ```
 
-That's the clean landing. The pipeline is once again telling the truth: if the infra-apply job fails, something is broken and deploys are blocked. The filtered module is explicitly out of scope for CI, with a comment in the pipeline config explaining why, and a README entry pointing at the AI-generated config that needs to be pruned and cleanly imported before the module can come back.
-
-Less time, in the end, than a typical code review cycle.
+The next apply ran cleanly. Terraform created the lambda and its associated resources from scratch and actually owned them. The state file matched the world, the world matched the config, and the war story closed.
 
 ## Takeaways
 
-**State is an aspiration, not a guarantee.** Terraform assumes it owns what it knows about, and it assumes what it doesn't know about doesn't exist. The world doesn't cooperate. Every real AWS account has console-clicks buried in its history, and every one of those clicks is a potential fight between state and reality. The skill isn't avoiding them — it's recognizing one early and deciding whether the fight is worth fighting.
+**State is an aspiration, not a guarantee.** Terraform assumes it owns what it knows about, and it assumes what it doesn't know about doesn't exist. The world doesn't cooperate. Every real AWS account has console-clicks buried in its history, and every one of those clicks is a potential fight between state and reality. The skill isn't avoiding them — it's recognizing one early and deciding whether to import, delete, or filter.
 
-**Prefer exclusion to a fight when the cost-benefit favors it.** An import that doesn't cleanly land is a tax on every future plan, not a one-time cost. When the cost of making the tool agree with reality exceeds the cost of exclusion, exclusion wins.
+**When the tool and the world disagree, fix the world if you can.** An import that doesn't cleanly land is a tax on every future plan, not a one-time cost. If the resources in question aren't load-bearing yet — pre-prod, no live traffic — deleting them and letting Terraform create them fresh is faster than a careful import and leaves you with a state file that actually reflects what's running.
 
-**Document and gate the manually-managed resources.** A `--filter` line without a comment becomes a mystery in six months — future-me seeing `--filter '!./internal-launcher-lambda'` with no context will assume it's safe to remove, and find out the hard way. The filter line had a comment. The README had a paragraph. The resource had a tag. One place is always the place someone won't look.
+**A narrow, documented exclusion is the right interim.** A `--filter` line buys time for the rest of the team without lying about whether the deploy succeeded. The discipline is keeping it narrow and time-bounded — a comment in the pipeline config, a README entry, a clear definition of what would let it come out — so it doesn't quietly become permanent. A `--filter '!simulator-launch-lambda'` with no context six months later reads as "safe to remove" to whoever finds it next, and they find out the hard way.
 
-None of this is glamorous. It's the unsexy middle ground between "infrastructure as code" as a slogan and the reality of an AWS account that has history. The tooling does 90% of the job. The remaining 10% is judgment about when to stop fighting the tool and carve out explicit exceptions — documented, narrow, and gated — so that the 90% keeps working.
-
-## Postscript
-
-The module is still filtered out of CI at the time of writing. The real fix is in progress: read through the AI-generated config carefully, prune every block that duplicates or hallucinates a resource, normalize the ones that should survive, and import the legitimately-existing resources one at a time. When that converges, the `--filter` line disappears, the lambda is back in the regular apply path, and this becomes a closed war story instead of an open one.
+None of this is glamorous. It's the unsexy middle ground between "infrastructure as code" as a slogan and the reality of an AWS account that has history. The tooling does 90% of the job. The remaining 10% is judgment — when to import, when to bring the world in line with the code, and when to carve out a narrow, documented exception while you decide which of those to do.

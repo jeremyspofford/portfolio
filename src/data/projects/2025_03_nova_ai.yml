@@ -3,7 +3,14 @@ SK: 2025-03-NOVA
 content:
   title: Nova AI Platform
   date: Mar 2025
-  description: "Self-directed AI platform — give it a goal and Nova plans subtasks, dispatches them to specialized agents, and re-plans on feedback. Routes requests across Anthropic, OpenAI, Groq, Gemini, and local vLLM/Ollama based on task and cost, with three deployment modes: full local/private, hybrid cloud + local, or all cloud. Brain-inspired Engram memory with spreading activation and Hebbian consolidation; a PyTorch re-ranker learns retrieval preferences. Exposes an OpenAI-compatible endpoint so Cursor and Continue treat Nova as their provider."
+  description: "Self-directed AI platform — give it a goal and Nova plans
+    subtasks, dispatches them to specialized agents, and re-plans on feedback.
+    Routes requests across Anthropic, OpenAI, Groq, Gemini, and local
+    vLLM/Ollama based on task and cost, with three deployment modes: full
+    local/private, hybrid cloud + local, or all cloud. Brain-inspired Engram
+    memory with spreading activation and Hebbian consolidation; a PyTorch
+    re-ranker learns retrieval preferences. Exposes an OpenAI-compatible
+    endpoint so Cursor and Continue treat Nova as their provider."
   technologies:
     - Python
     - FastAPI
@@ -16,4 +23,4 @@ content:
     - Ollama
     - React
     - TypeScript
-  link: https://github.com/arialabs/nova
+  link: https://github.com/jeremyspofford/nova
