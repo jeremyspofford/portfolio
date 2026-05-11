@@ -7,7 +7,7 @@ export function Testimonial() {
         </h2>
         <blockquote className="pl-6 border-l border-border-primary max-w-[65ch]">
           <a
-            href="https://www.linkedin.com/in/jeremyspofford/#:~:text=Given%20(1)-,Jessica%20Wood,-%C2%B7%201st"
+            href="https://www.linkedin.com/in/jeremyspofford/#:~:text=Show%20all-,Recommendations,-Received%20(1)"
             target="_blank"
             rel="noopener noreferrer"
             className="block group"
